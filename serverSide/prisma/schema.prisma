@@ -1,0 +1,23 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["nativeTypes"]
+}
+
+model SomeData {
+  id       String    @id
+  required Boolean @default(false)
+  number   Int
+}
+
+model Practice {
+  id    Int @id @default(autoincrement())
+  text  String
+}
