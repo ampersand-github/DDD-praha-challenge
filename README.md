@@ -24,7 +24,10 @@ prisma migrate dev --preview-feature
 + [x] 簡単なcrud(practice)
 + [x] github関連、mainとdevに分けて開発をする
 + [x] モデリング再考
-+ [ ] サンプルDB作成
++ [ ] シード値の埋め込み
+    + [x] シード値の埋め込み(参加者側)
+    + [x] シード値の埋め込み(課題側)
+  　+ [ ] シード値の埋め込みの整形作業
 + [ ] SQL考える
 + [ ] githubへ上げて、レビューしてもらう
 + [ ] lintとformatterの設定

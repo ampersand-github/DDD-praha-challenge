@@ -42,7 +42,7 @@ model EnrolledStatus{
 
 model ProgressStatus{
      progressStatus String @id
-     participantHavingTaskProgress ParticipantHavingTaskProgress?
+     TaskProgress TaskProgress?
  }
 
 model TaskGroup{
@@ -120,12 +120,12 @@ model ParticipantHavingTask{
     participantHavingTaskId String @id
     task Task @relation(fields: [taskId], references: [taskId])
     taskId String
-    taskProgress ParticipantHavingTaskProgress?
+    taskProgress TaskProgress?
     participant Participant @relation(fields: [participantId], references: [participantId])
     participantId String
 }
 
-model ParticipantHavingTaskProgress {
+model TaskProgress {
     taskProgressId String @id
     participantHavingTask ParticipantHavingTask @relation(fields: [participantHavingTaskId], references: [participantHavingTaskId])
     participantHavingTaskId String
