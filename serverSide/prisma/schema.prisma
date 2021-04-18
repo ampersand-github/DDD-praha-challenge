@@ -11,13 +11,98 @@ generator client {
   previewFeatures = ["nativeTypes"]
 }
 
-model SomeData {
-  id       String    @id
-  required Boolean @default(false)
-  number   Int
-}
-
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 model Practice {
   id    Int @id @default(autoincrement())
   text  String
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+model EnrolledStatus{
+    enrolledStatus String @id
+    articipant Participant?
+}
+ model ParticipantUpperLimitInPair{
+     upperLimit Int @id
+ }
+ model ParticipantUpperLimitInTeam{
+     upperLimit Int @id
+ }
+ model ParticipantLowerLimitInPair{
+     lowerLimit Int @id
+ }
+ model ParticipantLowerLimitInTeam{
+     lowerLimit Int @id
+ }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+model Participant {
+  participantId String @id
+  name String?
+  mailAddress String
+  enrolledStatusId EnrolledStatus @relation(fields: [enrolledStatus], references: [enrolledStatus])
+  enrolledStatus String
+  generation Generation?
+  pair Pair @relation(fields: [pairId], references: [pairId])
+  pairId String
+  participantHavingTask ParticipantHavingTask[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Generation {
+  participant Participant @relation(fields: [participantId], references: [participantId])
+  participantId String @id
+  generation Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Pair {
+  pairId String @id
+  pairName String
+  participant Participant[]
+  team Team @relation(fields: [teamId], references: [teamId])
+  teamId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Team {
+  teamId String @id
+  TeamName String
+  pair Pair[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+model TaskGroup{
+    taskGroupName String @id
+    task Task?
+}
+
+model Task {
+  taskId String @id
+  taskNo Int? @unique
+  taskName String?
+  description String?
+  taskGroupId TaskGroup @relation(fields: [taskGroupName], references: [taskGroupName])
+  taskGroupName String
+  participantHavingTask ParticipantHavingTask?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model ProgressStatus{
+    progressStatus String @id
+    participantHavingTask ParticipantHavingTask?
+}
+model ParticipantHavingTask{
+    participantHavingTaskId String @id
+    task Task @relation(fields: [taskId], references: [taskId])
+    taskId String
+    progressStatusId ProgressStatus @relation(fields: [progressStatus], references: [progressStatus])
+    progressStatus String
+    participant Participant @relation(fields: [participantId], references: [participantId])
+    participantId String
 }

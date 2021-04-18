@@ -16,7 +16,7 @@ open http://localhost:3000/
 ## Prismaのマイグレーション
 `schema.prisma`にmodel追加
 ```zsh
-cd backend
+cd serverSide
 prisma migrate dev --preview-feature
 ```
 
