@@ -1,4 +1,13 @@
-import {Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { Practice, PrismaClient } from '@prisma/client';
 import { getAllUsecase } from 'src/usecase/practice/getAllUseCase';
 import { getAllRepository } from '../repository/getAllRepository';

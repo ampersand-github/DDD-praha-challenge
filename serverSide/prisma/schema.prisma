@@ -12,45 +12,69 @@ generator client {
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// -- 練習用データ
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 model Practice {
   id    Int @id @default(autoincrement())
   text  String
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// -- 設定系データ
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+model ParticipantUpperLimitInPair{
+     upperLimit Int @id
+ }
+model ParticipantUpperLimitInTeam{
+     upperLimit Int @id
+ }
+model ParticipantLowerLimitInPair{
+     lowerLimit Int @id
+ }
+model ParticipantLowerLimitInTeam{
+     lowerLimit Int @id
+ }
+
 model EnrolledStatus{
-    enrolledStatus String @id
-    articipant Participant?
-}
- model ParticipantUpperLimitInPair{
-     upperLimit Int @id
+     enrolledStatus String @id
+     enrolledParticipant EnrolledParticipant?
  }
- model ParticipantUpperLimitInTeam{
-     upperLimit Int @id
+
+model ProgressStatus{
+     progressStatus String @id
+     participantHavingTaskProgress ParticipantHavingTaskProgress?
  }
- model ParticipantLowerLimitInPair{
-     lowerLimit Int @id
- }
- model ParticipantLowerLimitInTeam{
-     lowerLimit Int @id
- }
+
+model TaskGroup{
+      taskGroupName String @id
+      task Task?
+  }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// -- 参加者集約
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 model Participant {
   participantId String @id
   name String?
-  mailAddress String
-  enrolledStatusId EnrolledStatus @relation(fields: [enrolledStatus], references: [enrolledStatus])
-  enrolledStatus String
+  mailAddress String?
   generation Generation?
-  pair Pair @relation(fields: [pairId], references: [pairId])
-  pairId String
+  enrolledParticipant EnrolledParticipant?
+  pair Pair[]
   participantHavingTask ParticipantHavingTask[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+model EnrolledParticipant {
+// todo 疑問 prismaは複合主キーが使えない？
+    enrolledParticipantId String @id
+    participant Participant? @relation(fields: [participantId], references: [participantId])
+    participantId String?
+    enrolledStatusId EnrolledStatus? @relation(fields: [enrolledStatus], references: [enrolledStatus])
+    enrolledStatus String?
+}
+
 model Generation {
-  participant Participant @relation(fields: [participantId], references: [participantId])
+  participant Participant? @relation(fields: [participantId], references: [participantId])
   participantId String @id
   generation Int?
   createdAt DateTime @default(now())
@@ -59,28 +83,27 @@ model Generation {
 
 model Pair {
   pairId String @id
-  pairName String
-  participant Participant[]
-  team Team @relation(fields: [teamId], references: [teamId])
-  teamId String
+  pairName String?
+  // todo 疑問 many to manyのnot null 制約の仕方
+  participant Participant[] @relation(fields: [participantId], references: [participantId])
+  participantId String?
+  team Team[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Team {
   teamId String @id
-  TeamName String
-  pair Pair[]
+  teamName String?
+  pair Pair[] @relation(fields: [pairId], references: [pairId])
+  pairId String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-model TaskGroup{
-    taskGroupName String @id
-    task Task?
-}
-
+// -- 課題集約
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 model Task {
   taskId String @id
   taskNo Int? @unique
@@ -89,20 +112,23 @@ model Task {
   taskGroupId TaskGroup @relation(fields: [taskGroupName], references: [taskGroupName])
   taskGroupName String
   participantHavingTask ParticipantHavingTask?
-
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-model ProgressStatus{
-    progressStatus String @id
-    participantHavingTask ParticipantHavingTask?
-}
+
 model ParticipantHavingTask{
     participantHavingTaskId String @id
     task Task @relation(fields: [taskId], references: [taskId])
     taskId String
-    progressStatusId ProgressStatus @relation(fields: [progressStatus], references: [progressStatus])
-    progressStatus String
+    taskProgress ParticipantHavingTaskProgress?
     participant Participant @relation(fields: [participantId], references: [participantId])
     participantId String
+}
+
+model ParticipantHavingTaskProgress {
+    taskProgressId String @id
+    participantHavingTask ParticipantHavingTask @relation(fields: [participantHavingTaskId], references: [participantHavingTaskId])
+    participantHavingTaskId String
+    progressStatusId ProgressStatus? @relation(fields: [progressStatus], references: [progressStatus])
+    progressStatus String?
 }

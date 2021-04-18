@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Pair" ALTER COLUMN "pairName" DROP NOT NULL,
+ALTER COLUMN "participantId" DROP NOT NULL;
