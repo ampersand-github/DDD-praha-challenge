@@ -48,7 +48,7 @@ async function main() {
   const progressStatus = await prisma.progressStatus.createMany({
     data: [
       { progressStatus: '完了' },
-      { progressStatus: 'レビュー欄' },
+      { progressStatus: 'レビュー待ち' },
       { progressStatus: '未着手' },
     ],
   });
@@ -73,19 +73,20 @@ async function main() {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 参加者集約
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const participantData = participantDataSource();
-  const pairData = pairDataSource(participantData);
-  const teamData = teamDataSource(pairData);
+  const teamData = teamDataSource();
+  const pairData = pairDataSource(teamData);
+  const participantData = participantDataSource(pairData);
+
   const generationData = generationDataSource(participantData);
   const enrolledParticipantData = enrolledParticipantDataSource(
     participantData,
   );
   //
+  const team = await prisma.team.createMany({ data: teamData });
+  const pair = await prisma.pair.createMany({ data: pairData });
   const participant = await prisma.participant.createMany({
     data: participantData,
   });
-  const pair = await prisma.pair.createMany({ data: pairData });
-  const team = await prisma.team.createMany({ data: teamData });
   const generation = await prisma.generation.createMany({
     data: generationData,
   });

@@ -37,28 +37,30 @@ model ParticipantLowerLimitInTeam{
 
 model EnrolledStatus{
      enrolledStatus String @id
-     enrolledParticipant EnrolledParticipant?
+     enrolledParticipant EnrolledParticipant[]
  }
 
 model ProgressStatus{
      progressStatus String @id
-     TaskProgress TaskProgress?
+     TaskProgress TaskProgress[]
  }
 
 model TaskGroup{
       taskGroupName String @id
-      task Task?
+      task Task[]
   }
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // -- 参加者集約
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 model Participant {
   participantId String @id
-  name String?
-  mailAddress String?
+  name String
+  mailAddress String @unique
+  // todo null許容したくないが、?をつけないとエラーになる
   generation Generation?
   enrolledParticipant EnrolledParticipant?
-  pair Pair[]
+  pair Pair? @relation(fields: [pairId], references: [pairId])
+  pairId String?
   participantHavingTask ParticipantHavingTask[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -67,36 +69,35 @@ model Participant {
 model EnrolledParticipant {
 // todo 疑問 prismaは複合主キーが使えない？
     enrolledParticipantId String @id
-    participant Participant? @relation(fields: [participantId], references: [participantId])
-    participantId String?
-    enrolledStatusId EnrolledStatus? @relation(fields: [enrolledStatus], references: [enrolledStatus])
-    enrolledStatus String?
+    participant Participant @relation(fields: [participantId], references: [participantId])
+    participantId String
+    enrolledStatusId EnrolledStatus @relation(fields: [enrolledStatus], references: [enrolledStatus])
+    enrolledStatus String
 }
 
 model Generation {
-  participant Participant? @relation(fields: [participantId], references: [participantId])
+  participant Participant @relation(fields: [participantId], references: [participantId])
   participantId String @id
-  generation Int?
+  generation Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Pair {
   pairId String @id
-  pairName String?
-  // todo 疑問 many to manyのnot null 制約の仕方
-  participant Participant[] @relation(fields: [participantId], references: [participantId])
-  participantId String?
-  team Team[]
+  pairName String
+  participant Participant[]
+  team Team @relation(fields: [teamId], references: [teamId])
+  teamId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  @@unique([pairName, teamId])
 }
 
 model Team {
   teamId String @id
-  teamName String?
-  pair Pair[] @relation(fields: [pairId], references: [pairId])
-  pairId String?
+  teamName String @unique
+  pair Pair[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -107,8 +108,8 @@ model Team {
 model Task {
   taskId String @id
   taskNo Int? @unique
-  taskName String?
-  description String?
+  taskName String? @unique
+  description String? @unique
   taskGroupId TaskGroup @relation(fields: [taskGroupName], references: [taskGroupName])
   taskGroupName String
   participantHavingTask ParticipantHavingTask?

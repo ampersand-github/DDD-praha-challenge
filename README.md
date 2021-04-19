@@ -14,11 +14,20 @@ open http://localhost:3000/
 
 
 ## Prismaのマイグレーション
+### モデルのマイグレーション
 `schema.prisma`にmodel追加
 ```zsh
 cd serverSide
 prisma migrate dev --preview-feature
 ```
+### シード値のマイグレーション
+```zsh
+cd serverSide
+prisma db seed --preview-feature
+// or 
+prisma migrate reset
+```
+
 
 ## 今後の方針
 + [x] 簡単なcrud(practice)

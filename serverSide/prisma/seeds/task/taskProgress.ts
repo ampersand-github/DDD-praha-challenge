@@ -7,5 +7,23 @@ export const taskProgressDataSource = (participantHavingTaskData) => {
         participantHavingTaskData[0].participantHavingTaskId,
       progressStatus: '完了',
     },
+    {
+      taskProgressId: uuid(),
+      participantHavingTaskId:
+        participantHavingTaskData[1].participantHavingTaskId,
+      progressStatus: '完了',
+    },
+    {
+      taskProgressId: uuid(),
+      participantHavingTaskId:
+        participantHavingTaskData[2].participantHavingTaskId,
+      progressStatus: 'レビュー待ち',
+    },
+    {
+      taskProgressId: uuid(),
+      participantHavingTaskId:
+        participantHavingTaskData[3].participantHavingTaskId,
+      progressStatus: '未着手',
+    },
   ];
 };
