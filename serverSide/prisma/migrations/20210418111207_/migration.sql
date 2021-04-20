@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Team" ALTER COLUMN "teamName" DROP NOT NULL,
-ALTER COLUMN "pairId" DROP NOT NULL;

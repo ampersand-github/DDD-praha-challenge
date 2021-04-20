@@ -1,5 +1,0 @@
--- AlterTable
-ALTER TABLE "Pair" ADD COLUMN     "teamId" TEXT;
-
--- AddForeignKey
-ALTER TABLE "Pair" ADD FOREIGN KEY ("teamId") REFERENCES "Team"("teamId") ON DELETE SET NULL ON UPDATE CASCADE;

@@ -57,7 +57,6 @@ model Participant {
   name String
   mailAddress String @unique
   // todo null許容したくないが、?をつけないとエラーになる
-  generation Generation?
   enrolledParticipant EnrolledParticipant?
   pair Pair? @relation(fields: [pairId], references: [pairId])
   pairId String?
@@ -75,13 +74,7 @@ model EnrolledParticipant {
     enrolledStatus String
 }
 
-model Generation {
-  participant Participant @relation(fields: [participantId], references: [participantId])
-  participantId String @id
-  generation Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+
 
 model Pair {
   pairId String @id

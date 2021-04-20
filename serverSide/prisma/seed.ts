@@ -77,7 +77,6 @@ async function main() {
   const pairData = pairDataSource(teamData);
   const participantData = participantDataSource(pairData);
 
-  const generationData = generationDataSource(participantData);
   const enrolledParticipantData = enrolledParticipantDataSource(
     participantData,
   );
@@ -86,9 +85,6 @@ async function main() {
   const pair = await prisma.pair.createMany({ data: pairData });
   const participant = await prisma.participant.createMany({
     data: participantData,
-  });
-  const generation = await prisma.generation.createMany({
-    data: generationData,
   });
   const enrolledParticipant = await prisma.enrolledParticipant.createMany({
     data: enrolledParticipantData,

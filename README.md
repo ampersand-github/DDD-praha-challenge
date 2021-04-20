@@ -17,6 +17,7 @@ open http://localhost:3000/
 ### モデルのマイグレーション
 `schema.prisma`にmodel追加
 ```zsh
+cd ../
 cd serverSide
 prisma migrate dev --preview-feature
 ```
@@ -36,7 +37,7 @@ prisma migrate reset
 + [ ] シード値の埋め込み
     + [x] シード値の埋め込み(参加者側)
     + [x] シード値の埋め込み(課題側)
-  　+ [ ] シード値の埋め込みの整形作業
+  　+ [x] シード値の埋め込みの整形作業
 + [ ] SQL考える
 + [ ] githubへ上げて、レビューしてもらう
 + [ ] lintとformatterの設定
