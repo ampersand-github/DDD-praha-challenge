@@ -11,13 +11,118 @@ generator client {
   previewFeatures = ["nativeTypes"]
 }
 
-model SomeData {
-  id       String    @id
-  required Boolean @default(false)
-  number   Int
-}
-
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// -- 練習用データ
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 model Practice {
   id    Int @id @default(autoincrement())
   text  String
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// -- 設定系データ
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+model ParticipantUpperLimitInPair{
+     upperLimit Int @id
+ }
+model ParticipantUpperLimitInTeam{
+     upperLimit Int @id
+ }
+model ParticipantLowerLimitInPair{
+     lowerLimit Int @id
+ }
+model ParticipantLowerLimitInTeam{
+     lowerLimit Int @id
+ }
+
+model EnrolledStatus{
+     enrolledStatus String @id
+     enrolledParticipant EnrolledParticipant[]
+ }
+
+model ProgressStatus{
+     progressStatus String @id
+     TaskProgress TaskProgress[]
+ }
+
+model TaskGroup{
+      taskGroupName String @id
+      task Task[]
+  }
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// -- 参加者集約
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+model Participant {
+  participantId String @id
+  name String
+  mailAddress String @unique
+  // todo null許容したくないが、?をつけないとエラーになる
+  enrolledParticipant EnrolledParticipant?
+  pair Pair? @relation(fields: [pairId], references: [pairId])
+  pairId String?
+  participantHavingTask ParticipantHavingTask[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model EnrolledParticipant {
+// todo 疑問 prismaは複合主キーが使えない？
+    enrolledParticipantId String @id
+    participant Participant @relation(fields: [participantId], references: [participantId])
+    participantId String
+    enrolledStatusId EnrolledStatus @relation(fields: [enrolledStatus], references: [enrolledStatus])
+    enrolledStatus String
+}
+
+
+
+model Pair {
+  pairId String @id
+  pairName String
+  participant Participant[]
+  team Team @relation(fields: [teamId], references: [teamId])
+  teamId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@unique([pairName, teamId])
+}
+
+model Team {
+  teamId String @id
+  teamName String @unique
+  pair Pair[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// -- 課題集約
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+model Task {
+  taskId String @id
+  taskNo Int? @unique
+  taskName String? @unique
+  description String? @unique
+  taskGroupId TaskGroup @relation(fields: [taskGroupName], references: [taskGroupName])
+  taskGroupName String
+  participantHavingTask ParticipantHavingTask?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ParticipantHavingTask{
+    participantHavingTaskId String @id
+    task Task @relation(fields: [taskId], references: [taskId])
+    taskId String
+    taskProgress TaskProgress?
+    participant Participant @relation(fields: [participantId], references: [participantId])
+    participantId String
+}
+
+model TaskProgress {
+    taskProgressId String @id
+    participantHavingTask ParticipantHavingTask @relation(fields: [participantHavingTaskId], references: [participantHavingTaskId])
+    participantHavingTaskId String
+    progressStatusId ProgressStatus? @relation(fields: [progressStatus], references: [progressStatus])
+    progressStatus String?
 }
