@@ -74,8 +74,6 @@ model EnrolledParticipant {
     enrolledStatus String
 }
 
-
-
 model Pair {
   pairId String @id
   pairName String
