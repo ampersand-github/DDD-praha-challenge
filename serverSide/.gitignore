@@ -16,3 +16,6 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
+
+# prisma
+/prisma/migrations

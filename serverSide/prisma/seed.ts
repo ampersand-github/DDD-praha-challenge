@@ -2,13 +2,11 @@
 // prisma migrate reset
 // https://www.prisma.io/docs/guides/application-lifecycle/seed-database
 
-import { Prisma, PrismaClient } from '@prisma/client';
-import { v4 as uuid } from 'uuid';
+import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
 import { participantDataSource } from './seeds/participant/participant';
 import { pairDataSource } from './seeds/participant/pair';
 import { teamDataSource } from './seeds/participant/team';
-import { generationDataSource } from './seeds/participant/generation';
 import { enrolledParticipantDataSource } from './seeds/participant/enrolledParticipant';
 import { taskDataSource } from './seeds/task/task';
 import { participantHavingTaskDataSource } from './seeds/task/participantHavingTask';
@@ -70,6 +68,15 @@ async function main() {
     ],
   });
 
+  console.log(
+    participantUpperLimitInPair,
+    participantUpperLimitInTeam,
+    participantLowerLimitInPair,
+    participantLowerLimitInTeam,
+    progressStatus,
+    enrolledStatus,
+    taskGroup,
+  );
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 参加者集約
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -90,6 +97,7 @@ async function main() {
     data: enrolledParticipantData,
   });
 
+  console.log(team, pair, participant, enrolledParticipant);
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 課題集約
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -107,6 +115,7 @@ async function main() {
   const taskProgress = await prisma.taskProgress.createMany({
     data: taskProgressData,
   });
+  console.log(task, participantHavingTask, taskProgress);
 }
 
 main()
