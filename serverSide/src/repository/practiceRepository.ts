@@ -15,8 +15,8 @@ export class practiceRepository implements IDeleteRepository {
     });
     return one.map((one) => new PracticeDataDTO({ ...one }));
   }
-  public async insert(title: string): Promise<Practice> {
-    return await this.prismaClient.practice.create({ data: { text: title } });
+  public async insert(text: string): Promise<Practice> {
+    return await this.prismaClient.practice.create({ data: { text: text } });
   }
 
   public async update(id: number, text: string): Promise<Practice> {

@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
@@ -22,8 +24,6 @@ export class PracticeController {
   // curl -X GET http://localhost:3000/practice
   @Get()
   async getAll(): Promise<PracticeDataDTO[]> {
-    // todo prismaがコントローラに依存している -> リポジトリへ
-
     const repo = new practiceRepository();
     const usecase = new getAllUsecase(repo);
     return await usecase.do();
@@ -39,12 +39,14 @@ export class PracticeController {
     return await usecase.do(id);
   }
 
-  // curl -X POST http://localhost:3000/practice -d 'title=TEST'
+  // curl -X POST http://localhost:3000/practice -d 'text=TEST'
   @Post()
-  async insert(@Body('title') title: string): Promise<Practice> {
+  async insert(@Body('text') text: string): Promise<Practice> {
     const repo = new practiceRepository();
     const usecase = new insertUseCase(repo);
-    return await usecase.do(title);
+    // todo 疑問 例外処理やログについて
+    //throw new HttpException('aaa',HttpStatus.BAD_REQUEST)
+    return await usecase.do(text);
   }
 
   // curl -X DELETE http://localhost:3000/practice/1
