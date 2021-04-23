@@ -8,18 +8,14 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { Practice, PrismaClient } from '@prisma/client';
+import { Practice } from '@prisma/client';
 import { getAllUsecase } from 'src/usecase/practice/getAllUseCase';
-import { getAllRepository } from '../repository/getAllRepository';
 import { PracticeDataDTO } from '../usecase/practice/practiceDataDTO';
-import { getOneRepository } from '../repository/getOneRepository';
 import { getOneUsecase } from '../usecase/practice/getOneUseCase';
-import { insertRepository } from '../repository/InsertRepository';
 import { insertUseCase } from '../usecase/practice/insertUseCase';
-import { deleteRepository } from '../repository/deleteRepository';
 import { deleteUseCase } from '../usecase/practice/deleteUseCase';
-import { updateRepository } from '../repository/updateRepository';
 import { updateUseCase } from '../usecase/practice/updateUseCase';
+import { practiceRepository } from '../repository/practiceRepository';
 
 @Controller('practice')
 export class PracticeController {
@@ -27,8 +23,8 @@ export class PracticeController {
   @Get()
   async getAll(): Promise<PracticeDataDTO[]> {
     // todo prismaがコントローラに依存している -> リポジトリへ
-    const prisma = new PrismaClient();
-    const repo = new getAllRepository(prisma);
+
+    const repo = new practiceRepository();
     const usecase = new getAllUsecase(repo);
     return await usecase.do();
   }
@@ -38,8 +34,7 @@ export class PracticeController {
   async getOne(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<PracticeDataDTO[]> {
-    const prisma = new PrismaClient();
-    const repo = new getOneRepository(prisma);
+    const repo = new practiceRepository();
     const usecase = new getOneUsecase(repo);
     return await usecase.do(id);
   }
@@ -47,8 +42,7 @@ export class PracticeController {
   // curl -X POST http://localhost:3000/practice -d 'title=TEST'
   @Post()
   async insert(@Body('title') title: string): Promise<Practice> {
-    const prisma = new PrismaClient();
-    const repo = new insertRepository(prisma);
+    const repo = new practiceRepository();
     const usecase = new insertUseCase(repo);
     return await usecase.do(title);
   }
@@ -56,8 +50,7 @@ export class PracticeController {
   // curl -X DELETE http://localhost:3000/practice/1
   @Delete('/:id')
   async delete(@Param('id', ParseIntPipe) id: number): Promise<Practice> {
-    const prisma = new PrismaClient();
-    const repo = new deleteRepository(prisma);
+    const repo = new practiceRepository();
     const usecase = new deleteUseCase(repo);
     return await usecase.do(id);
   }
@@ -68,8 +61,7 @@ export class PracticeController {
     @Param('id', ParseIntPipe) id: number,
     @Body('text') text: string,
   ): Promise<Practice> {
-    const prisma = new PrismaClient();
-    const repo = new updateRepository(prisma);
+    const repo = new practiceRepository();
     const usecase = new updateUseCase(repo);
     return await usecase.do(id, text);
   }
