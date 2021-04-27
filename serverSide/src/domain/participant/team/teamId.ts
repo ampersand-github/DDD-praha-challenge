@@ -6,6 +6,7 @@ interface TeamIdProps {
 }
 
 export class TeamId extends Entity<TeamIdProps> {
+
   get id(): UniqueEntityID {
     return this._id;
   }

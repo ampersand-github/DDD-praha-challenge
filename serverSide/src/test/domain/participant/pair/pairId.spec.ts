@@ -2,6 +2,7 @@ import { UniqueEntityID } from '../../../../shared/domain/UniqueEntityID';
 import { PairId } from '../../../../domain/participant/pair/pairId';
 
 describe('PairId', (): void => {
+
   test('引数で指定したidがクラスのidになっていること', () => {
     const uuid = new UniqueEntityID('99999999-9999-9999-9999-999999999999');
     expect(PairId.create(uuid).id).toBe(uuid);

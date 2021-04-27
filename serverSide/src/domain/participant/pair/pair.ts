@@ -12,6 +12,7 @@ interface PairProps {
 }
 
 export class Pair extends Entity<PairProps> {
+
   get id(): PairId {
     return PairId.create(this._id);
   }

@@ -6,6 +6,7 @@ interface ParticipantIdProps {
 }
 
 export class ParticipantId extends Entity<ParticipantIdProps> {
+
   get id(): UniqueEntityID {
     return this._id;
   }

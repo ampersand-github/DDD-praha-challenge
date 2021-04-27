@@ -5,6 +5,7 @@ import { ParticipantName } from '../../../../domain/participant/participant/part
 import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
 
 describe('Participant', (): void => {
+
   const id = new UniqueEntityID('99999999-9999-9999-9999-999999999999');
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const name = ParticipantName.create({ participantName: '堺均' });

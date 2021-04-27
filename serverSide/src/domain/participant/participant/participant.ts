@@ -10,6 +10,7 @@ export interface ParticipantProps {
 }
 
 export class Participant extends Entity<ParticipantProps> {
+
   get id(): ParticipantId {
     return ParticipantId.create(this._id);
   }

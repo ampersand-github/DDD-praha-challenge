@@ -1,6 +1,7 @@
 import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
 
 describe('MailAddress', (): void => {
+
   test('引数で与えた名前が取得できること', () => {
     const goodAddress = { mailAddress: 'aaa@gmail.com' };
     const mailAddress = MailAddress.create(goodAddress);

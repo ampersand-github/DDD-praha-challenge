@@ -1,6 +1,7 @@
 import { PairName } from '../../../../domain/participant/pair/pairName';
 
 describe('PairName', (): void => {
+
   test('英小文字１字を入力', () => {
     const data = { pairName: 'a' };
     const actual = PairName.create(data);

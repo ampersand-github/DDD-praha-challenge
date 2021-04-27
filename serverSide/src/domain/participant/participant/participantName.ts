@@ -5,7 +5,8 @@ interface ParticipantNameProps {
 }
 
 export class ParticipantName extends ValueObject<ParticipantNameProps> {
-  // 名字最低でも１文字ずつとして、最低２文字入力されいること
+
+  // 名前、苗字最低でも１文字ずつとして、最低２文字入力されいること
   public static minimumLength = 2;
 
   private constructor(props: ParticipantNameProps) {

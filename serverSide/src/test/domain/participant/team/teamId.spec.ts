@@ -2,6 +2,7 @@ import { UniqueEntityID } from '../../../../shared/domain/UniqueEntityID';
 import { TeamId } from '../../../../domain/participant/Team/TeamId';
 
 describe('TeamId', (): void => {
+
   test('引数で指定したidがクラスのidになっていること', () => {
     const uuid = new UniqueEntityID('99999999-9999-9999-9999-999999999999');
     expect(TeamId.create(uuid).id).toBe(uuid);

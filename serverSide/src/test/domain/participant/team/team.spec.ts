@@ -9,6 +9,7 @@ import { Pair } from '../../../../domain/participant/pair/pair';
 import { TeamId } from '../../../../domain/participant/team/teamId';
 
 describe('Team', (): void => {
+
   const participant1 = Participant.create({
     participantName: ParticipantName.create({ participantName: '山田太郎' }),
     mailAddress: MailAddress.create({ mailAddress: 'yamada@gmail.com' }),

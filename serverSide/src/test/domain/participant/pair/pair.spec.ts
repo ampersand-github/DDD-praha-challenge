@@ -7,6 +7,7 @@ import { PairId } from '../../../../domain/participant/pair/pairId';
 import { PairName } from '../../../../domain/participant/pair/pairName';
 
 describe('Pair', (): void => {
+
   const uuid1 = new UniqueEntityID('c8b93182-3993-4543-8991-0be6dc9fe8d9');
 
   const p1 = {

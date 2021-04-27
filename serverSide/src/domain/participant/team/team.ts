@@ -12,6 +12,7 @@ interface TeamProps {
 }
 
 export class Team extends Entity<TeamProps> {
+
   get id(): TeamId {
     return TeamId.create(this._id);
   }

@@ -6,6 +6,7 @@ interface PairIdProps {
 }
 
 export class PairId extends Entity<PairIdProps> {
+
   get id(): UniqueEntityID {
     return this._id;
   }
