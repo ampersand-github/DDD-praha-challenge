@@ -9,6 +9,6 @@ export class ParticipantDTO {
      * todo dtoの中でドメインオブジェクトを呼び出しているけどあっているか？
      *  ユースケース層からドメイン層呼び出しているから問題ないと思う
      * */
-    this.mailAddress = new MailAddress(props.mailAddress);
+    // this.mailAddress = new MailAddress(props.mailAddress);
   }
 }
