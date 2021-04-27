@@ -127,7 +127,7 @@ CREATE TABLE "TaskProgress" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Participant.mailAddress_unique" ON "Participant"("mailAddress");
+CREATE UNIQUE INDEX "ParticipantAR.mailAddress_unique" ON "ParticipantAR"("mailAddress");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "EnrolledParticipant_participantId_unique" ON "EnrolledParticipant"("participantId");

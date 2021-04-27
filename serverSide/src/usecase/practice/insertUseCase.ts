@@ -1,11 +1,11 @@
-import { IInsertRepository } from './repository/IInsertRepository';
 import { Practice } from '@prisma/client';
 import { PracticeData } from '../../domain/practice/practice';
+import { IPracticeRepository } from './repositoryInterface/IPracticeRepository';
 
 export class insertUseCase {
-  private readonly repo: IInsertRepository;
+  private readonly repo: IPracticeRepository;
 
-  public constructor(repository: IInsertRepository) {
+  public constructor(repository: IPracticeRepository) {
     this.repo = repository;
   }
 

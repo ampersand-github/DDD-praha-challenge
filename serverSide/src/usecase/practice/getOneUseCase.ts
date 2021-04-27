@@ -1,10 +1,10 @@
-import { PracticeDataDTO } from './practiceDataDTO';
-import { IGetOneRepository } from './repository/IGetOneRepository';
+import { PracticeDataDTO } from './dto/practiceDataDTO';
+import { IPracticeRepository } from './repositoryInterface/IPracticeRepository';
 
 export class getOneUsecase {
-  private readonly repo: IGetOneRepository;
+  private readonly repo: IPracticeRepository;
 
-  public constructor(repository: IGetOneRepository) {
+  public constructor(repository: IPracticeRepository) {
     this.repo = repository;
   }
 

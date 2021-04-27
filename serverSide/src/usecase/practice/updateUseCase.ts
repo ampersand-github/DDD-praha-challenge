@@ -1,10 +1,10 @@
 import { Practice } from '@prisma/client';
-import { IUpdateRepository } from './repository/IUpdateRepository';
+import { IPracticeRepository } from './repositoryInterface/IPracticeRepository';
 
 export class updateUseCase {
-  private readonly repo: IUpdateRepository;
+  private readonly repo: IPracticeRepository;
 
-  public constructor(repository: IUpdateRepository) {
+  public constructor(repository: IPracticeRepository) {
     this.repo = repository;
   }
 
