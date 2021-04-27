@@ -23,10 +23,10 @@ export class Team extends Entity<TeamProps> {
     // todo 重複チェックのドメインサービスをつくる
     //
     let participantCount = 0;
-    props.pairs.map((pair:Pair)=>{
-      participantCount += pair.props.participants.length
-    })
-    console.log(`このチームの参加者は${participantCount}人です`)
+    props.pairs.map((pair: Pair) => {
+      participantCount += pair.props.participants.length;
+    });
+    console.log(`このチームの参加者は${participantCount}人です`);
     if (participantCount < props.lowerLimit) {
       throw new Error(
         `チームに所属する参加者の人数が足りません。チームの下限は${props.lowerLimit}名です。`,
