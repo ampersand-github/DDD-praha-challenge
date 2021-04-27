@@ -1,16 +1,17 @@
 import { ParticipantName } from '../../../../domain/participant/participant/participantName';
+import { ParticipantId } from '../../../../domain/participant/participant/participantId';
 
 describe('ParticipantName', (): void => {
-  const oneName = { participantName: '堺' };
-  const tweName = { participantName: '堺均' };
-
-  test('good pattern', () => {
-    expect(ParticipantName.create(tweName).value).toBe(tweName.participantName);
+  test('引数で与えた名前が取得できること', () => {
+    const goodName = { participantName: '堺均' };
+    const actual = ParticipantName.create(goodName);
+    expect(actual.props.participantName).toBe(goodName.participantName);
   });
 
-  test('bad pattern - 入力文字数が1字なので弾かれる - ', () => {
+  test('入力文字数が1字なので弾かれる', () => {
+    const badName = { participantName: '堺' };
     expect(() => {
-      ParticipantName.create(oneName);
+      ParticipantName.create(badName);
     }).toThrow();
   });
 });

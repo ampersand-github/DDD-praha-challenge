@@ -1,25 +1,22 @@
 import { PairName } from '../../../../domain/participant/pair/pairName';
-import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
 
 describe('PairName', (): void => {
-  test('good pattern', () => {
-    const good = { pairName: 'a' };
-    const actual = PairName.create(good).value;
-    const except = good.pairName;
-    expect(actual).toStrictEqual(except);
+  test('英小文字１字を入力', () => {
+    const data = { pairName: 'a' };
+    const actual = PairName.create(data);
+    const except = data.pairName;
+    expect(actual.props.pairName).toStrictEqual(except);
   });
 
-  test('good pattern - 入力された値が小文字２字 - ', () => {
-    const bad2 = { pairName: 'aa' };
+  test('入力された値が小文字２字なので失敗する - ', () => {
     expect(() => {
-      PairName.create(bad2);
+      PairName.create({ pairName: 'aa' });
     }).toThrow();
   });
 
-  test('good pattern - 入力された値が大文字１字 - ', () => {
-    const bad = { pairName: 'A' };
+  test('入力された値が大文字１字なので失敗する', () => {
     expect(() => {
-      PairName.create(bad);
+      PairName.create({ pairName: 'A' });
     }).toThrow();
   });
 });

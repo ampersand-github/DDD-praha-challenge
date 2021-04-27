@@ -8,7 +8,8 @@ describe('EnrolledStatus', (): void => {
   // const recess = { enrolledStatus: "休会中"as EnrolledStatusType };
   // const withdrawal = { enrolledStatus: "退会済" as EnrolledStatusType};
 
-  test('good pattern', () => {
-    expect(EnrolledStatus.create(active).value).toBe(active.enrolledStatus);
+  test('引数で与えた値が取得できるこ', () => {
+    const actual = EnrolledStatus.create(active);
+    expect(actual.props.enrolledStatus).toBe(active.enrolledStatus);
   });
 });

@@ -1,22 +1,20 @@
 import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
 
 describe('MailAddress', (): void => {
-  const goodAddress = { mailAddress: 'aaa@gmail.com' };
-  const badAddress = { mailAddress: 'aaagmail.com' };
-  const badAddress2 = { mailAddress: '' };
-  test('good pattern', () => {
+  test('引数で与えた名前が取得できること', () => {
+    const goodAddress = { mailAddress: 'aaa@gmail.com' };
     const mailAddress = MailAddress.create(goodAddress);
-    expect(mailAddress.value).toBe(goodAddress.mailAddress);
+    expect(mailAddress.props.mailAddress).toBe(goodAddress.mailAddress);
   });
 
-  test('bad pattern - @がない - ', () => {
+  test('@がない不正なメールアドレスが弾かれる', () => {
     expect(() => {
-      MailAddress.create(badAddress);
+      MailAddress.create({ mailAddress: 'aaagmail.com' });
     }).toThrow();
   });
-  test('bad pattern - 空文字 - ', () => {
+  test('空文字の不正なアドレスが弾かれる', () => {
     expect(() => {
-      MailAddress.create(badAddress2);
+      MailAddress.create({ mailAddress: '' });
     }).toThrow();
   });
 });

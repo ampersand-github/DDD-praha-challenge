@@ -10,7 +10,7 @@ export interface ParticipantProps {
 }
 
 export class Participant extends Entity<ParticipantProps> {
-  get participantId(): ParticipantId {
+  get id(): ParticipantId {
     return ParticipantId.create(this._id);
   }
 
@@ -23,11 +23,5 @@ export class Participant extends Entity<ParticipantProps> {
     id?: UniqueEntityID,
   ): Participant {
     return new Participant(props, id);
-  }
-  public getAllProperties() {
-    return {
-      participantName: this.props.participantName,
-      mailAddress: this.props.mailAddress,
-    };
   }
 }

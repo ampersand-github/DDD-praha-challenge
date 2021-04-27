@@ -12,7 +12,7 @@ interface PairProps {
 }
 
 export class Pair extends Entity<PairProps> {
-  get pairId(): PairId {
+  get id(): PairId {
     return PairId.create(this._id);
   }
 
@@ -21,29 +21,33 @@ export class Pair extends Entity<PairProps> {
   }
   static create(props: PairProps, id?: UniqueEntityID): Pair {
     if (props.participants.length < props.lowerLimit) {
-      throw new Error(`ペアに所属する参加者の人数が足りません。ペアの下限は${props.lowerLimit}名です。`);
+      throw new Error(
+        `ペアに所属する参加者の人数が足りません。ペアの下限は${props.lowerLimit}名です。`,
+      );
     }
 
     if (props.participants.length > props.upperLimit) {
-      throw new Error(`ペアに所属する参加者の人数が多すぎます。ペアの上限は${props.upperLimit}名です。`);
+      throw new Error(
+        `ペアに所属する参加者の人数が多すぎます。ペアの上限は${props.upperLimit}名です。`,
+      );
     }
     return new Pair(props, id);
   }
 
-  canAdd() :boolean {
+  canAdd(): boolean {
     // todo ロジックを書く
-    return true
+    return true;
   }
-  canRemove() :boolean {
+  canRemove(): boolean {
     // todo ロジックを書く
-    return true
+    return true;
   }
   addParticipant(): Pair {
     // todo ロジックを書く
-    return Pair.create(this.props)
+    return Pair.create(this.props);
   }
   removeParticipant(): Pair {
     // todo ロジックを書く
-    return Pair.create(this.props)
+    return Pair.create(this.props);
   }
 }

@@ -5,32 +5,30 @@ import { ParticipantName } from '../../../../domain/participant/participant/part
 import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
 
 describe('Participant', (): void => {
-  const uniqueEntityID = new UniqueEntityID(
-    'c8b93182-3993-4543-8991-0be6dc9fe8d9',
-  );
   const id = new UniqueEntityID('99999999-9999-9999-9999-999999999999');
-  const uuid = ParticipantId.create(uniqueEntityID);
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const name = ParticipantName.create({ participantName: '堺均' });
   const email = MailAddress.create({ mailAddress: 'aaa@gmail.com' });
-  const name2 = ParticipantName.create({ participantName: '堺ss均' });
-  const email2 = MailAddress.create({ mailAddress: 'asssaa@gmail.com' });
-  //
   const data = {
     participantName: name,
     mailAddress: email,
   };
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  const name2 = ParticipantName.create({ participantName: '山田太郎' });
+  const email2 = MailAddress.create({ mailAddress: 'yamada@gmail.com' });
   const data2 = {
     participantName: name2,
     mailAddress: email2,
   };
 
-  test('good pattern - idを入れてあげるパターン -', () => {
-    const good = Participant.create(data, id);
-    expect(good.participantId.id).toBe(id);
+  test('参加者idを引数で指定して、その値が取得できること', () => {
+    const actual = Participant.create(data, id);
+    expect(actual.id).toBe(id);
   });
-  test('good pattern2 - idが等しい -', () => {
-    const good = Participant.create(data, id);
-    const good2 = Participant.create(data2, id);
-    expect(good.equals(good2)).toBe(true);
+
+  test('idを使って等価比較ができること', () => {
+    const actual1 = Participant.create(data, id);
+    const actual2 = Participant.create(data2, id);
+    expect(actual1.equals(actual2)).toBe(true);
   });
 });

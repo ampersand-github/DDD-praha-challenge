@@ -8,10 +8,6 @@ export interface EnrolledStatusProps {
 }
 
 export class EnrolledStatus extends ValueObject<EnrolledStatusProps> {
-  get value(): EnrolledStatusType {
-    return this.props.enrolledStatus;
-  }
-
   private constructor(props: EnrolledStatusProps) {
     super(props);
   }
