@@ -10,21 +10,19 @@ import {
 } from '@nestjs/common';
 import { Practice } from '@prisma/client';
 import { getAllUsecase } from 'src/usecase/practice/getAllUseCase';
-import { PracticeDataDTO } from '../usecase/practice/practiceDataDTO';
+import { PracticeDataDTO } from '../usecase/practice/dto/practiceDataDTO';
 import { getOneUsecase } from '../usecase/practice/getOneUseCase';
 import { insertUseCase } from '../usecase/practice/insertUseCase';
 import { deleteUseCase } from '../usecase/practice/deleteUseCase';
 import { updateUseCase } from '../usecase/practice/updateUseCase';
-import { practiceRepository } from '../repository/practiceRepository';
+import { PracticeRepository } from '../infra/db/repository/PracticeRepository';
 
 @Controller('practice')
 export class PracticeController {
   // curl -X GET http://localhost:3000/practice
   @Get()
   async getAll(): Promise<PracticeDataDTO[]> {
-    // todo prismaがコントローラに依存している -> リポジトリへ
-
-    const repo = new practiceRepository();
+    const repo = new PracticeRepository();
     const usecase = new getAllUsecase(repo);
     return await usecase.do();
   }
@@ -34,23 +32,25 @@ export class PracticeController {
   async getOne(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<PracticeDataDTO[]> {
-    const repo = new practiceRepository();
+    const repo = new PracticeRepository();
     const usecase = new getOneUsecase(repo);
     return await usecase.do(id);
   }
 
-  // curl -X POST http://localhost:3000/practice -d 'title=TEST'
+  // curl -X POST http://localhost:3000/practice -d 'text=TEST'
   @Post()
-  async insert(@Body('title') title: string): Promise<Practice> {
-    const repo = new practiceRepository();
+  async insert(@Body('text') text: string): Promise<Practice> {
+    const repo = new PracticeRepository();
     const usecase = new insertUseCase(repo);
-    return await usecase.do(title);
+    // todo 疑問 例外処理やログについて
+    //throw new HttpException('aaa',HttpStatus.BAD_REQUEST)
+    return await usecase.do(text);
   }
 
   // curl -X DELETE http://localhost:3000/practice/1
   @Delete('/:id')
   async delete(@Param('id', ParseIntPipe) id: number): Promise<Practice> {
-    const repo = new practiceRepository();
+    const repo = new PracticeRepository();
     const usecase = new deleteUseCase(repo);
     return await usecase.do(id);
   }
@@ -61,7 +61,7 @@ export class PracticeController {
     @Param('id', ParseIntPipe) id: number,
     @Body('text') text: string,
   ): Promise<Practice> {
-    const repo = new practiceRepository();
+    const repo = new PracticeRepository();
     const usecase = new updateUseCase(repo);
     return await usecase.do(id, text);
   }

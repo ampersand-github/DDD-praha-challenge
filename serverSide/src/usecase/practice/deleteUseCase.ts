@@ -1,10 +1,10 @@
-import { IDeleteRepository } from './repository/IDeleteRepository';
 import { Practice } from '@prisma/client';
+import { IPracticeRepository } from './repositoryInterface/IPracticeRepository';
 
 export class deleteUseCase {
-  private readonly repo: IDeleteRepository;
+  private readonly repo: IPracticeRepository;
 
-  public constructor(repository: IDeleteRepository) {
+  public constructor(repository: IPracticeRepository) {
     this.repo = repository;
   }
 
