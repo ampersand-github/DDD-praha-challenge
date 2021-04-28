@@ -1,7 +1,6 @@
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { Participant } from '../participant/participant';
 import { Entity } from '../../../shared/domain/Entity';
-import { PairId } from './pairId';
 import { PairName } from './pairName';
 
 interface PairProps {
@@ -12,9 +11,8 @@ interface PairProps {
 }
 
 export class Pair extends Entity<PairProps> {
-
-  get id(): PairId {
-    return PairId.create(this._id);
+  get id(): UniqueEntityID {
+    return this._id;
   }
 
   private constructor(props: PairProps, id?: UniqueEntityID) {

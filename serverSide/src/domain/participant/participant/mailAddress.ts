@@ -5,8 +5,6 @@ interface MailAddressProps {
 }
 
 export class MailAddress extends ValueObject<MailAddressProps> {
-
-  // todo static と readonlyの違い
   private static reg = /^[A-Za-z0-9][A-Za-z0-9_.-]*@[A-Za-z0-9_.-]+\.[A-Za-z0-9]+$/;
 
   private constructor(props: MailAddressProps) {

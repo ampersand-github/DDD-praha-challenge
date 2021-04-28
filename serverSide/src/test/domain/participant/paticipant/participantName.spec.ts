@@ -1,8 +1,6 @@
 import { ParticipantName } from '../../../../domain/participant/participant/participantName';
-import { ParticipantId } from '../../../../domain/participant/participant/participantId';
 
 describe('ParticipantName', (): void => {
-
   test('引数で与えた名前が取得できること', () => {
     const goodName = { participantName: '堺均' };
     const actual = ParticipantName.create(goodName);

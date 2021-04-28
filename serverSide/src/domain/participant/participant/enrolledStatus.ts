@@ -8,7 +8,6 @@ export interface EnrolledStatusProps {
 }
 
 export class EnrolledStatus extends ValueObject<EnrolledStatusProps> {
-
   private constructor(props: EnrolledStatusProps) {
     super(props);
   }

@@ -3,28 +3,31 @@ import { UniqueEntityID } from '../../../../shared/domain/UniqueEntityID';
 import { ParticipantName } from '../../../../domain/participant/participant/participantName';
 import { Pair } from '../../../../domain/participant/pair/pair';
 import { Participant } from '../../../../domain/participant/participant/participant';
-import { PairId } from '../../../../domain/participant/pair/pairId';
 import { PairName } from '../../../../domain/participant/pair/pairName';
+import { EnrolledStatus } from '../../../../domain/participant/participant/enrolledStatus';
 
 describe('Pair', (): void => {
-
   const uuid1 = new UniqueEntityID('c8b93182-3993-4543-8991-0be6dc9fe8d9');
 
   const p1 = {
     participantName: ParticipantName.create({ participantName: '山田太郎' }),
     mailAddress: MailAddress.create({ mailAddress: 'yamada@gmail.com' }),
+    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
   };
   const p2 = {
     participantName: ParticipantName.create({ participantName: '鈴木為三' }),
     mailAddress: MailAddress.create({ mailAddress: 'suzuki@gmail.com' }),
+    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
   };
   const p3 = {
     participantName: ParticipantName.create({ participantName: '近衛晴彦' }),
     mailAddress: MailAddress.create({ mailAddress: 'konoe@gmail.com' }),
+    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
   };
   const p4 = {
     participantName: ParticipantName.create({ participantName: '田中翔太' }),
     mailAddress: MailAddress.create({ mailAddress: 'tanaka@gmail.com' }),
+    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
   };
   //
   const upperLimit = 3;
@@ -46,8 +49,7 @@ describe('Pair', (): void => {
       lowerLimit: lowerLimit,
     };
     const actual = Pair.create(pair1, uuid1);
-    const except = PairId.create(uuid1);
-    expect(actual.id).toStrictEqual(except);
+    expect(actual.id).toStrictEqual(uuid1);
   });
   test('pairIdで等価比較ができること', () => {
     const pair1 = {
