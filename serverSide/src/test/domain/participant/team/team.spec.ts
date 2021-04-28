@@ -6,7 +6,7 @@ import { Participant } from '../../../../domain/participant/participant/particip
 import { PairName } from '../../../../domain/participant/pair/pairName';
 import { Team } from '../../../../domain/participant/team/team';
 import { Pair } from '../../../../domain/participant/pair/pair';
-import { TeamId } from '../../../../domain/participant/team/teamId';
+import {TeamId} from "../../../../domain/participant/team/teamId";
 
 describe('Team', (): void => {
   const participant1 = Participant.create({
@@ -48,9 +48,9 @@ describe('Team', (): void => {
   };
 
   test('idが取得できる', () => {
-    const uuid = new UniqueEntityID('99999999-9999-9999-9999-999999999999');
-    const actual = Team.create(team, uuid);
-    const teamId = TeamId.create(uuid);
+      const uuid = new UniqueEntityID('99999999-9999-9999-9999-999999999999');
+    const actual = Team.create(team,uuid);
+      const teamId = TeamId.create(uuid)
     expect(actual.id).toStrictEqual(teamId);
   });
 });
