@@ -1,13 +1,13 @@
 import { Controller, Get } from '@nestjs/common';
 import { ParticipantRepository } from '../infra/db/repository/participantRepository';
-import { getAllParticipantUsecase } from '../usecase/participant/getAllUsecase';
+import { getAllUsecase } from '../usecase/participant/getAllUsecase';
 
 @Controller('participant')
 export class ParticipantController {
   // curl -X GET http://localhost:3000/participant
   @Get() async getAll() {
     const repo = new ParticipantRepository();
-    const usecase = new getAllParticipantUsecase(repo);
+    const usecase = new getAllUsecase(repo);
     return await usecase.do();
   }
 
@@ -16,7 +16,7 @@ export class ParticipantController {
     @Get()
     async getAll(): Promise<participantDataDTO[]> {
         const repo = new participantRepository();
-        const usecase = new getAllParticipantUsecase(repo);
+        const usecase = new getAllUsecase(repo);
         return await usecase.do();
     }
     // curl -X GET http://localhost:3000/participant/3
