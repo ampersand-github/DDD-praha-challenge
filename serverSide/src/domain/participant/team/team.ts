@@ -2,6 +2,8 @@ import { Entity } from '../../../shared/domain/Entity';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { TeamName } from './teamName';
 import { Pair } from '../pair/pair';
+import { duplicateTeamDomainService } from './duplicateTeamDomainService';
+
 
 interface TeamProps {
   teamName: TeamName;
@@ -30,7 +32,6 @@ export class Team extends Entity<TeamProps> {
 
   static create(props: TeamProps, id?: UniqueEntityID): Team {
     // todo 重複チェックのドメインサービスをつくる
-
     const participantCount = this.participantCount(props);
 
     if (participantCount < props.lowerLimit) {
