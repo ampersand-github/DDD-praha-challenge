@@ -69,33 +69,75 @@ describe('Team', (): void => {
     upperLimit: 99,
     lowerLimit: 3,
   };
-
   test('idが取得できる', () => {
     const uuid = new UniqueEntityID('99999999-9999-9999-9999-999999999999');
     const actual = Team.create(team, uuid);
     expect(actual.id).toStrictEqual(uuid);
   });
 
-  test('参加者数を取得できる', () => {
-    const actual = Team.create(team);
-    expect(actual.participantCount()).toStrictEqual(4);
-  });
+  describe('コンストラクタ', () => {
+    test('参加者数を取得できる', () => {
+      const actual = Team.create(team);
+      expect(actual.participantCount()).toStrictEqual(4);
+    });
+    test('参加者が少なすぎる', () => {
+      const data = {
+        ...team,
+        pairs: [pair1],
+      };
+      expect(() => {
+        Team.create(data);
+      }).toThrow();
+    });
+    test('参加者数が下限値(3)と同じ', () => {
+      const data = {
+        ...team,
+        pairs: [pair3],
+      };
+      const actual = Team.create(data);
+      expect(actual.participantCount()).toStrictEqual(3);
+    });
 
-  test('参加者が少なすぎる', () => {
-    const data = {
-      ...team,
-      pairs: [pair1],
-    };
-    expect(() => {
-      Team.create(data);
-    }).toThrow();
-  });
-  test('参加者数が下限値(3)と同じ', () => {
-    const data = {
-      ...team,
-      pairs: [pair3],
-    };
-    const actual = Team.create(data);
-    expect(actual.participantCount()).toStrictEqual(3);
+    describe('exists', () => {
+      test('ペアが重複しない', () => {
+        const actual = Team.create(team);
+        expect(actual.exists(pair3)).toBe(false);
+      });
+      test('ペアが重複する', () => {
+        const actual = Team.create(team);
+        expect(actual.exists(pair2)).toBe(true);
+      });
+    });
+
+    describe('addPair', () => {
+      test('チームをペアに追加する', () => {
+        const _ = Team.create(team);
+        const actual = _.addPair(pair3);
+        expect(actual.props.pairs.length).toBe(3);
+      });
+      test('チームに既にペアが存在するので(同じペアを新規のペアとして)ペアを追加できない', () => {
+        const actual = Team.create(team);
+        expect(() => {
+          actual.removePair(pair3);
+        }).toThrow();
+      });
+    });
+
+    describe('removePair', () => {
+      test('チームをペアから削除する', () => {
+        const _team = Team.create({
+          ...team,
+          pairs: [pair1, pair2, pair3],
+        });
+        const actual = _team.removePair(pair1);
+        expect(actual.props.pairs.length).toBe(2);
+      });
+      test('ペアがチームに存在しないのでチームから削除できない', () => {
+        const actual = Team.create(team);
+        expect(() => {
+          actual.removePair(pair3);
+        }).toThrow();
+      });
+    });
   });
 });

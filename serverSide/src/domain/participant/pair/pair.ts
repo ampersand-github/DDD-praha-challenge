@@ -33,20 +33,44 @@ export class Pair extends Entity<PairProps> {
     return new Pair(props, id);
   }
 
-  canAdd(): boolean {
-    // todo ロジックを書く
+  exists(participant: Participant): boolean {
+    const _result = this.props.participants.find(
+      (one) => one.id === participant.id,
+    );
+    if (_result === undefined) {
+      return false;
+    }
     return true;
   }
-  canRemove(): boolean {
-    // todo ロジックを書く
-    return true;
+
+  addParticipant(participant: Participant): Pair {
+    if (this.exists(participant)) {
+      throw new Error('追加しようとした参加者は既にペアに所属しています。');
+    }
+    const data = {
+      ...this.props,
+      participants: [...this.props.participants, participant],
+    };
+
+    return Pair.create(data);
   }
-  addParticipant(): Pair {
-    // todo ロジックを書く
-    return Pair.create(this.props);
-  }
-  removeParticipant(): Pair {
-    // todo ロジックを書く
-    return Pair.create(this.props);
+  removeParticipant(participant: Participant): Pair {
+    if (!this.exists(participant)) {
+      throw new Error('ペアから追放したい参加者が存在しません。');
+    }
+
+    // ペアから削除する
+    for (let i = 0; i < this.props.participants.length; i++) {
+      if (this.props.participants[i] === participant) {
+        this.props.participants.splice(i, 1);
+      }
+    }
+
+    const data = {
+      ...this.props,
+      participants: [...this.props.participants],
+    };
+
+    return Pair.create(data);
   }
 }

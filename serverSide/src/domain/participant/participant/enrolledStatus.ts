@@ -3,18 +3,15 @@ import { ValueObject } from '../../../shared/domain/ValueObject';
 // todo DBとのマッピングをどうするか
 
 export const EnrolledStatusEnum = {
-  enrolled: "在籍中",
-  recess: "休会中",
-  withdrawal: "退会済"
+  enrolled: '在籍中',
+  recess: '休会中',
+  withdrawal: '退会済',
 } as const;
 type EnrolledStatusType = typeof EnrolledStatusEnum[keyof typeof EnrolledStatusEnum];
 
 export interface EnrolledStatusProps {
   enrolledStatus: EnrolledStatusType;
 }
-
-
-
 
 export class EnrolledStatus extends ValueObject<EnrolledStatusProps> {
   private constructor(props: EnrolledStatusProps) {

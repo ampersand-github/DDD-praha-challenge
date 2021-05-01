@@ -1,5 +1,6 @@
 import {
-  EnrolledStatus, EnrolledStatusEnum,
+  EnrolledStatus,
+  EnrolledStatusEnum,
 } from '../../../../domain/participant/participant/enrolledStatus';
 
 describe('EnrolledStatus', (): void => {

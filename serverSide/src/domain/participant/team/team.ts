@@ -51,20 +51,43 @@ export class Team extends Entity<TeamProps> {
     return Team.participantCount(this.props);
   }
 
-  canAdd(): boolean {
-    // todo ロジックを書く
+  exists(pair: Pair): boolean {
+    const _result = this.props.pairs.find((one) => one.id === pair.id);
+    if (_result === undefined) {
+      return false;
+    }
     return true;
   }
-  canRemove(): boolean {
-    // todo ロジックを書く
-    return true;
+
+  addPair(pair: Pair): Team {
+    if (this.exists(pair)) {
+      throw new Error('追加しようとしたペアは既にチームに所属しています。');
+    }
+    const data = {
+      ...this.props,
+      pairs: [...this.props.pairs, pair],
+    };
+
+    return Team.create(data);
   }
-  addPair(): Team {
-    // todo ロジックを書く
-    return Team.create(this.props);
-  }
-  removePair(): Team {
-    // todo ロジックを書く
-    return Team.create(this.props);
+
+  removePair(pair: Pair): Team {
+    if (!this.exists(pair)) {
+      throw new Error('チームから削除したいペアが存在しません。');
+    }
+
+    // ペアから削除する
+    for (let i = 0; i < this.props.pairs.length; i++) {
+      if (this.props.pairs[i] === pair) {
+        this.props.pairs.splice(i, 1);
+      }
+    }
+
+    const data = {
+      ...this.props,
+      pairs: [...this.props.pairs],
+    };
+
+    return Team.create(data);
   }
 }

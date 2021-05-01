@@ -1,7 +1,10 @@
-import {ProgressStatus, ProgressStatusEnum} from "../../../domain/task/progressStatus";
+import {
+  ProgressStatus,
+  ProgressStatusEnum,
+} from '../../../domain/task/progressStatus';
 
 describe('ProgressStatus', (): void => {
-  const active = { progressStatus: ProgressStatusEnum.complete  };
+  const active = { progressStatus: ProgressStatusEnum.complete };
 
   test('引数で与えた値が取得できるこ', () => {
     const actual = ProgressStatus.create(active);
