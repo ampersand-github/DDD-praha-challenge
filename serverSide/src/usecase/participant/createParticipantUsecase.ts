@@ -1,4 +1,5 @@
 import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
+
 export class createParticipantUsecase {
   private readonly repo: IParticipantRepository;
 
@@ -6,12 +7,14 @@ export class createParticipantUsecase {
     this.repo = repository;
   }
 
-  // todo any型をParticipant型へ変更する
-  public async do(name: String, email: string): Promise<any> {
+  public async do() {
     /*
-    todo
-     ・参加者ドメインオブジェクトに引数を渡して作成
-     ・リポジトリへ参加者ドメインオブジェクトを引き渡す
-     */
+todo
+  ユーザーの追加
+  ペアの追加
+  チームの追加
+  在籍ステータスの追加
+  ユーザー保有課題の追加
+ */
   }
 }
