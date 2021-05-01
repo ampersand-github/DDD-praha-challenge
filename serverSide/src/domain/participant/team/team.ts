@@ -2,7 +2,6 @@ import { Entity } from '../../../shared/domain/Entity';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { TeamName } from './teamName';
 import { Pair } from '../pair/pair';
-import { duplicateTeamDomainService } from './duplicateTeamDomainService';
 
 interface TeamProps {
   teamName: TeamName;
@@ -32,11 +31,8 @@ export class Team extends Entity<TeamProps> {
   static create(props: TeamProps, id?: UniqueEntityID): Team {
     // todo 重複チェックのドメインサービスをつくる
 
-    if (!duplicateTeamDomainService(props.teamName)) {
-      throw new Error('このチーム名は既に存在しています。');
-    }
-
     const participantCount = this.participantCount(props);
+
     if (participantCount < props.lowerLimit) {
       throw new Error(
         `チームに所属する参加者の人数が足りません。チームの下限は${props.lowerLimit}名です。`,
