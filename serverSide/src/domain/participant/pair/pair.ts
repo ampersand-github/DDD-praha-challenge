@@ -2,7 +2,6 @@ import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { Participant } from '../participant/participant';
 import { Entity } from '../../../shared/domain/Entity';
 import { PairName } from './pairName';
-import {create} from "domain";
 
 interface PairProps {
   pairName: PairName;
@@ -41,7 +40,7 @@ export class Pair extends Entity<PairProps> {
     const _result = this.props.participants.find(
       (one) => one.id === participant.id,
     );
-    return _result === undefined ? false : true;
+    return _result !== undefined;
   }
 
   addParticipant(participant: Participant): Pair {

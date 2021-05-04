@@ -26,6 +26,7 @@ export class Team extends Entity<TeamProps> {
     return count;
   }
 
+
   private constructor(props: TeamProps, id?: UniqueEntityID) {
     super(props, id);
   }
