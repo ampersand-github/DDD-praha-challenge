@@ -91,7 +91,7 @@ describe('Pair', (): void => {
     test('参加者を追加できる', () => {
       const pair = Pair.create(pairData);
       const actual = pair.addParticipant(participant3);
-      expect(actual.props.participants.length).toBe(3);
+      expect(actual.participants.length).toBe(3);
     });
     test('ペアに既に存在する参加者を参加させると二重参加になり失敗する', () => {
       const pair = Pair.create(pairData);
@@ -108,7 +108,7 @@ describe('Pair', (): void => {
         participants: [participant1, participant2, participant3],
       });
       const actual = pair.removeParticipant(participant1);
-      expect(actual.props.participants.length).toBe(2);
+      expect(actual.participants.length).toBe(2);
     });
     test('存在しない参加者をペアから追放できない', () => {
       const pair = Pair.create({

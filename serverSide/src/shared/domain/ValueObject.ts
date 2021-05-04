@@ -8,7 +8,8 @@ interface ValueObjectProps {
  */
 
 export abstract class ValueObject<T extends ValueObjectProps> {
-  public props: T;
+  // publicにするとgetter,setterを使わずに呼び出せてしまうので、protected readonly にする
+  protected readonly props: T;
 
   protected constructor(props: T) {
     this.props = {

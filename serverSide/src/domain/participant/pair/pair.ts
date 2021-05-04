@@ -16,10 +16,15 @@ export class Pair extends Entity<PairProps> {
     return this._id;
   }
 
+  get participants(): PairProps["participants"] {
+    return this.props.participants;
+  }
+
   private constructor(props: PairProps, id?: UniqueEntityID) {
     super(props, id);
   }
   static create(props: PairProps, id?: UniqueEntityID): Pair {
+
     if (props.participants.length < props.lowerLimit) {
       throw new Error(
         `ペアに所属する参加者の人数が足りません。ペアの下限は${props.lowerLimit}名です。`,
@@ -50,7 +55,7 @@ export class Pair extends Entity<PairProps> {
       participants: [...this.props.participants, participant],
     };
 
-    return Pair.create(data);
+    return Pair.create(data,this._id);
   }
   removeParticipant(participant: Participant): Pair {
     if (!this.participantExist(participant)) {
@@ -68,6 +73,6 @@ export class Pair extends Entity<PairProps> {
       ...this.props,
       participants: [...this.props.participants],
     };
-    return Pair.create(data);
+    return Pair.create(data, this._id);
   }
 }

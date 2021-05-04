@@ -6,8 +6,8 @@ import {
 describe('EnrolledStatus', (): void => {
   const active = { enrolledStatus: EnrolledStatusEnum.enrolled };
 
-  test('引数で与えた値が取得できるこ', () => {
+  test('引数で与えた値が取得できること', () => {
     const actual = EnrolledStatus.create(active);
-    expect(actual.props.enrolledStatus).toBe(active.enrolledStatus);
+    expect(actual.enrolledStatus).toBe(active.enrolledStatus);
   });
 });

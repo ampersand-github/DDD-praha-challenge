@@ -16,11 +16,14 @@ export class Team extends Entity<TeamProps> {
     return this._id;
   }
 
-  // staticなメソッドはconstructorでも使える
+  get pairs(): TeamProps["pairs"] {
+    return this.props.pairs;
+  }
+
   private static participantCount(props): number {
     let count = 0;
     props.pairs.map((pair: Pair) => {
-      count += pair.props.participants.length;
+      count += pair.participants.length;
     });
     return count;
   }
@@ -68,7 +71,7 @@ export class Team extends Entity<TeamProps> {
       pairs: [...this.props.pairs, pair],
     };
 
-    return Team.create(data);
+    return Team.create(data,this._id);
   }
 
   removePair(pair: Pair): Team {
