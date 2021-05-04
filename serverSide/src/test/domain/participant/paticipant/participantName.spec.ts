@@ -4,11 +4,11 @@ describe('ParticipantName', (): void => {
   test('引数で与えた名前が取得できること', () => {
     const goodName = { participantName: '堺均' };
     const actual = ParticipantName.create(goodName);
-    expect(actual.props.participantName).toBe(goodName.participantName);
+    expect(actual.participantName).toBe(goodName.participantName);
   });
 
-  test('入力文字数が1字なので弾かれる', () => {
-    const badName = { participantName: '堺' };
+  test('入力文字数が0字なので弾かれる', () => {
+    const badName = { participantName: '' };
     expect(() => {
       ParticipantName.create(badName);
     }).toThrow();

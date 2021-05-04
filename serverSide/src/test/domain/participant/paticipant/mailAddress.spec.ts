@@ -4,7 +4,7 @@ describe('MailAddress', (): void => {
   test('引数で与えた名前が取得できること', () => {
     const goodAddress = { mailAddress: 'aaa@gmail.com' };
     const mailAddress = MailAddress.create(goodAddress);
-    expect(mailAddress.props.mailAddress).toBe(goodAddress.mailAddress);
+    expect(mailAddress.mailAddress).toBe(goodAddress.mailAddress);
   });
 
   test('@がない不正なメールアドレスが弾かれる', () => {

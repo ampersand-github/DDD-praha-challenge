@@ -98,22 +98,13 @@ describe('Team', (): void => {
       expect(actual.participantCount()).toStrictEqual(3);
     });
 
-    describe('exists', () => {
-      test('ペアが重複しない', () => {
-        const actual = Team.create(team);
-        expect(actual.exists(pair3)).toBe(false);
-      });
-      test('ペアが重複する', () => {
-        const actual = Team.create(team);
-        expect(actual.exists(pair2)).toBe(true);
-      });
-    });
+
 
     describe('addPair', () => {
       test('チームをペアに追加する', () => {
         const _ = Team.create(team);
         const actual = _.addPair(pair3);
-        expect(actual.props.pairs.length).toBe(3);
+        expect(actual.pairs.length).toBe(3);
       });
       test('チームに既にペアが存在するので(同じペアを新規のペアとして)ペアを追加できない', () => {
         const actual = Team.create(team);
@@ -130,7 +121,7 @@ describe('Team', (): void => {
           pairs: [pair1, pair2, pair3],
         });
         const actual = _team.removePair(pair1);
-        expect(actual.props.pairs.length).toBe(2);
+        expect(actual.pairs.length).toBe(2);
       });
       test('ペアがチームに存在しないのでチームから削除できない', () => {
         const actual = Team.create(team);
