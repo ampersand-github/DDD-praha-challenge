@@ -86,17 +86,6 @@ describe('Pair', (): void => {
     });
   });
 
-  describe('isDuplicate', () => {
-    test('参加者が重複していないこと', () => {
-      const _pair = Pair.create(pairData);
-      expect(_pair.exists(participant3)).toBe(false);
-    });
-
-    test('参加者が重複していてエラーになる', () => {
-      const _pair = Pair.create(pairData);
-      expect(_pair.exists(participant1)).toBe(true);
-    });
-  });
 
   describe('canAdd', () => {
     test('参加者を追加できる', () => {

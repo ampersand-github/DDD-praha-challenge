@@ -4,7 +4,6 @@ import { TeamName } from './teamName';
 import { Pair } from '../pair/pair';
 import { duplicateTeamDomainService } from './duplicateTeamDomainService';
 
-
 interface TeamProps {
   teamName: TeamName;
   pairs: Pair[];
@@ -18,7 +17,7 @@ export class Team extends Entity<TeamProps> {
   }
 
   // staticなメソッドはconstructorでも使える
-  static participantCount(props): number {
+  private static participantCount(props): number {
     let count = 0;
     props.pairs.map((pair: Pair) => {
       count += pair.props.participants.length;
@@ -52,7 +51,7 @@ export class Team extends Entity<TeamProps> {
     return Team.participantCount(this.props);
   }
 
-  exists(pair: Pair): boolean {
+  private participantExist(pair: Pair): boolean {
     const _result = this.props.pairs.find((one) => one.id === pair.id);
     if (_result === undefined) {
       return false;
@@ -61,7 +60,7 @@ export class Team extends Entity<TeamProps> {
   }
 
   addPair(pair: Pair): Team {
-    if (this.exists(pair)) {
+    if (this.participantExist(pair)) {
       throw new Error('追加しようとしたペアは既にチームに所属しています。');
     }
     const data = {
@@ -73,7 +72,7 @@ export class Team extends Entity<TeamProps> {
   }
 
   removePair(pair: Pair): Team {
-    if (!this.exists(pair)) {
+    if (!this.participantExist(pair)) {
       throw new Error('チームから削除したいペアが存在しません。');
     }
 
@@ -89,6 +88,6 @@ export class Team extends Entity<TeamProps> {
       pairs: [...this.props.pairs],
     };
 
-    return Team.create(data);
+    return Team.create(data,this._id);
   }
 }

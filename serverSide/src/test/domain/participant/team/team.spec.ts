@@ -98,16 +98,7 @@ describe('Team', (): void => {
       expect(actual.participantCount()).toStrictEqual(3);
     });
 
-    describe('exists', () => {
-      test('ペアが重複しない', () => {
-        const actual = Team.create(team);
-        expect(actual.exists(pair3)).toBe(false);
-      });
-      test('ペアが重複する', () => {
-        const actual = Team.create(team);
-        expect(actual.exists(pair2)).toBe(true);
-      });
-    });
+
 
     describe('addPair', () => {
       test('チームをペアに追加する', () => {

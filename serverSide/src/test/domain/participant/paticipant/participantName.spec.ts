@@ -7,8 +7,8 @@ describe('ParticipantName', (): void => {
     expect(actual.props.participantName).toBe(goodName.participantName);
   });
 
-  test('入力文字数が1字なので弾かれる', () => {
-    const badName = { participantName: '堺' };
+  test('入力文字数が0字なので弾かれる', () => {
+    const badName = { participantName: '' };
     expect(() => {
       ParticipantName.create(badName);
     }).toThrow();
