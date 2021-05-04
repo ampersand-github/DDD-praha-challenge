@@ -25,6 +25,7 @@ describe('Participant', (): void => {
     enrolledStatus: status2,
   };
 
+
   test('参加者idを引数で指定して、その値が取得できること', () => {
     const actual = Participant.create(data, id);
     expect(actual.id).toBe(id);
@@ -35,4 +36,5 @@ describe('Participant', (): void => {
     const actual2 = Participant.create(data2, id);
     expect(actual1.equals(actual2)).toBe(true);
   });
+
 });

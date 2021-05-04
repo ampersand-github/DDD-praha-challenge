@@ -16,12 +16,13 @@ export class Team extends Entity<TeamProps> {
     return this._id;
   }
 
+
   // staticなメソッドはconstructorでも使える
   private static participantCount(props): number {
     let count = 0;
     props.pairs.map((pair: Pair) => {
       count += pair.props.participants.length;
-    });
+
     return count;
   }
 
@@ -51,7 +52,7 @@ export class Team extends Entity<TeamProps> {
     return Team.participantCount(this.props);
   }
 
-  private exists(pair: Pair): boolean {
+  private participantExist(pair: Pair): boolean {
     const _result = this.props.pairs.find((one) => one.id === pair.id);
     if (_result === undefined) {
       return false;
@@ -60,7 +61,7 @@ export class Team extends Entity<TeamProps> {
   }
 
   addPair(pair: Pair): Team {
-    if (this.exists(pair)) {
+    if (this.participantExist(pair)) {
       throw new Error('追加しようとしたペアは既にチームに所属しています。');
     }
     const data = {
@@ -68,11 +69,13 @@ export class Team extends Entity<TeamProps> {
       pairs: [...this.props.pairs, pair],
     };
 
-    return Team.create(data);
+
+    return Team.create(data,this._id);
   }
 
   removePair(pair: Pair): Team {
-    if (!this.exists(pair)) {
+    if (!this.participantExist(pair)) {
+
       throw new Error('チームから削除したいペアが存在しません。');
     }
 
@@ -83,11 +86,11 @@ export class Team extends Entity<TeamProps> {
       }
     }
 
-    const this.props = {
+    const data = {
       ...this.props,
       pairs: [...this.props.pairs],
     };
-    
+
     return Team.create(data,this._id);
   }
 }

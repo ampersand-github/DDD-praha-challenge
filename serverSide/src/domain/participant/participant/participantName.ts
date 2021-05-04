@@ -7,6 +7,7 @@ interface ParticipantNameProps {
 export class ParticipantName extends ValueObject<ParticipantNameProps> {
   public static minimumLength = 0;
 
+
   private constructor(props: ParticipantNameProps) {
     super(props);
   }
