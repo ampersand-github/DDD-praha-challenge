@@ -16,15 +16,13 @@ export class Team extends Entity<TeamProps> {
     return this._id;
   }
 
-  get pairs(): TeamProps["pairs"] {
-    return this.props.pairs;
-  }
 
+  // staticなメソッドはconstructorでも使える
   private static participantCount(props): number {
     let count = 0;
     props.pairs.map((pair: Pair) => {
-      count += pair.participants.length;
-    });
+      count += pair.props.participants.length;
+
     return count;
   }
 
@@ -71,11 +69,13 @@ export class Team extends Entity<TeamProps> {
       pairs: [...this.props.pairs, pair],
     };
 
+
     return Team.create(data,this._id);
   }
 
   removePair(pair: Pair): Team {
     if (!this.participantExist(pair)) {
+
       throw new Error('チームから削除したいペアが存在しません。');
     }
 

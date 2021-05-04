@@ -15,17 +15,6 @@ export class Participant extends Entity<ParticipantProps> {
     return this._id;
   }
 
-  // todo メールアドレス型を返すべきか、メールアドレスそのもの(string)を返すべきか
-/*
-  public get mailAddress() {
-    return this.props.mailAddress.mailAddress;
-  }
- */
-
-  public get mailAddress():ParticipantProps["mailAddress"] {
-    return this.props.mailAddress;
-  }
-
   private constructor(props: ParticipantProps, id?: UniqueEntityID) {
     super(props, id);
   }

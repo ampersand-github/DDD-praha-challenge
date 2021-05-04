@@ -9,15 +9,12 @@ export const EnrolledStatusEnum = {
 } as const;
 type EnrolledStatusType = typeof EnrolledStatusEnum[keyof typeof EnrolledStatusEnum];
 
+
 export interface EnrolledStatusProps {
   enrolledStatus: EnrolledStatusType;
 }
 
 export class EnrolledStatus extends ValueObject<EnrolledStatusProps> {
-  get enrolledStatus(): EnrolledStatusType {
-    return this.props.enrolledStatus;
-  }
-
   private constructor(props: EnrolledStatusProps) {
     super(props);
   }

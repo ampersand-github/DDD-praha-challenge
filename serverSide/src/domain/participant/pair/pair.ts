@@ -16,9 +16,6 @@ export class Pair extends Entity<PairProps> {
     return this._id;
   }
 
-  get participants(): PairProps["participants"] {
-    return this.props.participants;
-  }
 
   private constructor(props: PairProps, id?: UniqueEntityID) {
     super(props, id);
@@ -38,6 +35,7 @@ export class Pair extends Entity<PairProps> {
     }
     return new Pair(props, id);
   }
+
 
   private participantExist(participant: Participant): boolean {
     const _result = this.props.participants.find(
@@ -59,6 +57,7 @@ export class Pair extends Entity<PairProps> {
   }
   removeParticipant(participant: Participant): Pair {
     if (!this.participantExist(participant)) {
+
       throw new Error('ペアから追放したい参加者が存在しません。');
     }
 
