@@ -4,30 +4,34 @@ import { ParticipantName } from '../../../../domain/participant/participant/part
 import { Pair } from '../../../../domain/participant/pair/pair';
 import { Participant } from '../../../../domain/participant/participant/participant';
 import { PairName } from '../../../../domain/participant/pair/pairName';
-import { EnrolledStatus } from '../../../../domain/participant/participant/enrolledStatus';
+import {
+  EnrolledStatus,
+  EnrolledStatusEnum,
+} from '../../../../domain/participant/participant/enrolledStatus';
 
 describe('Pair', (): void => {
   const uuid1 = new UniqueEntityID('c8b93182-3993-4543-8991-0be6dc9fe8d9');
+  const enrolled = EnrolledStatusEnum.enrolled;
 
   const participant1 = Participant.create({
     participantName: ParticipantName.create({ participantName: '山田太郎' }),
     mailAddress: MailAddress.create({ mailAddress: 'yamada@gmail.com' }),
-    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
+    enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
   });
   const participant2 = Participant.create({
     participantName: ParticipantName.create({ participantName: '鈴木為三' }),
     mailAddress: MailAddress.create({ mailAddress: 'suzuki@gmail.com' }),
-    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
+    enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
   });
   const participant3 = Participant.create({
     participantName: ParticipantName.create({ participantName: '近衛晴彦' }),
     mailAddress: MailAddress.create({ mailAddress: 'konoe@gmail.com' }),
-    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
+    enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
   });
   const participant4 = Participant.create({
     participantName: ParticipantName.create({ participantName: '田中翔太' }),
     mailAddress: MailAddress.create({ mailAddress: 'tanaka@gmail.com' }),
-    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
+    enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
   });
   //
   const upperLimit = 3;
@@ -49,50 +53,41 @@ describe('Pair', (): void => {
   });
 
   test('pairIdで等価比較ができること', () => {
-    const pair2 = {
+    const pair = {
       ...pairData,
       participants: [participant1, participant2, participant3],
     };
     const _pair1 = Pair.create(pairData, uuid1);
-    const _pair2 = Pair.create(pair2, uuid1);
+    const _pair2 = Pair.create(pair, uuid1);
     expect(_pair1.equals(_pair2)).toStrictEqual(true);
   });
 
   describe('コンストラクタ', () => {
     test('ペア所属人数が足りないので例外が発生すること', () => {
       // 1人しか参加者がいない
-      const pair1_bad = {
-        pairName: pairA,
-        participants: [participant1],
-        upperLimit: upperLimit,
-        lowerLimit: lowerLimit,
-      };
-
+      const onlyOnePair = { ...pairData, participants: [participant1] };
       expect(() => {
-        Pair.create(pair1_bad);
+        Pair.create(onlyOnePair);
       }).toThrow();
     });
+
     test('ペア所属人数が多すぎる例外が発生すること ', () => {
-      // 4人も参加者がいる
-      const pair2_bad = {
-        pairName: pairB,
+      // 4人も参加者がいる]
+      const fourPair = {
+        ...pairData,
         participants: [participant1, participant2, participant3, participant4],
-        upperLimit: upperLimit,
-        lowerLimit: lowerLimit,
       };
       expect(() => {
-        Pair.create(pair2_bad);
+        Pair.create(fourPair);
       }).toThrow();
     });
   });
 
-
   describe('canAdd', () => {
     test('参加者を追加できる', () => {
-      const pair = Pair.create(pairData);
-      const actual = pair.addParticipant(participant3);
-      expect(actual.props.participants.length).toBe(3);
-
+      const actual = Pair.create(pairData);
+      actual.addParticipant(participant3);
+      expect(actual.values.participants.length).toBe(3);
     });
     test('ペアに既に存在する参加者を参加させると二重参加になり失敗する', () => {
       const pair = Pair.create(pairData);
@@ -104,13 +99,12 @@ describe('Pair', (): void => {
 
   describe('canRemove', () => {
     test('参加者をペアから追放する', () => {
-      const pair = Pair.create({
+      const actual = Pair.create({
         ...pairData,
         participants: [participant1, participant2, participant3],
       });
-      const actual = pair.removeParticipant(participant1);
-      expect(actual.props.participants.length).toBe(2);
-
+      actual.removeParticipant(participant1);
+      expect(actual.values.participants.length).toBe(2);
     });
     test('存在しない参加者をペアから追放できない', () => {
       const pair = Pair.create({
@@ -120,6 +114,16 @@ describe('Pair', (): void => {
 
       expect(() => {
         pair.removeParticipant(participant4);
+      }).toThrow();
+    });
+    test('追放すると参加者下限を下回る', () => {
+      const pair = Pair.create({
+        ...pairData,
+        participants: [participant1, participant2],
+      });
+
+      expect(() => {
+        pair.removeParticipant(participant2);
       }).toThrow();
     });
   });
