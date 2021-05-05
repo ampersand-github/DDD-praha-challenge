@@ -39,11 +39,9 @@ export class Pair extends Entity<PairProps> {
 
   private static validation_participantExist(
     baseParticipants: PairProps['participants'],
-    addParticipant: Participant,
+    participant: Participant,
   ): void {
-    const _result = baseParticipants.find(
-      (one) => one.id === addParticipant.id,
-    );
+    const _result = baseParticipants.find((one) => one.id === participant.id);
     if (_result) {
       throw new Error('参加者は既にペアに所属しています。');
     }
@@ -51,11 +49,9 @@ export class Pair extends Entity<PairProps> {
 
   private static validation_participantNotExist(
     baseParticipants: PairProps['participants'],
-    addParticipant: Participant,
+    participant: Participant,
   ): void {
-    const _result = baseParticipants.find(
-      (one) => one.id === addParticipant.id,
-    );
+    const _result = baseParticipants.find((one) => one.id === participant.id);
     if (!_result) {
       throw new Error('この参加者は存在します。');
     }
