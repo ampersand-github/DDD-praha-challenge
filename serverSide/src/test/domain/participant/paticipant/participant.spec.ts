@@ -2,7 +2,10 @@ import { UniqueEntityID } from '../../../../shared/domain/UniqueEntityID';
 import { Participant } from '../../../../domain/participant/participant/participant';
 import { ParticipantName } from '../../../../domain/participant/participant/participantName';
 import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
-import {EnrolledStatus, EnrolledStatusEnum} from '../../../../domain/participant/participant/enrolledStatus';
+import {
+  EnrolledStatus,
+  EnrolledStatusEnum,
+} from '../../../../domain/participant/participant/enrolledStatus';
 
 describe('Participant', (): void => {
   const id = new UniqueEntityID('99999999-9999-9999-9999-999999999999');
@@ -19,7 +22,7 @@ describe('Participant', (): void => {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const name2 = ParticipantName.create({ participantName: '山田太郎' });
   const email2 = MailAddress.create({ mailAddress: 'yamada@gmail.com' });
-  const status2 = EnrolledStatus.create({ enrolledStatus:enrolled });
+  const status2 = EnrolledStatus.create({ enrolledStatus: enrolled });
   const data2 = {
     participantName: name2,
     mailAddress: email2,
@@ -39,8 +42,8 @@ describe('Participant', (): void => {
 
   test('ステータス変更ができること', () => {
     const actual = Participant.create(data);
-    const expected = EnrolledStatusEnum.recess
-    actual.changeEnrolledStatus(expected)
+    const expected = EnrolledStatusEnum.recess;
+    actual.changeEnrolledStatus(expected);
     expect(actual.values.enrolledStatus).toBe(expected);
   });
 });

@@ -5,7 +5,7 @@ describe('PairName', (): void => {
     const data = { pairName: 'a' };
     const actual = PairName.create(data);
     const except = data.pairName;
-    expect(actual.props.pairName).toStrictEqual(except);
+    expect(actual.values.pairName).toStrictEqual(except);
   });
 
   test('入力された値が小文字２字なので失敗する - ', () => {

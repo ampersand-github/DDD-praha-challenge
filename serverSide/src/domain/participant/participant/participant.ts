@@ -22,18 +22,14 @@ export class Participant extends Entity<ParticipantProps> {
     return new Participant(props, id);
   }
   // todo 必須じゃないので余裕のある時に作る
-  public changeParticipantName() :void{
-
-  }
+  public changeParticipantName(): void {}
   // todo 必須じゃないので余裕のある時に作る
-  public changeMailAddress() :void{
-
-  }
+  public changeMailAddress(): void {}
   // todo ステータス変更の色々を作り込む
-  public changeEnrolledStatus(status) :void{
+  public changeEnrolledStatus(status): void {
     this.props = {
-    ...this.props,
-    enrolledStatus : status
-  };
+      ...this.props,
+      enrolledStatus: status,
+    };
   }
 }
