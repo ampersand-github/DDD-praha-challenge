@@ -1,8 +1,10 @@
 import { ValueObject } from '../../shared/domain/ValueObject';
 import { Task } from './task';
+
 import { ProgressStatus, ProgressStatusEnum } from './progressStatus';
 
 interface ParticipantHavingTaskProps {
+
   statusForEveryTask: Map<Task, ProgressStatus>;
 }
 
@@ -19,7 +21,9 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
   }
   public isComplete(task): boolean {
     const status = this.props.statusForEveryTask.get(task);
+
     return status.values.progressStatus === ProgressStatusEnum.complete;
+
   }
 
   public changeStatus(
@@ -30,12 +34,14 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
       throw new Error('このタスクは存在しません');
     }
     if (this.isComplete(task)) {
+
       throw new Error('完了ステータスになっているタスクは変更できません');
     }
 
     this.props.statusForEveryTask.set(task, status);
     return new ParticipantHavingTask(this.props);
   }
+
 
   public getTaskFromName(name: string) {
     for (const task of this.props.statusForEveryTask.keys()) {
@@ -44,5 +50,6 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
       }
     }
     throw new Error('タスクの名前が間違っています');
+
   }
 }
