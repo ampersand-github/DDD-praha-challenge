@@ -8,13 +8,17 @@ interface ValueObjectProps {
  */
 
 export abstract class ValueObject<T extends ValueObjectProps> {
-  // publicにするとgetter,setterを使わずに呼び出せてしまうので、protected readonly にする
-  protected readonly props: T;
+  // publicにするとgetter,setterを使わずに呼び出せてしまうので、protectedにする
+  protected props: T;
 
   protected constructor(props: T) {
     this.props = {
       ...props,
     };
+  }
+
+  public get values():T {
+    return this.props;
   }
 
   public equals(vo?: ValueObject<T>): boolean {
