@@ -1,11 +1,10 @@
 import { ValueObject } from '../../shared/domain/ValueObject';
 import { Task } from './task';
-import { Participant } from '../participant/participant/participant';
+
 import { ProgressStatus, ProgressStatusEnum } from './progressStatus';
 
 interface ParticipantHavingTaskProps {
-  participant: Participant;
-  // todo ファーストクラスコレクション化すべきか？
+
   statusForEveryTask: Map<Task, ProgressStatus>;
 }
 
@@ -22,17 +21,20 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
   }
   public isComplete(task): boolean {
     const status = this.props.statusForEveryTask.get(task);
-    return status.props.progressStatus === ProgressStatusEnum.complete;
+
+    return status.values.progressStatus === ProgressStatusEnum.complete;
+
   }
 
   public changeStatus(
     task: Task,
     status: ProgressStatus,
   ): ParticipantHavingTask {
-    if (this.existTask(task) === false) {
+    if (!this.existTask(task)) {
       throw new Error('このタスクは存在しません');
     }
-    if (this.isComplete(task) === true) {
+    if (this.isComplete(task)) {
+
       throw new Error('完了ステータスになっているタスクは変更できません');
     }
 
@@ -40,18 +42,14 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
     return new ParticipantHavingTask(this.props);
   }
 
-  public getTaskFromName(name: string): Task | void {
-    let returnValue;
-    this.props.statusForEveryTask.forEach(
-      (status: ProgressStatus, task: Task) => {
-        if (task.props.name.toString() === name) {
-          returnValue = task;
-        }
-      },
-    );
-    if(returnValue === undefined) {
-      throw new Error('タスクの名前が間違っています');
+
+  public getTaskFromName(name: string) {
+    for (const task of this.props.statusForEveryTask.keys()) {
+      if (task.values.name.toString() === name) {
+        return task;
+      }
     }
-    return returnValue;
+    throw new Error('タスクの名前が間違っています');
+
   }
 }

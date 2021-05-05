@@ -14,39 +14,31 @@ import {
 } from '../../../domain/task/progressStatus';
 
 describe('ParticipantHavingTask', (): void => {
-  const participant = Participant.create({
-    participantName: ParticipantName.create({participantName: '山口英夫'}),
-    mailAddress: MailAddress.create({mailAddress: 'yamaguchi@gmail.com'}),
-    enrolledStatus: EnrolledStatus.create({
-      enrolledStatus: EnrolledStatusEnum.enrolled,
-    }),
-  });
-
   const task1 = Task.create({
     no: 1,
     name: 'よく使うHTTPヘッダを理解する',
     description: 'HTTPは様々な情報をやりとりしますが...',
-    group: TaskGroup.create({taskGroup: TaskGroupEnum.webBasic}),
+    group: TaskGroup.create({ taskGroup: TaskGroupEnum.webBasic }),
   });
 
   const task2 = Task.create({
     no: 2,
     name: 'curlとpostmanに慣れる',
     description: '何かAPIに不具合が起きた時、...',
-    group: TaskGroup.create({taskGroup: TaskGroupEnum.webBasic}),
+    group: TaskGroup.create({ taskGroup: TaskGroupEnum.webBasic }),
   });
 
   const task3 = Task.create({
     no: 3,
     name: 'リクエストをパースするWEBサーバを作ってみる',
     description: 'OSSのレポジトリにエラーを報告すると、...',
-    group: TaskGroup.create({taskGroup: TaskGroupEnum.webBasic}),
+    group: TaskGroup.create({ taskGroup: TaskGroupEnum.webBasic }),
   });
   const task4 = Task.create({
     no: 4,
     name: 'aaaa',
     description: 'aaaa、...',
-    group: TaskGroup.create({taskGroup: TaskGroupEnum.webBasic}),
+    group: TaskGroup.create({ taskGroup: TaskGroupEnum.webBasic }),
   });
 
   const complete = ProgressStatus.create({
@@ -66,7 +58,6 @@ describe('ParticipantHavingTask', (): void => {
   ]);
 
   const participantHavingTask = ParticipantHavingTask.create({
-    participant: participant,
     statusForEveryTask: statusForEveryTask,
   });
 
@@ -91,7 +82,7 @@ describe('ParticipantHavingTask', (): void => {
   describe('changeStatus', () => {
     test('task3のステータスをnotStartedからcompleteへ変更する', () => {
       const _ = participantHavingTask.changeStatus(task3, complete);
-      expect(_.props.statusForEveryTask.get(task3)).toBe(complete);
+      expect(_.values.statusForEveryTask.get(task3)).toBe(complete);
     });
     test('存在しないtaskのステータスを変更できない', () => {
       expect(() => {
@@ -105,19 +96,15 @@ describe('ParticipantHavingTask', (): void => {
     });
   });
 
-  describe("getTaskFromName", () => {
+  describe('getTaskFromName', () => {
     test('存在するタスク名からそのTaskクラスを取得する', () => {
-      const expected = participantHavingTask.getTaskFromName(
-          task1.props.name,
-      );
+      const expected = participantHavingTask.getTaskFromName(task1.values.name);
       expect(task1).toBe(expected);
     });
     test('存在しないタスク名からそのTaskクラスを取得できない', () => {
       expect(() => {
-        participantHavingTask.getTaskFromName(
-            "aaaaaaaaaaaaaaa",
-        );
+        participantHavingTask.getTaskFromName('aaaaaaaaaaaaaaa');
       }).toThrow();
     });
   });
-})
+});

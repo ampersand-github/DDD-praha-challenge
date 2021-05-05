@@ -12,6 +12,7 @@ describe('Task', (): void => {
 
   test('引数で与えた値が取得できるこ', () => {
     const actual = Task.create(active);
-    expect(actual.props.name).toBe('よく使うHTTPヘッダを理解する');
+    expect(actual.values.name).toBe('よく使うHTTPヘッダを理解する');
+
   });
 });
