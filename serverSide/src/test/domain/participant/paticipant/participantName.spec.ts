@@ -2,11 +2,10 @@ import { ParticipantName } from '../../../../domain/participant/participant/part
 
 describe('ParticipantName', (): void => {
   test('引数で与えた名前が取得できること', () => {
-    const goodName = { participantName: '堺均' };
+    const goodName = { participantName: 'A' };
     const actual = ParticipantName.create(goodName);
 
-    expect(actual.props.participantName).toBe(goodName.participantName);
-
+    expect(actual.values.participantName).toBe(goodName.participantName);
   });
 
   test('入力文字数が0字なので弾かれる', () => {

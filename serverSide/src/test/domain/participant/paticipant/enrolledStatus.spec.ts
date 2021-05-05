@@ -8,6 +8,6 @@ describe('EnrolledStatus', (): void => {
 
   test('引数で与えた値が取得できること', () => {
     const actual = EnrolledStatus.create(active);
-    expect(actual.enrolledStatus).toBe(active.enrolledStatus);
+    expect(actual.values.enrolledStatus).toBe(active.enrolledStatus);
   });
 });

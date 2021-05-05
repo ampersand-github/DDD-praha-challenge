@@ -11,10 +11,6 @@ export interface ParticipantProps {
 }
 
 export class Participant extends Entity<ParticipantProps> {
-  get id(): UniqueEntityID {
-    return this._id;
-  }
-
   private constructor(props: ParticipantProps, id?: UniqueEntityID) {
     super(props, id);
   }
@@ -24,5 +20,20 @@ export class Participant extends Entity<ParticipantProps> {
     id?: UniqueEntityID,
   ): Participant {
     return new Participant(props, id);
+  }
+  // todo 必須じゃないので余裕のある時に作る
+  public changeParticipantName() :void{
+
+  }
+  // todo 必須じゃないので余裕のある時に作る
+  public changeMailAddress() :void{
+
+  }
+  // todo ステータス変更の色々を作り込む
+  public changeEnrolledStatus(status) :void{
+    this.props = {
+    ...this.props,
+    enrolledStatus : status
+  };
   }
 }
