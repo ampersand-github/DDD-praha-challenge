@@ -17,7 +17,7 @@ export abstract class ValueObject<T extends ValueObjectProps> {
     };
   }
 
-  public get values():T {
+  public get values(): T {
     return this.props;
   }
 

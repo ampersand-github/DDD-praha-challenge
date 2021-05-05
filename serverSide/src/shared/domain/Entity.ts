@@ -19,7 +19,7 @@ export abstract class Entity<T> {
     return this._id;
   }
 
-  public get values():T {
+  public get values(): T {
     return this.props;
   }
 
