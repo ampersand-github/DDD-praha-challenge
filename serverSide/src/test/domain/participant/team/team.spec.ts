@@ -76,10 +76,6 @@ describe('Team', (): void => {
   });
 
   describe('コンストラクタ', () => {
-    test('参加者数を取得できる', () => {
-      const actual = Team.create(team);
-      expect(actual.participantCount()).toStrictEqual(4);
-    });
     test('参加者が少なすぎる', () => {
       const data = {
         ...team,
@@ -98,35 +94,36 @@ describe('Team', (): void => {
       expect(actual.participantCount()).toStrictEqual(3);
     });
 
-
     describe('addPair', () => {
       test('チームをペアに追加する', () => {
-        const _ = Team.create(team);
-        const actual = _.addPair(pair3);
-        expect(actual.props.pairs.length).toBe(3);
-
+        const actual = Team.create(team);
+        actual.addPair(pair3);
+        expect(actual.values.pairs.length).toBe(3);
       });
       test('チームに既にペアが存在するので(同じペアを新規のペアとして)ペアを追加できない', () => {
         const actual = Team.create(team);
         expect(() => {
-          actual.removePair(pair3);
+          actual.removePair(pair1);
         }).toThrow();
       });
     });
 
     describe('removePair', () => {
       test('チームをペアから削除する', () => {
-        const _team = Team.create({
+        const actual = Team.create({
           ...team,
           pairs: [pair1, pair2, pair3],
         });
-        const actual = _team.removePair(pair1);
+        actual.removePair(pair1);
 
-        expect(actual.props.pairs.length).toBe(2);
-
+        expect(actual.values.pairs.length).toBe(2);
       });
       test('ペアがチームに存在しないのでチームから削除できない', () => {
-        const actual = Team.create(team);
+        const actual = Team.create({
+          ...team,
+          pairs: [pair1, pair2],
+        });
+
         expect(() => {
           actual.removePair(pair3);
         }).toThrow();

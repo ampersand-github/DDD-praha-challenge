@@ -3,6 +3,7 @@ import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { TeamName } from './teamName';
 import { Pair } from '../pair/pair';
 import { duplicateTeamDomainService } from './duplicateTeamDomainService';
+import { Participant } from '../participant/participant';
 
 interface TeamProps {
   teamName: TeamName;
@@ -12,20 +13,55 @@ interface TeamProps {
 }
 
 export class Team extends Entity<TeamProps> {
-  get id(): UniqueEntityID {
-    return this._id;
-  }
-
-
-  // staticなメソッドはconstructorでも使える
-  private static participantCount(props): number {
+  private static participantCount(pairs: TeamProps['pairs']): number {
     let count = 0;
-    props.pairs.map((pair: Pair) => {
-      count += pair.props.participants.length;
-
+    pairs.map((pair: Pair) => {
+      count += pair.values.participants.length;
+    });
     return count;
   }
 
+  private static validation_lowerLimit(
+    participantsCount: number,
+    lowerLimit: TeamProps['lowerLimit'],
+  ): void {
+    if (participantsCount < lowerLimit) {
+      throw new Error(
+        `チームに所属する参加者の人数が足りません。チームの下限は${lowerLimit}名です。`,
+      );
+    }
+  }
+
+  private static validation_upperLimit(
+    participantsCount: number,
+    upperLimit: TeamProps['upperLimit'],
+  ): void {
+    if (participantsCount > upperLimit) {
+      throw new Error(
+        `チームに所属する参加者の人数が多すぎます。チームの上限は${upperLimit}名です。`,
+      );
+    }
+  }
+
+  private static validation_pairExist(
+    basePair: TeamProps['pairs'],
+    pair: Pair,
+  ): void {
+    const _result = basePair.find((one) => one.id === pair.id);
+    if (_result) {
+      throw new Error('このペアは既にチームに存在します。');
+    }
+  }
+
+  private static validation_participantNotExist(
+    basePair: TeamProps['pairs'],
+    pair: Pair,
+  ): void {
+    const _result = basePair.find((one) => one.id === pair.id);
+    if (!_result) {
+      throw new Error('このペアはチームに存在しません。');
+    }
+  }
 
   private constructor(props: TeamProps, id?: UniqueEntityID) {
     super(props, id);
@@ -33,52 +69,30 @@ export class Team extends Entity<TeamProps> {
 
   static create(props: TeamProps, id?: UniqueEntityID): Team {
     // todo 重複チェックのドメインサービスをつくる
-    const participantCount = this.participantCount(props);
-
-    if (participantCount < props.lowerLimit) {
-      throw new Error(
-        `チームに所属する参加者の人数が足りません。チームの下限は${props.lowerLimit}名です。`,
-      );
-    }
+    const participantCount = this.participantCount(props.pairs);
+    this.validation_lowerLimit(participantCount, props.lowerLimit);
     // 仕様に人数上限は存在しないが、今後仕様変更があることを想定して入れる
-    if (participantCount > props.upperLimit) {
-      throw new Error(
-        `チームに所属する参加者の人数が多すぎます。チームの上限は${props.upperLimit}名です。`,
-      );
-    }
+    this.validation_upperLimit(participantCount, props.upperLimit);
     return new Team(props, id);
   }
 
-  public participantCount(): number {
-    return Team.participantCount(this.props);
+  participantCount(): number {
+    return Team.participantCount(this.props.pairs);
   }
 
-  private participantExist(pair: Pair): boolean {
-    const _result = this.props.pairs.find((one) => one.id === pair.id);
-    if (_result === undefined) {
-      return false;
-    }
-    return true;
-  }
-
-  addPair(pair: Pair): Team {
-    if (this.participantExist(pair)) {
-      throw new Error('追加しようとしたペアは既にチームに所属しています。');
-    }
-    const data = {
+  addPair(pair: Pair): void {
+    Team.validation_pairExist(this.props.pairs, pair);
+    this.props = {
       ...this.props,
       pairs: [...this.props.pairs, pair],
     };
-
-
-    return Team.create(data,this._id);
+    const participantCount = Team.participantCount(this.props.pairs);
+    // 仕様に人数上限は存在しないが、今後仕様変更があることを想定して入れる
+    Team.validation_upperLimit(participantCount, this.props.upperLimit);
   }
 
-  removePair(pair: Pair): Team {
-    if (!this.participantExist(pair)) {
-
-      throw new Error('チームから削除したいペアが存在しません。');
-    }
+  removePair(pair: Pair): void {
+    Team.validation_participantNotExist(this.props.pairs, pair);
 
     // ペアから削除する
     for (let i = 0; i < this.props.pairs.length; i++) {
@@ -87,11 +101,11 @@ export class Team extends Entity<TeamProps> {
       }
     }
 
-    const data = {
+    this.props = {
       ...this.props,
       pairs: [...this.props.pairs],
     };
-
-    return Team.create(data,this._id);
+    const participantCount = Team.participantCount(this.props.pairs);
+    Team.validation_lowerLimit(participantCount, this.props.lowerLimit);
   }
 }
