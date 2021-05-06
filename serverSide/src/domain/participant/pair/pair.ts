@@ -65,7 +65,7 @@ export class Pair extends Entity<PairProps> {
 
   public addParticipant(participant: Participant): void {
     Pair.validation_participantExist(this.props.participants, participant);
-    this.props.participants = [...this.props.participants, participant]
+    this.props.participants.push(participant);
     Pair.validation_upperLimit(
       this.props.participants.length,
       this.props.upperLimit,
@@ -75,11 +75,9 @@ export class Pair extends Entity<PairProps> {
   public removeParticipant(participant: Participant): void {
     Pair.validation_participantNotExist(this.props.participants, participant);
     // ペアから削除する
-    for (let i = 0; i < this.props.participants.length; i++) {
-      if (this.props.participants[i] === participant) {
-        this.props.participants.splice(i, 1);
-      }
-    }
+    this.props.participants = this.props.participants.filter(
+      (one) => !one.equals(participant),
+    );
     Pair.validation_lowerLimit(
       this.props.participants.length,
       this.props.lowerLimit,

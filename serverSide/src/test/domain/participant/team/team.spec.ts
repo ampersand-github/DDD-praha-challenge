@@ -103,7 +103,7 @@ describe('Team', (): void => {
       test('チームに既にペアが存在するので(同じペアを新規のペアとして)ペアを追加できない', () => {
         const actual = Team.create(team);
         expect(() => {
-          actual.removePair(pair1);
+          actual.addPair(pair1);
         }).toThrow();
       });
     });

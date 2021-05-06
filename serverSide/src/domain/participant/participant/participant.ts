@@ -27,6 +27,6 @@ export class Participant extends Entity<ParticipantProps> {
   public changeMailAddress(): void {}
   // todo ステータス変更の色々を作り込む
   public changeEnrolledStatus(status): void {
-    this.props.enrolledStatus = status
+    this.props.enrolledStatus = status;
   }
 }

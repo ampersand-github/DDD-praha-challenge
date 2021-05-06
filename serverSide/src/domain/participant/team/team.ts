@@ -47,7 +47,7 @@ export class Team extends Entity<TeamProps> {
     basePair: TeamProps['pairs'],
     pair: Pair,
   ): void {
-    const _result = basePair.find((one) =>one.equals(pair));
+    const _result = basePair.find((one) => one.equals(pair));
     if (_result) {
       throw new Error('このペアは既にチームに存在します。');
     }
@@ -67,7 +67,7 @@ export class Team extends Entity<TeamProps> {
     super(props, id);
   }
 
- public static create(props: TeamProps, id?: UniqueEntityID): Team {
+  public static create(props: TeamProps, id?: UniqueEntityID): Team {
     // todo 重複チェックのドメインサービスをつくる
     const participantCount = this.participantCount(props.pairs);
     this.validation_lowerLimit(participantCount, props.lowerLimit);
@@ -82,7 +82,7 @@ export class Team extends Entity<TeamProps> {
 
   public addPair(pair: Pair): void {
     Team.validation_pairExist(this.props.pairs, pair);
-    this.props.pairs = [...this.props.pairs, pair]
+    this.props.pairs.push(pair);
     const participantCount = Team.participantCount(this.props.pairs);
     // 仕様に人数上限は存在しないが、今後仕様変更があることを想定して入れる
     Team.validation_upperLimit(participantCount, this.props.upperLimit);
@@ -90,15 +90,8 @@ export class Team extends Entity<TeamProps> {
 
   public removePair(pair: Pair): void {
     Team.validation_participantNotExist(this.props.pairs, pair);
-
     // ペアから削除する
-    for (let i = 0; i < this.props.pairs.length; i++) {
-      if (this.props.pairs[i] === pair) {
-        this.props.pairs.splice(i, 1);
-      }
-    }
-
-    this.props.pairs = [...this.props.pairs]
+    this.props.pairs = this.props.pairs.filter((one) => !one.equals(pair));
     const participantCount = Team.participantCount(this.props.pairs);
     Team.validation_lowerLimit(participantCount, this.props.lowerLimit);
   }
