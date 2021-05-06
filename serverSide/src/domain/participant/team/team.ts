@@ -47,7 +47,7 @@ export class Team extends Entity<TeamProps> {
     basePair: TeamProps['pairs'],
     pair: Pair,
   ): void {
-    const _result = basePair.find((one) => one.id === pair.id);
+    const _result = basePair.find((one) =>one.equals(pair));
     if (_result) {
       throw new Error('このペアは既にチームに存在します。');
     }
@@ -57,7 +57,7 @@ export class Team extends Entity<TeamProps> {
     basePair: TeamProps['pairs'],
     pair: Pair,
   ): void {
-    const _result = basePair.find((one) => one.id === pair.id);
+    const _result = basePair.find((one) => one.equals(pair));
     if (!_result) {
       throw new Error('このペアはチームに存在しません。');
     }

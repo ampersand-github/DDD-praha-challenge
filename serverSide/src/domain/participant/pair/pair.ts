@@ -41,7 +41,7 @@ export class Pair extends Entity<PairProps> {
     baseParticipants: PairProps['participants'],
     participant: Participant,
   ): void {
-    const _result = baseParticipants.find((one) => one.id === participant.id);
+    const _result = baseParticipants.find((one) => one.equals(participant));
     if (_result) {
       throw new Error('参加者は既にペアに所属しています。');
     }
@@ -51,7 +51,7 @@ export class Pair extends Entity<PairProps> {
     baseParticipants: PairProps['participants'],
     participant: Participant,
   ): void {
-    const _result = baseParticipants.find((one) => one.id === participant.id);
+    const _result = baseParticipants.find((one) => one.equals(participant));
     if (!_result) {
       throw new Error('この参加者は存在します。');
     }
