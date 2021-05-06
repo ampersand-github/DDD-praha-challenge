@@ -10,7 +10,7 @@ export class PairName extends ValueObject<PairNameProps> {
   private constructor(props: PairNameProps) {
     super(props);
   }
-  static create(props: PairNameProps): PairName {
+  public static create(props: PairNameProps): PairName {
     if (props.pairName.length !== 1) {
       throw new Error('入力された値が1字ではありません。');
     }

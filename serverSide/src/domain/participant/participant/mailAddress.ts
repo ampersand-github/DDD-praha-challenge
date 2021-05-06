@@ -11,7 +11,7 @@ export class MailAddress extends ValueObject<MailAddressProps> {
   private constructor(props: MailAddressProps) {
     super(props);
   }
-  static create(props: MailAddressProps): MailAddress {
+  public static create(props: MailAddressProps): MailAddress {
     if (!this.reg.test(props.mailAddress)) {
       throw new Error(
         `メールアドレスの書式が間違っています。${props.mailAddress}`,

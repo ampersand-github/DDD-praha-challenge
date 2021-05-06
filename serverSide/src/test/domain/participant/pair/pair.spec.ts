@@ -38,7 +38,6 @@ describe('Pair', (): void => {
   const lowerLimit = 2;
   //
   const pairA = PairName.create({ pairName: 'a' });
-  const pairB = PairName.create({ pairName: 'b' });
   //
   const pairData = {
     pairName: pairA,

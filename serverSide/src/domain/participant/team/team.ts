@@ -67,7 +67,7 @@ export class Team extends Entity<TeamProps> {
     super(props, id);
   }
 
-  static create(props: TeamProps, id?: UniqueEntityID): Team {
+ public static create(props: TeamProps, id?: UniqueEntityID): Team {
     // todo 重複チェックのドメインサービスをつくる
     const participantCount = this.participantCount(props.pairs);
     this.validation_lowerLimit(participantCount, props.lowerLimit);
@@ -76,11 +76,11 @@ export class Team extends Entity<TeamProps> {
     return new Team(props, id);
   }
 
-  participantCount(): number {
+  public participantCount(): number {
     return Team.participantCount(this.props.pairs);
   }
 
-  addPair(pair: Pair): void {
+  public addPair(pair: Pair): void {
     Team.validation_pairExist(this.props.pairs, pair);
     this.props = {
       ...this.props,
@@ -91,7 +91,7 @@ export class Team extends Entity<TeamProps> {
     Team.validation_upperLimit(participantCount, this.props.upperLimit);
   }
 
-  removePair(pair: Pair): void {
+  public removePair(pair: Pair): void {
     Team.validation_participantNotExist(this.props.pairs, pair);
 
     // ペアから削除する

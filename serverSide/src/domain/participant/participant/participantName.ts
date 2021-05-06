@@ -10,7 +10,7 @@ export class ParticipantName extends ValueObject<ParticipantNameProps> {
   private constructor(props: ParticipantNameProps) {
     super(props);
   }
-  static create(props: ParticipantNameProps): ParticipantName {
+  public static create(props: ParticipantNameProps): ParticipantName {
     if (props.participantName.length <= this.minimumLength) {
       throw new Error('名前をフルネームで入力してください。');
     }
