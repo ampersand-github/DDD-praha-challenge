@@ -65,10 +65,7 @@ export class Pair extends Entity<PairProps> {
 
   public addParticipant(participant: Participant): void {
     Pair.validation_participantExist(this.props.participants, participant);
-    this.props = {
-      ...this.props,
-      participants: [...this.props.participants, participant],
-    };
+    this.props.participants = [...this.props.participants, participant]
     Pair.validation_upperLimit(
       this.props.participants.length,
       this.props.upperLimit,

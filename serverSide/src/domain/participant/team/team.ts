@@ -82,10 +82,7 @@ export class Team extends Entity<TeamProps> {
 
   public addPair(pair: Pair): void {
     Team.validation_pairExist(this.props.pairs, pair);
-    this.props = {
-      ...this.props,
-      pairs: [...this.props.pairs, pair],
-    };
+    this.props.pairs = [...this.props.pairs, pair]
     const participantCount = Team.participantCount(this.props.pairs);
     // 仕様に人数上限は存在しないが、今後仕様変更があることを想定して入れる
     Team.validation_upperLimit(participantCount, this.props.upperLimit);
@@ -101,10 +98,7 @@ export class Team extends Entity<TeamProps> {
       }
     }
 
-    this.props = {
-      ...this.props,
-      pairs: [...this.props.pairs],
-    };
+    this.props.pairs = [...this.props.pairs]
     const participantCount = Team.participantCount(this.props.pairs);
     Team.validation_lowerLimit(participantCount, this.props.lowerLimit);
   }

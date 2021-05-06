@@ -82,7 +82,7 @@ describe('Pair', (): void => {
     });
   });
 
-  describe('canAdd', () => {
+  describe('addParticipant', () => {
     test('参加者を追加できる', () => {
       const actual = Pair.create(pairData);
       actual.addParticipant(participant3);
@@ -94,9 +94,15 @@ describe('Pair', (): void => {
         pair.addParticipant(participant1);
       }).toThrow();
     });
+    test('ペアに既に存在する参加者を参加させると二重参加になり失敗する', () => {
+      const pair = Pair.create(pairData);
+      expect(() => {
+        pair.addParticipant(participant1);
+      }).toThrow();
+    });
   });
 
-  describe('canRemove', () => {
+  describe('removeParticipant', () => {
     test('参加者をペアから追放する', () => {
       const actual = Pair.create({
         ...pairData,
