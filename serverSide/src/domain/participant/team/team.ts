@@ -14,12 +14,9 @@ interface TeamProps {
 
 export class Team extends Entity<TeamProps> {
   private static participantCount(pairs: TeamProps['pairs']): number {
-    let count = 0;
-    pairs.map((pair: Pair) => {
-      count += pair.values.participants.length;
-    });
-    return count;
+    return pairs.reduce((prev,pair) => prev + pair.participantCount(),0);
   }
+
 
   private static validation_lowerLimit(
     participantsCount: number,

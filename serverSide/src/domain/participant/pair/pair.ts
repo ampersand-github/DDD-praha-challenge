@@ -83,4 +83,8 @@ export class Pair extends Entity<PairProps> {
       this.props.lowerLimit,
     );
   }
+
+  public participantCount() : number {
+    return this.props.participants.length
+  }
 }
