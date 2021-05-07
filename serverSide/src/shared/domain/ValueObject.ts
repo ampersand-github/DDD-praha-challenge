@@ -17,10 +17,6 @@ export abstract class ValueObject<T extends ValueObjectProps> {
     };
   }
 
-  public get values(): T {
-    return this.props;
-  }
-
   public equals(vo?: ValueObject<T>): boolean {
     if (vo === null || vo === undefined) {
       return false;

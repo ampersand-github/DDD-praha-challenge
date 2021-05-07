@@ -11,6 +11,10 @@ export interface ParticipantProps {
 }
 
 export class Participant extends Entity<ParticipantProps> {
+  public get enrolledStatus() {
+    return this.props.enrolledStatus;
+  }
+
   private constructor(props: ParticipantProps, id?: UniqueEntityID) {
     super(props, id);
   }

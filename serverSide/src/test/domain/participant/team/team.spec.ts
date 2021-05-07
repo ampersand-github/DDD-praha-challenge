@@ -98,7 +98,7 @@ describe('Team', (): void => {
       test('チームをペアに追加する', () => {
         const actual = Team.create(team);
         actual.addPair(pair3);
-        expect(actual.values.pairs.length).toBe(3);
+        expect(actual.pairs.length).toBe(3);
       });
       test('チームに既にペアが存在するので(同じペアを新規のペアとして)ペアを追加できない', () => {
         const actual = Team.create(team);
@@ -116,7 +116,7 @@ describe('Team', (): void => {
         });
         actual.removePair(pair1);
 
-        expect(actual.values.pairs.length).toBe(2);
+        expect(actual.pairs.length).toBe(2);
       });
       test('ペアがチームに存在しないのでチームから削除できない', () => {
         const actual = Team.create({

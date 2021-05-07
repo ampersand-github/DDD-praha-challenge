@@ -5,7 +5,7 @@ describe('ParticipantName', (): void => {
     const goodName = { participantName: 'A' };
     const actual = ParticipantName.create(goodName);
 
-    expect(actual.values.participantName).toBe(goodName.participantName);
+    expect(actual.participantName).toBe(goodName.participantName);
   });
 
   test('入力文字数が0字なので弾かれる', () => {

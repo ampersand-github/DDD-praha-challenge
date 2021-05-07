@@ -7,6 +7,10 @@ interface PairNameProps {
 export class PairName extends ValueObject<PairNameProps> {
   private static reg = /^[a-z]/;
 
+  public get pairName() {
+    return this.props.pairName;
+  }
+
   private constructor(props: PairNameProps) {
     super(props);
   }

@@ -10,17 +10,13 @@ export abstract class Entity<T> {
   // (クラス外からアクセスできないようにする)
   protected props: T;
 
-  constructor(props: T, id?: UniqueEntityID) {
+  public constructor(props: T, id?: UniqueEntityID) {
     this._id = id ? id : new UniqueEntityID();
     this.props = props;
   }
 
   public get id(): UniqueEntityID {
     return this._id;
-  }
-
-  public get values(): T {
-    return this.props;
   }
 
   public equals(object?: Entity<T>): boolean {

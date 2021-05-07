@@ -5,6 +5,6 @@ describe('TeamName', (): void => {
     const data = { teamName: 1 };
     const actual = TeamName.create(data);
     const except = data.teamName;
-    expect(actual.values.teamName).toStrictEqual(except);
+    expect(actual.teamName).toStrictEqual(except);
   });
 });

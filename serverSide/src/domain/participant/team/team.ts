@@ -2,8 +2,8 @@ import { Entity } from '../../../shared/domain/Entity';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { TeamName } from './teamName';
 import { Pair } from '../pair/pair';
-import { duplicateTeamDomainService } from './duplicateTeamDomainService';
-import { Participant } from '../participant/participant';
+// import { duplicateTeamDomainService } from './duplicateTeamDomainService';
+// import { Participant } from '../participant/participant';
 
 interface TeamProps {
   teamName: TeamName;
@@ -13,10 +13,13 @@ interface TeamProps {
 }
 
 export class Team extends Entity<TeamProps> {
-  private static participantCount(pairs: TeamProps['pairs']): number {
-    return pairs.reduce((prev,pair) => prev + pair.participantCount(),0);
+  public get pairs() {
+    return this.props.pairs;
   }
 
+  private static participantCount(pairs: TeamProps['pairs']): number {
+    return pairs.reduce((prev, pair) => prev + pair.participantCount(), 0);
+  }
 
   private static validation_lowerLimit(
     participantsCount: number,

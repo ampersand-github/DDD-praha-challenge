@@ -11,6 +11,10 @@ interface PairProps {
 }
 
 export class Pair extends Entity<PairProps> {
+  public get participants() {
+    return this.props.participants;
+  }
+
   private constructor(props: PairProps, id?: UniqueEntityID) {
     super(props, id);
   }
@@ -84,7 +88,7 @@ export class Pair extends Entity<PairProps> {
     );
   }
 
-  public participantCount() : number {
-    return this.props.participants.length
+  public participantCount(): number {
+    return this.props.participants.length;
   }
 }

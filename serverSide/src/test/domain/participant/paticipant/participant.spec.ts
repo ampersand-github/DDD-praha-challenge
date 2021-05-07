@@ -44,6 +44,6 @@ describe('Participant', (): void => {
     const actual = Participant.create(data);
     const expected = EnrolledStatusEnum.recess;
     actual.changeEnrolledStatus(expected);
-    expect(actual.values.enrolledStatus).toBe(expected);
+    expect(actual.enrolledStatus).toBe(expected);
   });
 });

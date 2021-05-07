@@ -5,6 +5,10 @@ interface TeamNameProps {
 }
 
 export class TeamName extends ValueObject<TeamNameProps> {
+  public get teamName() {
+    return this.props.teamName;
+  }
+
   private constructor(props: TeamNameProps) {
     super(props);
   }

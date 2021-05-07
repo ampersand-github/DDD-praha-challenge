@@ -5,7 +5,11 @@ interface ParticipantNameProps {
 }
 
 export class ParticipantName extends ValueObject<ParticipantNameProps> {
-  public static minimumLength = 0;
+  private static minimumLength = 0;
+
+  public get participantName() {
+    return this.props.participantName;
+  }
 
   private constructor(props: ParticipantNameProps) {
     super(props);
