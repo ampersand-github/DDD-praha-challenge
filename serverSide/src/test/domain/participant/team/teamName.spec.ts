@@ -2,9 +2,8 @@ import { TeamName } from '../../../../domain/participant/Team/TeamName';
 
 describe('TeamName', (): void => {
   test('チームネームが取得できる', () => {
-    const data = { teamName: 1 };
-    const actual = TeamName.create(data);
-    const except = data.teamName;
+    const actual = TeamName.create({ teamName: 1 });
+    const except = 1;
     expect(actual.teamName).toStrictEqual(except);
   });
 });

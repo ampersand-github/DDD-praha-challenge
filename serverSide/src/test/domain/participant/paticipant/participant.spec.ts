@@ -1,47 +1,29 @@
-import { UniqueEntityID } from '../../../../shared/domain/UniqueEntityID';
 import { Participant } from '../../../../domain/participant/participant/participant';
-import { ParticipantName } from '../../../../domain/participant/participant/participantName';
-import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
+import { EnrolledStatusEnum } from '../../../../domain/participant/participant/enrolledStatus';
 import {
-  EnrolledStatus,
-  EnrolledStatusEnum,
-} from '../../../../domain/participant/participant/enrolledStatus';
+  dummyData1,
+  dummyId,
+  participant1,
+  participant2,
+  participant3,
+} from '../../dummyData/dummyData';
 
 describe('Participant', (): void => {
-  const id = new UniqueEntityID('99999999-9999-9999-9999-999999999999');
-  const enrolled = EnrolledStatusEnum.enrolled;
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const name = ParticipantName.create({ participantName: '堺均' });
-  const email = MailAddress.create({ mailAddress: 'aaa@gmail.com' });
-  const status = EnrolledStatus.create({ enrolledStatus: enrolled });
-  const data = {
-    participantName: name,
-    mailAddress: email,
-    enrolledStatus: status,
-  };
-  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const name2 = ParticipantName.create({ participantName: '山田太郎' });
-  const email2 = MailAddress.create({ mailAddress: 'yamada@gmail.com' });
-  const status2 = EnrolledStatus.create({ enrolledStatus: enrolled });
-  const data2 = {
-    participantName: name2,
-    mailAddress: email2,
-    enrolledStatus: status2,
-  };
-
-  test('参加者idを引数で指定して、その値が取得できること', () => {
-    const actual = Participant.create(data, id);
-    expect(actual.id).toBe(id);
+  test('idを指定してクラスを作成し、そのクラスのidを取得できること(participant)', () => {
+    expect(participant1.id).toBe(dummyId);
   });
 
-  test('idを使って等価比較ができること', () => {
-    const actual1 = Participant.create(data, id);
-    const actual2 = Participant.create(data2, id);
-    expect(actual1.equals(actual2)).toBe(true);
-  });
+  describe('equals', () => {
+    test('等価比較ができること', () => {
+      expect(participant1.equals(participant2)).toBe(true);
+    });
 
+    test('異なるidによる等価比較で等価と判定されないこと', () => {
+      expect(participant1.equals(participant3)).toBe(false);
+    });
+  });
   test('ステータス変更ができること', () => {
-    const actual = Participant.create(data);
+    const actual = Participant.create(dummyData1);
     const expected = EnrolledStatusEnum.recess;
     actual.changeEnrolledStatus(expected);
     expect(actual.enrolledStatus).toBe(expected);
