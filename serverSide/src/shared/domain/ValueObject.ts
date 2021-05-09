@@ -1,4 +1,4 @@
-import * as deepEqual from "deep-equal";
+import * as deepEqual from 'deep-equal';
 
 interface ValueObjectProps {
   [index: string]: any;
@@ -20,6 +20,6 @@ export abstract class ValueObject<T extends ValueObjectProps> {
   }
 
   public equals(vo?: ValueObject<T>): boolean {
-    return deepEqual(this.props,vo.props)
+    return deepEqual(this.props, vo.props);
   }
 }
