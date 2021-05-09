@@ -78,7 +78,6 @@ export class Pair extends Entity<PairProps> {
 
   public removeParticipant(participant: Participant): void {
     Pair.validation_participantNotExist(this.props.participants, participant);
-    // ペアから削除する
     this.props.participants = this.props.participants.filter(
       (one) => !one.equals(participant),
     );
