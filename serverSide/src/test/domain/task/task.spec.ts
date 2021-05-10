@@ -2,7 +2,7 @@ import { TaskGroup, TaskGroupEnum } from '../../../domain/task/taskGroup';
 import { Task } from '../../../domain/task/task';
 
 describe('Task', (): void => {
-  const active = {
+  const data = {
     no: 1,
     name: 'よく使うHTTPヘッダを理解する',
     description:
@@ -10,9 +10,8 @@ describe('Task', (): void => {
     group: TaskGroup.create({ taskGroup: TaskGroupEnum.webBasic }),
   };
 
-  test('引数で与えた値が取得できるこ', () => {
-    const actual = Task.create(active);
-    expect(actual.values.name).toBe('よく使うHTTPヘッダを理解する');
-
+  test('オブジェクトが生成できること', () => {
+    const actual = Task.create(data);
+    expect(actual).toBeInstanceOf(Task);
   });
 });
