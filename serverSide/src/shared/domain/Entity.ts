@@ -10,7 +10,7 @@ export abstract class Entity<T> {
   // (クラス外からアクセスできないようにする)
   protected props: T;
 
-  public constructor(props: T, id?: UniqueEntityID) {
+  protected constructor(props: T, id?: UniqueEntityID) {
     this._id = id ? id : new UniqueEntityID();
     this.props = props;
   }

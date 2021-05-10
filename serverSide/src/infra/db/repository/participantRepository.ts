@@ -9,13 +9,18 @@ export class ParticipantRepository implements IParticipantRepository {
     // dto or domain を返す
     return findMany.map((one) => new ParticipantDTO(one));
   }
-  create(text: string): any {}
 
-  delete(id: number): any {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  public create(text: string): any {}
 
-  getOne(id: number): any {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  public delete(id: number): any {}
 
-  update(id: number, title: string): any {}
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  public getOne(id: number): any {}
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  public update(id: number, title: string): any {}
 
   /*
     public async getAll(): Promise<ParticipantDataDTO[]> {

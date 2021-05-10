@@ -1,5 +1,6 @@
 import { TeamName } from './teamName';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function duplicateTeamDomainService(name: TeamName): boolean {
   /*
   todo
