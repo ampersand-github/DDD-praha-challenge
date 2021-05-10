@@ -9,10 +9,13 @@ interface TaskProps {
 }
 
 export class Task extends ValueObject<TaskProps> {
+  public get name() {
+    return this.props.name;
+  }
   private constructor(props: TaskProps) {
     super(props);
   }
-  static create(props: TaskProps): Task {
+  public static create(props: TaskProps): Task {
     return new Task(props);
   }
 }
