@@ -4,6 +4,7 @@ import { ValueObject } from '../../../shared/domain/ValueObject';
 export const EnrolledStatusEnum = {
   enrolled: '在籍中',
   recess: '休会中',
+
   withdrawal: '退会済',
 } as const;
 type EnrolledStatusType = typeof EnrolledStatusEnum[keyof typeof EnrolledStatusEnum];
