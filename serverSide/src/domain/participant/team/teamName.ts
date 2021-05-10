@@ -13,7 +13,6 @@ export class TeamName extends ValueObject<TeamNameProps> {
     super(props);
   }
   public static create(props: TeamNameProps): TeamName {
-    // チームの重複チェックはTeamでやる
     return new TeamName(props);
   }
 }

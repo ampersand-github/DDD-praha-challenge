@@ -2,8 +2,6 @@ import { Entity } from '../../../shared/domain/Entity';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { TeamName } from './teamName';
 import { Pair } from '../pair/pair';
-// import { duplicateTeamDomainService } from './duplicateTeamDomainService';
-// import { Participant } from '../participant/participant';
 
 interface TeamProps {
   teamName: TeamName;

@@ -14,11 +14,6 @@ export class Pair extends Entity<PairProps> {
   public get participants() {
     return this.props.participants;
   }
-
-  private constructor(props: PairProps, id?: UniqueEntityID) {
-    super(props, id);
-  }
-
   private static validation_lowerLimit(
     participantsCount: number,
     lowerLimit: PairProps['lowerLimit'],
@@ -47,7 +42,7 @@ export class Pair extends Entity<PairProps> {
   ): void {
     const _result = baseParticipants.find((one) => one.equals(participant));
     if (_result) {
-      throw new Error('参加者は既にペアに所属しています。');
+      throw new Error('この参加者は既にペアに所属しています。');
     }
   }
 
@@ -57,8 +52,12 @@ export class Pair extends Entity<PairProps> {
   ): void {
     const _result = baseParticipants.find((one) => one.equals(participant));
     if (!_result) {
-      throw new Error('この参加者は存在します。');
+      throw new Error('この参加者は存在しません。');
     }
+  }
+
+  private constructor(props: PairProps, id?: UniqueEntityID) {
+    super(props, id);
   }
 
   public static create(props: PairProps, id?: UniqueEntityID): Pair {

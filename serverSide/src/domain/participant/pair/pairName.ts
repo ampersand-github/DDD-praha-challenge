@@ -19,7 +19,7 @@ export class PairName extends ValueObject<PairNameProps> {
       throw new Error('入力された値が1字ではありません。');
     }
     if (!this.reg.test(props.pairName)) {
-      throw new Error('入力された値が英小文字1字ではありません。');
+      throw new Error('入力された値が英小文字ではありません。');
     }
     return new PairName(props);
   }
