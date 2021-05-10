@@ -4,11 +4,12 @@ import {
 } from '../../../domain/task/progressStatus';
 
 describe('ProgressStatus', (): void => {
-  const active = { progressStatus: ProgressStatusEnum.complete };
+  const complete = { progressStatus: ProgressStatusEnum.complete };
 
-  test('引数で与えた値が取得できるこ', () => {
-    const actual = ProgressStatus.create(active);
-    //expect(actual.progressStatus).toBe(active.progressStatus);
-    expect(1).toStrictEqual(1);
+
+  test('引数で与えた値が取得できると', () => {
+    const actual = ProgressStatus.create(complete);
+    expect(actual.values.progressStatus).toBe(complete.progressStatus);
+
   });
 });
