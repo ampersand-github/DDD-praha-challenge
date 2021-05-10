@@ -1,10 +1,9 @@
 import { ValueObject } from '../../shared/domain/ValueObject';
 import { Task } from './task';
 
-import { ProgressStatus, ProgressStatusEnum } from './progressStatus';
+import { ProgressStatus, progressStatusType } from './progressStatus';
 
 interface ParticipantHavingTaskProps {
-
   statusForEveryTask: Map<Task, ProgressStatus>;
 }
 
@@ -12,44 +11,34 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
   private constructor(props: ParticipantHavingTaskProps) {
     super(props);
   }
-  static create(props: ParticipantHavingTaskProps): ParticipantHavingTask {
+  public static create(
+    props: ParticipantHavingTaskProps,
+  ): ParticipantHavingTask {
     return new ParticipantHavingTask(props);
   }
 
-  public existTask(task): boolean {
-    return this.props.statusForEveryTask.has(task);
-  }
-  public isComplete(task): boolean {
-    const status = this.props.statusForEveryTask.get(task);
-
-    return status.values.progressStatus === ProgressStatusEnum.complete;
-
+  public getStatusFromTask(task: Task): ProgressStatus {
+    const result = this.props.statusForEveryTask.get(task);
+    if (result !== undefined) {
+      return result;
+    }
+    throw new Error(
+      '指定されたtaskが存在しないのでステータスを取得できません。',
+    );
   }
 
   public changeStatus(
     task: Task,
-    status: ProgressStatus,
+    status: progressStatusType,
   ): ParticipantHavingTask {
-    if (!this.existTask(task)) {
+    if (!this.props.statusForEveryTask.has(task)) {
       throw new Error('このタスクは存在しません');
     }
-    if (this.isComplete(task)) {
-
-      throw new Error('完了ステータスになっているタスクは変更できません');
-    }
-
-    this.props.statusForEveryTask.set(task, status);
+    // Map配列に格納されているタスクの対になるステータスを取得する
+    const nowStatus: ProgressStatus = this.getStatusFromTask(task);
+    // そのステータスを引数のステータスに変更する
+    const newStatus: ProgressStatus = nowStatus.changeStatus(status);
+    this.props.statusForEveryTask.set(task, newStatus);
     return new ParticipantHavingTask(this.props);
-  }
-
-
-  public getTaskFromName(name: string) {
-    for (const task of this.props.statusForEveryTask.keys()) {
-      if (task.values.name.toString() === name) {
-        return task;
-      }
-    }
-    throw new Error('タスクの名前が間違っています');
-
   }
 }

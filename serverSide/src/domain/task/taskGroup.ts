@@ -1,4 +1,3 @@
-// todo DBとのマッピングをどうするか
 import { ValueObject } from '../../shared/domain/ValueObject';
 
 export const TaskGroupEnum = {
@@ -17,7 +16,7 @@ export class TaskGroup extends ValueObject<TaskGroupProps> {
   private constructor(props: TaskGroupProps) {
     super(props);
   }
-  static create(props: TaskGroupProps): TaskGroup {
+  public static create(props: TaskGroupProps): TaskGroup {
     return new TaskGroup(props);
   }
 }

@@ -57,10 +57,10 @@ prisma migrate reset
       + [x] ドメイン層の抽象クラス
       + [x] 参加者集約
         + [ ] 参加者集約ルートを作成する
-      + [ ] 課題集約
+      + [x] 課題集約
     + [ ] テスト
       + [x] 参加者集約
-      + [ ] 課題集約
+      + [x] 課題集約
       + [x] testで`toBeInstanceOf`
       + [x] testで`toThrowError`
       + [x] utilsのテストをつくる

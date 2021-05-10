@@ -6,7 +6,7 @@ import {
   participant1,
   participant2,
   participant3,
-} from '../../dummyData/dummyData';
+} from '../../dummyData/participantDummyData';
 
 describe('Participant', (): void => {
   test('idを指定してクラスを作成し、そのクラスのidを取得できること(participant)', () => {

@@ -6,10 +6,8 @@ import {
 describe('ProgressStatus', (): void => {
   const complete = { progressStatus: ProgressStatusEnum.complete };
 
-
-  test('引数で与えた値が取得できると', () => {
+  test('オブジェクトが生成できること', () => {
     const actual = ProgressStatus.create(complete);
-    expect(actual.values.progressStatus).toBe(complete.progressStatus);
-
+    expect(actual).toBeInstanceOf(ProgressStatus);
   });
 });
