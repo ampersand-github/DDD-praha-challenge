@@ -1,6 +1,6 @@
-import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
+import { IParticipantRepository } from '../../../domain/participant/repositoryInterface/IParticipantRepository';
 
-export class createParticipantUsecase {
+export class CreateParticipantUsecase {
   private readonly repo: IParticipantRepository;
 
   public constructor(repository: IParticipantRepository) {

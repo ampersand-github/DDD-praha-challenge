@@ -1,4 +1,4 @@
-import { MailAddress } from '../../../domain/participant/participant/mailAddress';
+import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
 
 export class ParticipantDTO {
   public readonly name: string;

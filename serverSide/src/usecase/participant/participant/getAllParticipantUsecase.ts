@@ -1,7 +1,7 @@
-import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
+import { IParticipantRepository } from '../../../domain/participant/repositoryInterface/IParticipantRepository';
 import { ParticipantDTO } from './dto/participantDataDTO';
 
-export class getAllUsecase {
+export class GetAllParticipantUsecase {
   private readonly repo: IParticipantRepository;
 
   public constructor(repository: IParticipantRepository) {
