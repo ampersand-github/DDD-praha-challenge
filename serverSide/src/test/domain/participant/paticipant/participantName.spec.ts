@@ -1,10 +1,15 @@
 import { ParticipantName } from '../../../../domain/participant/participant/participantName';
 
 describe('ParticipantName', (): void => {
+  test('クラスが生成できること', () => {
+    const goodName = { participantName: 'A' };
+    const actual = ParticipantName.create(goodName);
+    expect(actual).toBeInstanceOf(ParticipantName);
+  });
+
   test('引数で与えた名前が取得できること', () => {
     const goodName = { participantName: 'A' };
     const actual = ParticipantName.create(goodName);
-
     expect(actual.participantName).toBe(goodName.participantName);
   });
 
@@ -12,6 +17,6 @@ describe('ParticipantName', (): void => {
     const badName = { participantName: '' };
     expect(() => {
       ParticipantName.create(badName);
-    }).toThrow();
+    }).toThrowError('名前をフルネームで入力してください。');
   });
 });

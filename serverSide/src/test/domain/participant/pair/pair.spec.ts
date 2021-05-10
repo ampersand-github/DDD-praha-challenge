@@ -1,22 +1,12 @@
-﻿import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
-import { UniqueEntityID } from '../../../../shared/domain/UniqueEntityID';
-import { ParticipantName } from '../../../../domain/participant/participant/participantName';
-import { Pair } from '../../../../domain/participant/pair/pair';
-import { Participant } from '../../../../domain/participant/participant/participant';
-import { PairName } from '../../../../domain/participant/pair/pairName';
+﻿import { Pair } from '../../../../domain/participant/pair/pair';
 import {
-  EnrolledStatus,
-  EnrolledStatusEnum,
-} from '../../../../domain/participant/participant/enrolledStatus';
-import {
-  dummyData1,
-  dummyData2,
   dummyId,
   dummyPairData1,
-  dummyPairData3,
   pair1,
   pair2,
   pair3,
+  pairLowerLimit,
+  pairUpperLimit,
   participant1,
   participant2,
   participant3,
@@ -48,7 +38,9 @@ describe('Pair', (): void => {
       };
       expect(() => {
         Pair.create(onlyOnePair);
-      }).toThrow();
+      }).toThrowError(
+        `ペアに所属する参加者の人数が足りません。ペアの下限は${pairLowerLimit}名です。`,
+      );
     });
 
     test('ペア所属人数が多すぎる例外が発生すること ', () => {
@@ -59,7 +51,9 @@ describe('Pair', (): void => {
       };
       expect(() => {
         Pair.create(fourPair);
-      }).toThrow();
+      }).toThrowError(
+        `ペアに所属する参加者の人数が多すぎます。ペアの上限は${pairUpperLimit}名です。`,
+      );
     });
   });
 
@@ -74,7 +68,7 @@ describe('Pair', (): void => {
       const newParticipant = actual.participants[0];
       expect(() => {
         actual.addParticipant(newParticipant);
-      }).toThrow();
+      }).toThrowError('この参加者は既にペアに所属しています。');
     });
   });
 
@@ -88,14 +82,16 @@ describe('Pair', (): void => {
     test('存在しない参加者をペアから追放できない', () => {
       expect(() => {
         pair1.removeParticipant(participant7);
-      }).toThrow();
+      }).toThrowError('この参加者は存在しません。');
     });
     test('追放すると参加者下限を下回る', () => {
       const actual = pair1;
       const removedParticipant = actual.participants[0];
       expect(() => {
         actual.removeParticipant(removedParticipant);
-      }).toThrow();
+      }).toThrowError(
+        `ペアに所属する参加者の人数が足りません。ペアの下限は${pairLowerLimit}名です。`,
+      );
     });
   });
 });

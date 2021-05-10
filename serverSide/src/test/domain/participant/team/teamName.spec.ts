@@ -1,6 +1,11 @@
 import { TeamName } from '../../../../domain/participant/Team/TeamName';
 
 describe('TeamName', (): void => {
+  test('クラスが生成できること', () => {
+    const actual = TeamName.create({ teamName: 1 });
+    expect(actual).toBeInstanceOf(TeamName);
+  });
+
   test('チームネームが取得できる', () => {
     const actual = TeamName.create({ teamName: 1 });
     const except = 1;

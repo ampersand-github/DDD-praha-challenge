@@ -73,8 +73,8 @@ export const participant7 = Participant.create(dummyData7);
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // ペア
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const pairUpperLimit = 3;
-const pairLowerLimit = 2;
+export const pairUpperLimit = 3;
+export const pairLowerLimit = 2;
 const pairA = PairName.create({ pairName: 'a' });
 const pairB = PairName.create({ pairName: 'b' });
 const pairC = PairName.create({ pairName: 'c' });
@@ -107,8 +107,8 @@ export const pair3 = Pair.create(dummyPairData3); // idはランダムで割り�
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // チーム
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const teamUpperLimit = 99;
-const teamLowerLimit = 3;
+export const teamUpperLimit = 99;
+export const teamLowerLimit = 3;
 const teamName1 = TeamName.create({ teamName: 1 });
 const teamName2 = TeamName.create({ teamName: 2 });
 const teamName3 = TeamName.create({ teamName: 3 });

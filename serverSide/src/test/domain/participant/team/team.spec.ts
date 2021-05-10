@@ -8,7 +8,7 @@ import {
   team1,
   team2,
   team3,
-  team4,
+  teamLowerLimit,
 } from '../../dummyData/dummyData';
 import { Team } from '../../../../domain/participant/team/team';
 
@@ -35,7 +35,9 @@ describe('Team', (): void => {
       };
       expect(() => {
         Team.create(data);
-      }).toThrow();
+      }).toThrowError(
+        `チームに所属する参加者の人数が足りません。チームの下限は${teamLowerLimit}名です。`,
+      );
     });
     test('参加者数が下限値(3)と同じ', () => {
       const data = {
@@ -57,7 +59,7 @@ describe('Team', (): void => {
         const addPair = team1.pairs[0];
         expect(() => {
           actual.addPair(addPair);
-        }).toThrow();
+        }).toThrowError('このペアは既にチームに存在します。');
       });
     });
 
@@ -73,7 +75,7 @@ describe('Team', (): void => {
         const actual = Team.create(dummyTeamData3);
         expect(() => {
           actual.removePair(pair1);
-        }).toThrow();
+        }).toThrowError('このペアはチームに存在しません。');
       });
     });
   });
