@@ -17,14 +17,14 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
     return new ParticipantHavingTask(props);
   }
 
-  public getStatusFromTask(task): ProgressStatus {
+  public getStatusFromTask(task: Task): ProgressStatus {
     const result = this.props.statusForEveryTask.get(task);
-    if (result === undefined) {
-      throw new Error(
-        '指定されたtaskが存在しないのでステータスを取得できません。',
-      );
+    if (result !== undefined) {
+      return result;
     }
-    return result;
+    throw new Error(
+      '指定されたtaskが存在しないのでステータスを取得できません。',
+    );
   }
 
   public changeStatus(
