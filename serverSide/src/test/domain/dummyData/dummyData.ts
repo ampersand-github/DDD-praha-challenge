@@ -174,18 +174,12 @@ export const task4 = Task.create({
   group: TaskGroup.create({ taskGroup: TaskGroupEnum.webBasic }),
 });
 
-export const complete = ProgressStatus.create({
-  progressStatus: ProgressStatusEnum.complete,
-});
-export const readyForReview = ProgressStatus.create({
-  progressStatus: ProgressStatusEnum.readyForReview,
-});
-export const notStarted = ProgressStatus.create({
-  progressStatus: ProgressStatusEnum.notStarted,
-});
+const complete = ProgressStatusEnum.complete;
+const readyForReview = ProgressStatusEnum.readyForReview;
+const notStarted = ProgressStatusEnum.notStarted;
 
 export const statusForEveryTaskData = new Map<Task, ProgressStatus>([
-  [task1, complete],
-  [task2, readyForReview],
-  [task3, notStarted],
+  [task1, ProgressStatus.create({ progressStatus: complete })],
+  [task2, ProgressStatus.create({ progressStatus: readyForReview })],
+  [task3, ProgressStatus.create({ progressStatus: notStarted })],
 ]);

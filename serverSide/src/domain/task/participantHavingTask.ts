@@ -1,7 +1,7 @@
 import { ValueObject } from '../../shared/domain/ValueObject';
 import { Task } from './task';
 
-import { ProgressStatus, ProgressStatusEnum } from './progressStatus';
+import { ProgressStatus, progressStatusType } from './progressStatus';
 
 interface ParticipantHavingTaskProps {
   statusForEveryTask: Map<Task, ProgressStatus>;
@@ -29,17 +29,16 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
 
   public changeStatus(
     task: Task,
-    status: ProgressStatus,
+    status: progressStatusType,
   ): ParticipantHavingTask {
     if (!this.props.statusForEveryTask.has(task)) {
       throw new Error('このタスクは存在しません');
     }
-    const nowStatus = this.getStatusFromTask(task).progressStatus;
-    if (nowStatus === ProgressStatusEnum.complete) {
-      throw new Error('完了ステータスになっているタスクは変更できません');
-    }
-
-    this.props.statusForEveryTask.set(task, status);
+    // Map配列に格納されているタスクの対になるステータスを取得する
+    const nowStatus: ProgressStatus = this.getStatusFromTask(task);
+    // そのステータスを引数のステータスに変更する
+    const newStatus: ProgressStatus = nowStatus.changeStatus(status);
+    this.props.statusForEveryTask.set(task, newStatus);
     return new ParticipantHavingTask(this.props);
   }
 }

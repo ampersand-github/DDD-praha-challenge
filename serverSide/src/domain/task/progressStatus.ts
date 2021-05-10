@@ -1,4 +1,3 @@
-// todo DBとのマッピングをどうするか
 import { ValueObject } from '../../shared/domain/ValueObject';
 
 export const ProgressStatusEnum = {
@@ -6,7 +5,7 @@ export const ProgressStatusEnum = {
   readyForReview: 'レビュー待ち',
   notStarted: '未着手',
 } as const;
-type progressStatusType = typeof ProgressStatusEnum[keyof typeof ProgressStatusEnum];
+export type progressStatusType = typeof ProgressStatusEnum[keyof typeof ProgressStatusEnum];
 
 export interface ProgressStatusProps {
   progressStatus: progressStatusType;
@@ -22,5 +21,13 @@ export class ProgressStatus extends ValueObject<ProgressStatusProps> {
   }
   public static create(props: ProgressStatusProps): ProgressStatus {
     return new ProgressStatus(props);
+  }
+
+  public changeStatus(updatedStatus: progressStatusType): ProgressStatus {
+    if (this.progressStatus === ProgressStatusEnum.complete) {
+      throw new Error('完了ステータスになっているタスクは変更できません');
+    }
+
+    return new ProgressStatus({ progressStatus: updatedStatus });
   }
 }
