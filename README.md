@@ -60,7 +60,7 @@ prisma migrate reset
       + [ ] 課題集約
     + [ ] テスト
       + [x] 参加者集約
-      + [ ] 課題集約
+      + [x] 課題集約
       + [x] testで`toBeInstanceOf`
       + [x] testで`toThrowError`
       + [x] utilsのテストをつくる
