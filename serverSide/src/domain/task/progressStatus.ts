@@ -13,10 +13,14 @@ export interface ProgressStatusProps {
 }
 
 export class ProgressStatus extends ValueObject<ProgressStatusProps> {
+  public get progressStatus() {
+    return this.props.progressStatus;
+  }
+
   private constructor(props: ProgressStatusProps) {
     super(props);
   }
-  static create(props: ProgressStatusProps): ProgressStatus {
+  public static create(props: ProgressStatusProps): ProgressStatus {
     return new ProgressStatus(props);
   }
 }
