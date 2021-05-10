@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { IParticipantRepository } from '../../../domain/participant/repositoryInterface/IParticipantRepository';
-import { ParticipantDTO } from '../../../usecase/participant/dto/participantDataDTO';
+import { ParticipantDTO } from '../../../usecase/participant/participant/dto/participantDataDTO';
 
 export class ParticipantRepository implements IParticipantRepository {
   private prismaClient: PrismaClient = new PrismaClient();
