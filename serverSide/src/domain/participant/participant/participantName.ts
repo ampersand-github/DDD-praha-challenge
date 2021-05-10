@@ -5,13 +5,16 @@ interface ParticipantNameProps {
 }
 
 export class ParticipantName extends ValueObject<ParticipantNameProps> {
-  public static minimumLength = 0;
+  private static minimumLength = 0;
 
+  public get participantName() {
+    return this.props.participantName;
+  }
 
   private constructor(props: ParticipantNameProps) {
     super(props);
   }
-  static create(props: ParticipantNameProps): ParticipantName {
+  public static create(props: ParticipantNameProps): ParticipantName {
     if (props.participantName.length <= this.minimumLength) {
       throw new Error('名前をフルネームで入力してください。');
     }

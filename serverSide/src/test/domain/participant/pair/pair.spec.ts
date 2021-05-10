@@ -1,126 +1,97 @@
-import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
-import { UniqueEntityID } from '../../../../shared/domain/UniqueEntityID';
-import { ParticipantName } from '../../../../domain/participant/participant/participantName';
-import { Pair } from '../../../../domain/participant/pair/pair';
-import { Participant } from '../../../../domain/participant/participant/participant';
-import { PairName } from '../../../../domain/participant/pair/pairName';
-import { EnrolledStatus } from '../../../../domain/participant/participant/enrolledStatus';
+﻿import { Pair } from '../../../../domain/participant/pair/pair';
+import {
+  dummyId,
+  dummyPairData1,
+  pair1,
+  pair2,
+  pair3,
+  pairLowerLimit,
+  pairUpperLimit,
+  participant1,
+  participant2,
+  participant3,
+  participant4,
+  participant7,
+} from '../../dummyData/dummyData';
 
 describe('Pair', (): void => {
-  const uuid1 = new UniqueEntityID('c8b93182-3993-4543-8991-0be6dc9fe8d9');
-
-  const participant1 = Participant.create({
-    participantName: ParticipantName.create({ participantName: '山田太郎' }),
-    mailAddress: MailAddress.create({ mailAddress: 'yamada@gmail.com' }),
-    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
-  });
-  const participant2 = Participant.create({
-    participantName: ParticipantName.create({ participantName: '鈴木為三' }),
-    mailAddress: MailAddress.create({ mailAddress: 'suzuki@gmail.com' }),
-    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
-  });
-  const participant3 = Participant.create({
-    participantName: ParticipantName.create({ participantName: '近衛晴彦' }),
-    mailAddress: MailAddress.create({ mailAddress: 'konoe@gmail.com' }),
-    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
-  });
-  const participant4 = Participant.create({
-    participantName: ParticipantName.create({ participantName: '田中翔太' }),
-    mailAddress: MailAddress.create({ mailAddress: 'tanaka@gmail.com' }),
-    enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
-  });
-  //
-  const upperLimit = 3;
-  const lowerLimit = 2;
-  //
-  const pairA = PairName.create({ pairName: 'a' });
-  const pairB = PairName.create({ pairName: 'b' });
-  //
-  const pairData = {
-    pairName: pairA,
-    participants: [participant1, participant2],
-    upperLimit: upperLimit,
-    lowerLimit: lowerLimit,
-  };
-
-  test('idを引数で指定して作成されたpairのidとその値(pairId)が取得できること', () => {
-    const actual = Pair.create(pairData, uuid1);
-    expect(actual.id).toStrictEqual(uuid1);
+  test('idを指定してクラスを作成し、そのクラスのidを取得できること(pair)', () => {
+    expect(pair1.id).toBe(dummyId);
   });
 
-  test('pairIdで等価比較ができること', () => {
-    const pair2 = {
-      ...pairData,
-      participants: [participant1, participant2, participant3],
-    };
-    const _pair1 = Pair.create(pairData, uuid1);
-    const _pair2 = Pair.create(pair2, uuid1);
-    expect(_pair1.equals(_pair2)).toStrictEqual(true);
+  describe('equals', () => {
+    test('等価比較ができること', () => {
+      expect(pair1.equals(pair2)).toBe(true);
+    });
+
+    test('異なるidによる等価比較で等価と判定されないこと', () => {
+      expect(pair1.equals(pair3)).toBe(false);
+    });
   });
 
   describe('コンストラクタ', () => {
     test('ペア所属人数が足りないので例外が発生すること', () => {
       // 1人しか参加者がいない
-      const pair1_bad = {
-        pairName: pairA,
+      const onlyOnePair = {
+        ...dummyPairData1,
         participants: [participant1],
-        upperLimit: upperLimit,
-        lowerLimit: lowerLimit,
       };
-
       expect(() => {
-        Pair.create(pair1_bad);
-      }).toThrow();
+        Pair.create(onlyOnePair);
+      }).toThrowError(
+        `ペアに所属する参加者の人数が足りません。ペアの下限は${pairLowerLimit}名です。`,
+      );
     });
+
     test('ペア所属人数が多すぎる例外が発生すること ', () => {
-      // 4人も参加者がいる
-      const pair2_bad = {
-        pairName: pairB,
+      // 4人も参加者がいる]
+      const fourPair = {
+        ...dummyPairData1,
         participants: [participant1, participant2, participant3, participant4],
-        upperLimit: upperLimit,
-        lowerLimit: lowerLimit,
       };
       expect(() => {
-        Pair.create(pair2_bad);
-      }).toThrow();
+        Pair.create(fourPair);
+      }).toThrowError(
+        `ペアに所属する参加者の人数が多すぎます。ペアの上限は${pairUpperLimit}名です。`,
+      );
     });
   });
 
-
-  describe('canAdd', () => {
+  describe('addParticipant', () => {
     test('参加者を追加できる', () => {
-      const pair = Pair.create(pairData);
-      const actual = pair.addParticipant(participant3);
-      expect(actual.props.participants.length).toBe(3);
-
+      const actual = pair1;
+      actual.addParticipant(participant3);
+      expect(actual.participantCount()).toBe(3);
     });
-    test('ペアに既に存在する参加者を参加させると二重参加になり失敗する', () => {
-      const pair = Pair.create(pairData);
+    test('ペアに既に存在する参加者を参加させると二重参加になるので失敗する', () => {
+      const actual = pair1;
+      const newParticipant = actual.participants[0];
       expect(() => {
-        pair.addParticipant(participant1);
-      }).toThrow();
+        actual.addParticipant(newParticipant);
+      }).toThrowError('この参加者は既にペアに所属しています。');
     });
   });
 
-  describe('canRemove', () => {
-    test('参加者をペアから追放する', () => {
-      const pair = Pair.create({
-        ...pairData,
-        participants: [participant1, participant2, participant3],
-      });
-      const actual = pair.removeParticipant(participant1);
-      expect(actual.props.participants.length).toBe(2);
-
+  describe('removeParticipant', () => {
+    test('参加者をペアから追放できる', () => {
+      const actual = pair3;
+      const removedParticipant = actual.participants[0];
+      actual.removeParticipant(removedParticipant);
+      expect(actual.participantCount()).toBe(2);
     });
     test('存在しない参加者をペアから追放できない', () => {
-      const pair = Pair.create({
-        ...pairData,
-        participants: [participant1, participant2, participant3],
-      });
-
       expect(() => {
-        pair.removeParticipant(participant4);
-      }).toThrow();
+        pair1.removeParticipant(participant7);
+      }).toThrowError('この参加者は存在しません。');
+    });
+    test('追放すると参加者下限を下回る', () => {
+      const actual = pair1;
+      const removedParticipant = actual.participants[0];
+      expect(() => {
+        actual.removeParticipant(removedParticipant);
+      }).toThrowError(
+        `ペアに所属する参加者の人数が足りません。ペアの下限は${pairLowerLimit}名です。`,
+      );
     });
   });
 });

@@ -11,66 +11,82 @@ interface PairProps {
 }
 
 export class Pair extends Entity<PairProps> {
-  get id(): UniqueEntityID {
-    return this._id;
+  public get participants() {
+    return this.props.participants;
+  }
+  private static validation_lowerLimit(
+    participantsCount: number,
+    lowerLimit: PairProps['lowerLimit'],
+  ): void {
+    if (participantsCount < lowerLimit) {
+      throw new Error(
+        `ペアに所属する参加者の人数が足りません。ペアの下限は${lowerLimit}名です。`,
+      );
+    }
   }
 
+  private static validation_upperLimit(
+    participantsCount: number,
+    upperLimit: PairProps['upperLimit'],
+  ): void {
+    if (participantsCount > upperLimit) {
+      throw new Error(
+        `ペアに所属する参加者の人数が多すぎます。ペアの上限は${upperLimit}名です。`,
+      );
+    }
+  }
+
+  private static validation_participantExist(
+    baseParticipants: PairProps['participants'],
+    participant: Participant,
+  ): void {
+    const _result = baseParticipants.find((one) => one.equals(participant));
+    if (_result) {
+      throw new Error('この参加者は既にペアに所属しています。');
+    }
+  }
+
+  private static validation_participantNotExist(
+    baseParticipants: PairProps['participants'],
+    participant: Participant,
+  ): void {
+    const _result = baseParticipants.find((one) => one.equals(participant));
+    if (!_result) {
+      throw new Error('この参加者は存在しません。');
+    }
+  }
 
   private constructor(props: PairProps, id?: UniqueEntityID) {
     super(props, id);
   }
-  static create(props: PairProps, id?: UniqueEntityID): Pair {
 
-    if (props.participants.length < props.lowerLimit) {
-      throw new Error(
-        `ペアに所属する参加者の人数が足りません。ペアの下限は${props.lowerLimit}名です。`,
-      );
-    }
-
-    if (props.participants.length > props.upperLimit) {
-      throw new Error(
-        `ペアに所属する参加者の人数が多すぎます。ペアの上限は${props.upperLimit}名です。`,
-      );
-    }
+  public static create(props: PairProps, id?: UniqueEntityID): Pair {
+    Pair.validation_lowerLimit(props.participants.length, props.lowerLimit);
+    Pair.validation_upperLimit(props.participants.length, props.upperLimit);
     return new Pair(props, id);
   }
 
-
-  private participantExist(participant: Participant): boolean {
-    const _result = this.props.participants.find(
-      (one) => one.id === participant.id,
+  public addParticipant(participant: Participant): void {
+    Pair.validation_participantExist(this.props.participants, participant);
+    this.props.participants.push(participant);
+    Pair.validation_upperLimit(
+      this.props.participants.length,
+      this.props.upperLimit,
     );
-    return _result !== undefined;
   }
 
-  addParticipant(participant: Participant): Pair {
-    if (this.participantExist(participant)) {
-      throw new Error('追加しようとした参加者は既にペアに所属しています。');
-    }
-    const data = {
-      ...this.props,
-      participants: [...this.props.participants, participant],
-    };
-
-    return Pair.create(data,this._id);
+  public removeParticipant(participant: Participant): void {
+    Pair.validation_participantNotExist(this.props.participants, participant);
+    this.props.participants = this.props.participants.filter(
+      (one) => !one.equals(participant),
+    );
+    Pair.validation_lowerLimit(
+      this.props.participants.length,
+      this.props.lowerLimit,
+    );
   }
-  removeParticipant(participant: Participant): Pair {
-    if (!this.participantExist(participant)) {
 
-      throw new Error('ペアから追放したい参加者が存在しません。');
-    }
-
-    // ペアから削除する
-    for (let i = 0; i < this.props.participants.length; i++) {
-      if (this.props.participants[i] === participant) {
-        this.props.participants.splice(i, 1);
-      }
-    }
-
-    const data = {
-      ...this.props,
-      participants: [...this.props.participants],
-    };
-    return Pair.create(data, this._id);
+  public participantCount(): number {
+    return this.props.participants.length;
   }
 }

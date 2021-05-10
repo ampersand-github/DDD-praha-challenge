@@ -5,11 +5,14 @@ interface TeamNameProps {
 }
 
 export class TeamName extends ValueObject<TeamNameProps> {
+  public get teamName() {
+    return this.props.teamName;
+  }
+
   private constructor(props: TeamNameProps) {
     super(props);
   }
-  static create(props: TeamNameProps): TeamName {
-    // チームの重複チェックはTeamでやる
+  public static create(props: TeamNameProps): TeamName {
     return new TeamName(props);
   }
 }

@@ -1,7 +1,6 @@
 import { ValueObject } from '../../../shared/domain/ValueObject';
 
 // todo DBとのマッピングをどうするか
-
 export const EnrolledStatusEnum = {
   enrolled: '在籍中',
   recess: '休会中',
@@ -15,10 +14,14 @@ export interface EnrolledStatusProps {
 }
 
 export class EnrolledStatus extends ValueObject<EnrolledStatusProps> {
+  public get enrolledStatus() {
+    return this.props.enrolledStatus;
+  }
+
   private constructor(props: EnrolledStatusProps) {
     super(props);
   }
-  static create(props: EnrolledStatusProps): EnrolledStatus {
+  public static create(props: EnrolledStatusProps): EnrolledStatus {
     return new EnrolledStatus(props);
   }
 }
