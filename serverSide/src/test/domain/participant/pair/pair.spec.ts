@@ -12,7 +12,7 @@ import {
   participant3,
   participant4,
   participant7,
-} from '../../dummyData/dummyData';
+} from '../../dummyData/participantDummyData';
 
 describe('Pair', (): void => {
   test('idを指定してクラスを作成し、そのクラスのidを取得できること(pair)', () => {

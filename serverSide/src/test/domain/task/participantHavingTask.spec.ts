@@ -4,7 +4,7 @@ import {
   task1,
   task3,
   task4,
-} from '../dummyData/dummyData';
+} from '../dummyData/taskDummyData';
 import { ProgressStatusEnum } from '../../../domain/task/progressStatus';
 
 describe('ParticipantHavingTask', () => {
