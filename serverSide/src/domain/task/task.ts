@@ -9,8 +9,18 @@ interface TaskProps {
 }
 
 export class Task extends ValueObject<TaskProps> {
+  public get no() {
+    return this.props.no;
+  }
   public get name() {
     return this.props.name;
+  }
+  public get description() {
+    return this.props.description;
+  }
+
+  public get group() {
+    return this.props.group.taskGroup;
   }
   private constructor(props: TaskProps) {
     super(props);
