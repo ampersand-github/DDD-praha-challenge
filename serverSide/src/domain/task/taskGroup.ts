@@ -6,13 +6,17 @@ export const TaskGroupEnum = {
   db: 'DB',
   design: '設計',
 } as const;
-type taskGroupType = typeof TaskGroupEnum[keyof typeof TaskGroupEnum];
+export type taskGroupType = typeof TaskGroupEnum[keyof typeof TaskGroupEnum];
 
 export interface TaskGroupProps {
   taskGroup: taskGroupType;
 }
 
 export class TaskGroup extends ValueObject<TaskGroupProps> {
+  public get taskGroup() {
+    return this.props.taskGroup;
+  }
+
   private constructor(props: TaskGroupProps) {
     super(props);
   }

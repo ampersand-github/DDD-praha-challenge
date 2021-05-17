@@ -25,5 +25,24 @@ export const taskProgressDataSource = (participantHavingTaskData) => {
         participantHavingTaskData[3].participantHavingTaskId,
       progressStatus: '未着手',
     },
+
+    {
+      taskProgressId: uuid(),
+      participantHavingTaskId:
+        participantHavingTaskData[4].participantHavingTaskId,
+      progressStatus: '完了',
+    },
+    {
+      taskProgressId: uuid(),
+      participantHavingTaskId:
+        participantHavingTaskData[5].participantHavingTaskId,
+      progressStatus: '未着手',
+    },
+    {
+      taskProgressId: uuid(),
+      participantHavingTaskId:
+        participantHavingTaskData[6].participantHavingTaskId,
+      progressStatus: '未着手',
+    },
   ];
 };
