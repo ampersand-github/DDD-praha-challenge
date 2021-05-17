@@ -42,8 +42,6 @@ export class PracticeController {
   async insert(@Body('text') text: string): Promise<Practice> {
     const repo = new PracticeRepository();
     const usecase = new insertUseCase(repo);
-    // todo 疑問 例外処理やログについて
-    //throw new HttpException('aaa',HttpStatus.BAD_REQUEST)
     return await usecase.do(text);
   }
 
