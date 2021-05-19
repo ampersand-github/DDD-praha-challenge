@@ -5,7 +5,8 @@ import { GetAllParticipantUsecase } from '../usecase/participant/participant/get
 @Controller('participant')
 export class ParticipantController {
   // curl -X GET http://localhost:3000/participant
-  @Get() async getAll() {
+  @Get()
+  public async getAll() {
     const repo = new ParticipantRepository();
     const usecase = new GetAllParticipantUsecase(repo);
     return await usecase.do();
