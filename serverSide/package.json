@@ -18,8 +18,9 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:perfect": "jest --watchAll --coverage --verbose",
     "test:e2e": "jest --config src/test/jest-e2e.json",
-    "db:reset": " echo y | prisma migrate reset "
+    "db:reset": " echo y | prisma migrate reset"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.15",
@@ -74,7 +75,9 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.(t|j)s",
+      "!<rootDir>/*.{ts,tsx}",
+      "!<rootDir>/controller/*.{ts,tsx}"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
