@@ -22,6 +22,13 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     "@typescript-eslint/explicit-member-accessibility": ["error", {
       "accessibility": "explicit"
-    }]
+    }],
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "class",
+        "format": ["PascalCase"],
+      }
+    ]
   },
 };
