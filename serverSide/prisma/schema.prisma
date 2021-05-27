@@ -8,15 +8,6 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
-  previewFeatures = ["nativeTypes"]
-}
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// -- 練習用データ
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-model Practice {
-  id    Int @id @default(autoincrement())
-  text  String
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -67,7 +58,6 @@ model Participant {
 }
 
 model EnrolledParticipant {
-// todo 疑問 prismaは複合主キーが使えない？
     enrolledParticipantId String @id
     participant Participant @relation(fields: [participantId], references: [participantId])
     participantId String

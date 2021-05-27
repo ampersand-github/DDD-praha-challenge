@@ -14,13 +14,15 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test,prisma}/**/*.ts\" --fix",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:perfect": "jest --watchAll --coverage --verbose",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watch --runInBand",
+    "test:cov": "jest --coverage --runInBand",
+    "test:debug":"jest --verbose --runInBand",
     "test:e2e": "jest --config src/test/jest-e2e.json",
-    "db:reset": " echo y | prisma migrate reset"
+    "db:migration:model": "prisma migrate dev",
+    "db:migration:seed": "prisma db seed",
+    "db:reset:withData": "echo y | prisma migrate reset",
+    "db:reset:withoutData": "echo y | prisma migrate reset --skip-seed"
   },
   "dependencies": {
     "@nestjs/common": "^7.6.15",
@@ -75,9 +77,10 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s",
-      "!<rootDir>/*.{ts,tsx}",
-      "!<rootDir>/controller/*.{ts,tsx}"
+      "<rootDir>/domain/**/*.(t|j)s",
+      "<rootDir>/usecase/**/*.(t|j)s",
+      "<rootDir>/infra/**/*.(t|j)s"
+
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
