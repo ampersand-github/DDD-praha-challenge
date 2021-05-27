@@ -1,33 +1,22 @@
 # READ ME
 DDD
 
-## アプリケーションの始め方
+## Docker
 ```zsh
 cd db
 docker-compose up -d
-
-cd ../
-cd serverSide
-npm run start:debug
-open http://localhost:3000/
 ```
 
+## Nest.js
+`npm run start:debug`
 
-## Prismaのマイグレーション
-### モデルのマイグレーション
-`schema.prisma`にmodel追加
-```zsh
-cd ../
-cd serverSide
-prisma migrate dev --preview-feature
-```
-### シード値のマイグレーション
-```zsh
-cd serverSide
-prisma db seed --preview-feature
-// or 
-prisma migrate reset
-```
+## Prisma
+##### モデルのマイグレーション
+`schema.prisma`を修正後、以下を実施  
+`npm run db:migration:model`
+
+##### シード値のマイグレーション
+`npm run db:migration:seed`
 
 
 ## 今後の方針
@@ -73,7 +62,6 @@ prisma migrate reset
       + [ ] 課題集約
   + [ ] リポジトリ層
     + [ ] 実装
-      + [ ] ドメイン層の抽象クラス
       + [ ] 参加者集約
       + [ ] 課題集約
     + [ ] テスト
@@ -85,3 +73,12 @@ prisma migrate reset
 
 + [ ] その他
   + [ ] テスト環境切り替えシステム
+  + [x] タスクの集約ルート化
+  + [ ] ドメインの集約
+  + [x] リポジトリ調整
+  + [ ] モデル図修正
+  + [x] sharedのディレクトリ構成再考
+  + [ ] `Jest did not exit one second after the test run has completed.`
+  + [x] リポジトリテスト微調整
+  + [ ] jest でerror起こす
+  + [ ] 集約に合わせたディレクトリ設計
