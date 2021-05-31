@@ -1,5 +1,6 @@
-import { ValueObject } from '../../shared/domain/ValueObject';
 import { TaskGroup } from './taskGroup';
+import { UniqueEntityID } from '../../shared/domain/UniqueEntityID';
+import { Entity } from '../../shared/domain/Entity';
 
 interface TaskProps {
   no: number;
@@ -8,7 +9,7 @@ interface TaskProps {
   group: TaskGroup;
 }
 
-export class Task extends ValueObject<TaskProps> {
+export class Task extends Entity<TaskProps> {
   public get no() {
     return this.props.no;
   }
@@ -18,14 +19,22 @@ export class Task extends ValueObject<TaskProps> {
   public get description() {
     return this.props.description;
   }
-
   public get group() {
     return this.props.group.taskGroup;
   }
-  private constructor(props: TaskProps) {
-    super(props);
+  private constructor(props: TaskProps, id?: UniqueEntityID) {
+    super(props, id);
   }
-  public static create(props: TaskProps): Task {
-    return new Task(props);
+  public static create(props: TaskProps, id?: UniqueEntityID): Task {
+    return new Task(props, id);
+  }
+  public changeName(name: string) {
+    this.props.name = name;
+    return this;
+  }
+
+  public changeNo(no: number) {
+    this.props.no = no;
+    return this;
   }
 }
