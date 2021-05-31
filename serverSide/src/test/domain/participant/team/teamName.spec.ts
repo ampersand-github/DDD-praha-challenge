@@ -1,4 +1,4 @@
-import { TeamName } from '../../../../domain/participant/Team/TeamName';
+import { TeamName } from '../../../../domain/participant/team/teamName';
 
 describe('TeamName', (): void => {
   test('クラスが生成できること', () => {

@@ -9,7 +9,7 @@ import {
   team2,
   team3,
   teamLowerLimit,
-} from '../../dummyData/participantDummyData';
+} from '../../../../test-dummy/domain/participantDummyData';
 import { Team } from '../../../../domain/participant/team/team';
 
 describe('Team', (): void => {
