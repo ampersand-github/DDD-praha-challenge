@@ -1,4 +1,4 @@
-import { ParticipantDTO } from '../../../usecase/participant/participant/dto/participantDataDTO';
+import { ParticipantDTO } from '../../dto/usecase/participant/participant/participantDataDTO';
 
 export interface IParticipantRepository {
   getAllParticipant(): Promise<ParticipantDTO[]>;

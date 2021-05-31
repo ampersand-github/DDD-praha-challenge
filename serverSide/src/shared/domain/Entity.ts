@@ -1,9 +1,5 @@
 import { UniqueEntityID } from './UniqueEntityID';
 
-const isEntity = (v: any): v is Entity<any> => {
-  return v instanceof Entity;
-};
-
 export abstract class Entity<T> {
   private readonly _id: UniqueEntityID;
   // 型をprotectedにして、継承先クラスからしかアクセスできないようにする。
@@ -26,10 +22,6 @@ export abstract class Entity<T> {
 
     if (this === object) {
       return true;
-    }
-
-    if (!isEntity(object)) {
-      return false;
     }
     return this._id.equals(object._id);
   }

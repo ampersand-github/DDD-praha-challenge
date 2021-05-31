@@ -1,5 +1,5 @@
 import { ValueObject } from '../../shared/domain/ValueObject';
-import { Task } from './task';
+import { Task } from '../task/task';
 
 import { ProgressStatus, progressStatusType } from './progressStatus';
 
