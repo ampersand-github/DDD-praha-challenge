@@ -1,21 +1,21 @@
-import { Participant } from '../../../domain/participant/participant/participant';
-import { ParticipantName } from '../../../domain/participant/participant/participantName';
-import { MailAddress } from '../../../domain/participant/participant/mailAddress';
+import { Participant } from '../../domain/participant/participant/participant';
+import { ParticipantName } from '../../domain/participant/participant/participantName';
+import { MailAddress } from '../../domain/participant/participant/mailAddress';
 import {
   EnrolledStatus,
   EnrolledStatusEnum,
-} from '../../../domain/participant/participant/enrolledStatus';
-import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
-import { PairName } from '../../../domain/participant/pair/pairName';
-import { Pair } from '../../../domain/participant/pair/pair';
-import { TeamName } from '../../../domain/participant/team/teamName';
-import { Team } from '../../../domain/participant/team/team';
+} from '../../domain/participant/participant/enrolledStatus';
+import { UniqueEntityID } from '../../shared/domain/UniqueEntityID';
+import { PairName } from '../../domain/participant/pair/pairName';
+import { Pair } from '../../domain/participant/pair/pair';
+import { TeamName } from '../../domain/participant/team/teamName';
+import { Team } from '../../domain/participant/team/team';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 共通
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 export const dummyId = new UniqueEntityID(
-  '99999999-9999-9999-9999-99999999999s',
+  '99999999-9999-9999-aaaa-999999999999',
 );
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 参加者
