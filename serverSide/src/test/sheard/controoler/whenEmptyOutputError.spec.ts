@@ -1,4 +1,4 @@
-import { whenEmptyOutputError } from '../../shared/controller/whenEmptyOutputError';
+import { whenEmptyOutputError } from '../../../shared/controller/whenEmptyOutputError';
 describe('whenEmptyOutputError', (): void => {
   test('文字列を渡すのでエラーがでない', () => {
     whenEmptyOutputError('aaa');
