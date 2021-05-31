@@ -27,10 +27,10 @@ export class Participant extends Entity<ParticipantProps> {
   }
   // todo 必須じゃないので余裕のある時に作る
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public changeParticipantName(): void {}
+  // public changeParticipantName(): void {}
   // todo 必須じゃないので余裕のある時に作る
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  public changeMailAddress(): void {}
+  // public changeMailAddress(): void {}
   // todo ステータス変更の色々を作り込む
   public changeEnrolledStatus(status): void {
     this.props.enrolledStatus = status;

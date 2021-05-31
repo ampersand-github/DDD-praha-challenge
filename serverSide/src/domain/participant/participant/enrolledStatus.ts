@@ -1,6 +1,5 @@
 import { ValueObject } from '../../../shared/domain/ValueObject';
 
-// todo DBとのマッピングをどうするか
 export const EnrolledStatusEnum = {
   enrolled: '在籍中',
   recess: '休会中',
