@@ -1,11 +1,11 @@
-import { ParticipantHavingTask } from '../../../domain/task/participantHavingTask';
+import { ParticipantHavingTask } from '../../../domain/participantHavingTask/participantHavingTask';
 import {
   statusForEveryTaskData,
   task1,
   task3,
   task4,
-} from '../dummyData/taskDummyData';
-import { ProgressStatusEnum } from '../../../domain/task/progressStatus';
+} from '../../../test-dummy/domain/taskDummyData';
+import { ProgressStatusEnum } from '../../../domain/participantHavingTask/progressStatus';
 
 describe('ParticipantHavingTask', () => {
   test('オブジェクトが生成できること', () => {
