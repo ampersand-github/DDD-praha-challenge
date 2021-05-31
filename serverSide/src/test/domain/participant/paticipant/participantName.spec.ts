@@ -19,4 +19,12 @@ describe('ParticipantName', (): void => {
       ParticipantName.create(badName);
     }).toThrowError('名前をフルネームで入力してください。');
   });
+
+  test('toEqual', () => {
+    const goodName = { participantName: 'A' };
+    const goodName2 = { participantName: 'A' };
+    const actual = ParticipantName.create(goodName);
+    const actual2 = ParticipantName.create(goodName2);
+    expect(actual.equals(actual2)).toBe(true);
+  });
 });

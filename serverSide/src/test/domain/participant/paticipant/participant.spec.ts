@@ -6,7 +6,7 @@ import {
   participant1,
   participant2,
   participant3,
-} from '../../dummyData/participantDummyData';
+} from '../../../../test-dummy/domain/participantDummyData';
 
 describe('Participant', (): void => {
   test('idを指定してクラスを作成し、そのクラスのidを取得できること(participant)', () => {
@@ -20,6 +20,9 @@ describe('Participant', (): void => {
 
     test('異なるidによる等価比較で等価と判定されないこと', () => {
       expect(participant1.equals(participant3)).toBe(false);
+    });
+    test('null', () => {
+      expect(participant1.equals()).toBe(false);
     });
   });
   test('ステータス変更ができること', () => {
