@@ -42,9 +42,7 @@ describe('FindOneTaskUsecase', (): void => {
         .mockResolvedValueOnce(expected);
 
       // 結果確認
-      await expect(async () => {
-        await usecase.do(data);
-      }).rejects.toThrowError(expected);
+      await expect(usecase.do(data)).rejects.toThrowError(expected);
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
