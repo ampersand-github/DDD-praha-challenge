@@ -12,7 +12,7 @@ export class DeleteTaskUsecase {
     this.repo = repository;
   }
 
-  public async do(props: DeleteTaskUsecaseProps): Promise<number | Error> {
+  public async do(props: DeleteTaskUsecaseProps): Promise<number> {
     const id = new UniqueEntityID(props.id);
     // todo ドメインサービス化する 同時にユーザー保有課題を削除する
     const result = await this.repo.delete(id);
