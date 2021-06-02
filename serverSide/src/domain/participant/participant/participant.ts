@@ -1,13 +1,13 @@
-import { ParticipantName } from './participantName';
-import { MailAddress } from './mailAddress';
 import { Entity } from '../../../shared/domain/Entity';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { EnrolledStatus } from './enrolledStatus';
+import { ParticipantHavingTask } from '../participantHavingTask/participantHavingTask';
+import { PersonalInfo } from '../personalInfo/personalInfo';
 
 export interface ParticipantProps {
-  participantName: ParticipantName;
-  mailAddress: MailAddress;
+  personalInfo: PersonalInfo;
   enrolledStatus: EnrolledStatus;
+  participantHavingTask: ParticipantHavingTask;
 }
 
 export class Participant extends Entity<ParticipantProps> {
