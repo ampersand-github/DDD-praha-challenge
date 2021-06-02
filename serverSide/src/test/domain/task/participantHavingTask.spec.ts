@@ -4,8 +4,8 @@ import {
   task3,
   task4,
 } from '../dummyData/taskDummyData';
-import { ParticipantHavingTask } from '../../../domain/participant/participantHavingTask/participantHavingTask';
-import { ProgressStatusEnum } from '../../../domain/participant/participantHavingTask/progressStatus';
+import { ParticipantHavingTask } from '../../../domain/participant/participant/participantHavingTask';
+import { ProgressStatusEnum } from '../../../domain/participant/participant/progressStatus';
 
 describe('ParticipantHavingTask', () => {
   test('オブジェクトが生成できること', () => {

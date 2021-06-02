@@ -3,9 +3,9 @@ import { TaskGroup, TaskGroupEnum } from '../../../domain/task/taskGroup';
 import {
   ProgressStatus,
   ProgressStatusEnum,
-} from '../../../domain/participant/participantHavingTask/progressStatus';
+} from '../../../domain/participant/participant/progressStatus';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
-import { ParticipantHavingTask } from '../../../domain/participant/participantHavingTask/participantHavingTask';
+import { ParticipantHavingTask } from '../../../domain/participant/participant/participantHavingTask';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 課題

@@ -1,8 +1,8 @@
 import { Entity } from '../../../shared/domain/Entity';
 import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { EnrolledStatus } from './enrolledStatus';
-import { ParticipantHavingTask } from '../participantHavingTask/participantHavingTask';
-import { PersonalInfo } from '../personalInfo/personalInfo';
+import { ParticipantHavingTask } from './participantHavingTask';
+import { PersonalInfo } from './personalInfo';
 
 export interface ParticipantProps {
   personalInfo: PersonalInfo;

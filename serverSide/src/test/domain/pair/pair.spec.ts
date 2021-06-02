@@ -1,4 +1,4 @@
-﻿import { Pair } from '../../../../domain/participant/pair/pair';
+﻿import { Pair } from '../../../domain/participant/pair/pair';
 import {
   dummyId,
   dummyPairData1,
@@ -12,7 +12,7 @@ import {
   participant3,
   participant4,
   participant7,
-} from '../../dummyData/participantDummyData';
+} from '../dummyData/participantDummyData';
 
 describe('Pair', (): void => {
   test('idを指定してクラスを作成し、そのクラスのidを取得できること(pair)', () => {

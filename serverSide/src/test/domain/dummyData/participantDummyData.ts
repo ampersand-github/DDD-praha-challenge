@@ -1,6 +1,6 @@
 import { Participant } from '../../../domain/participant/participant/participant';
-import { ParticipantName } from '../../../domain/participant/personalInfo/participantName';
-import { MailAddress } from '../../../domain/participant/personalInfo/mailAddress';
+import { ParticipantName } from '../../../domain/participant/participant/participantName';
+import { MailAddress } from '../../../domain/participant/participant/mailAddress';
 import {
   EnrolledStatus,
   EnrolledStatusEnum,
@@ -11,7 +11,7 @@ import { Pair } from '../../../domain/participant/pair/pair';
 import { TeamName } from '../../../domain/participant/team/teamName';
 import { Team } from '../../../domain/participant/team/team';
 import { participantHavingTask1 } from './taskDummyData';
-import { PersonalInfo } from '../../../domain/participant/personalInfo/personalInfo';
+import { PersonalInfo } from '../../../domain/participant/participant/personalInfo';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 共通

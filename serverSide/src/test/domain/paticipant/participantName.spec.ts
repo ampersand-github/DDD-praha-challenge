@@ -1,4 +1,4 @@
-import { ParticipantName } from '../../../../domain/participant/personalInfo/participantName';
+import { ParticipantName } from '../../../domain/participant/participant/participantName';
 
 describe('ParticipantName', (): void => {
   test('クラスが生成できること', () => {

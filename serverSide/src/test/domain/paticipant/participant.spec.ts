@@ -1,11 +1,11 @@
-import { Participant } from '../../../../domain/participant/participant/participant';
-import { EnrolledStatusEnum } from '../../../../domain/participant/participant/enrolledStatus';
+import { Participant } from '../../../domain/participant/participant/participant';
+import { EnrolledStatusEnum } from '../../../domain/participant/participant/enrolledStatus';
 import {
   dummyId,
   participant1,
   participant2,
   participant3,
-} from '../../dummyData/participantDummyData';
+} from '../dummyData/participantDummyData';
 
 describe('Participant', (): void => {
   test('idを指定してクラスを作成し、そのクラスのidを取得できること(participant)', () => {

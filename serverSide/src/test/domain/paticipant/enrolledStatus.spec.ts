@@ -1,7 +1,7 @@
 import {
   EnrolledStatus,
   EnrolledStatusEnum,
-} from '../../../../domain/participant/participant/enrolledStatus';
+} from '../../../domain/participant/participant/enrolledStatus';
 
 describe('EnrolledStatus', (): void => {
   const active = { enrolledStatus: EnrolledStatusEnum.enrolled };

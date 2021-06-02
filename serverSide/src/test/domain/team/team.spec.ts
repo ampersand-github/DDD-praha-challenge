@@ -9,8 +9,8 @@ import {
   team2,
   team3,
   teamLowerLimit,
-} from '../../dummyData/participantDummyData';
-import { Team } from '../../../../domain/participant/team/team';
+} from '../dummyData/participantDummyData';
+import { Team } from '../../../domain/participant/team/team';
 
 describe('Team', (): void => {
   test('idを指定してクラスを作成し、そのクラスのidを取得できること(team)', () => {
