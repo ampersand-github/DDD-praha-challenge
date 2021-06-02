@@ -1,6 +1,6 @@
 import { Participant } from '../../../domain/participant/participant/participant';
-import { ParticipantName } from '../../../domain/participant/participant/participantName';
-import { MailAddress } from '../../../domain/participant/participant/mailAddress';
+import { ParticipantName } from '../../../domain/participant/personalInfo/participantName';
+import { MailAddress } from '../../../domain/participant/personalInfo/mailAddress';
 import {
   EnrolledStatus,
   EnrolledStatusEnum,
@@ -10,6 +10,8 @@ import { PairName } from '../../../domain/participant/pair/pairName';
 import { Pair } from '../../../domain/participant/pair/pair';
 import { TeamName } from '../../../domain/participant/team/teamName';
 import { Team } from '../../../domain/participant/team/team';
+import { participantHavingTask1 } from './taskDummyData';
+import { PersonalInfo } from '../../../domain/participant/personalInfo/personalInfo';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 共通
@@ -18,49 +20,82 @@ export const dummyId = new UniqueEntityID(
   '99999999-9999-9999-9999-99999999999s',
 );
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// 参加者
+// 個人情報
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-export const enrolled = EnrolledStatusEnum.enrolled;
-
-export const dummyData1 = {
+const personalIfo1 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '山田太郎' }),
   mailAddress: MailAddress.create({ mailAddress: 'yamada@gmail.com' }),
-  enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
-};
-
-export const dummyData2 = {
+});
+const personalIfo2 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '鈴木為三' }),
   mailAddress: MailAddress.create({ mailAddress: 'suzuki@gmail.com' }),
-  enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
-};
-
-export const dummyData3 = {
+});
+const personalIfo3 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '近衛晴彦' }),
   mailAddress: MailAddress.create({ mailAddress: 'konoe@gmail.com' }),
-  enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
-};
-
-export const dummyData4 = {
+});
+const personalIfo4 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '田中翔太' }),
   mailAddress: MailAddress.create({ mailAddress: 'tanaka@gmail.com' }),
-  enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
-};
-
-export const dummyData5 = {
+});
+const personalIfo5 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '坂本真彦' }),
   mailAddress: MailAddress.create({ mailAddress: 'sakamoto@gmail.com' }),
-  enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
-};
-export const dummyData6 = {
+});
+const personalIfo6 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '山本一太' }),
   mailAddress: MailAddress.create({ mailAddress: 'yamamoto@gmail.com' }),
-  enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
-};
-export const dummyData7 = {
+});
+const personalIfo7 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '小野寺雅士' }),
   mailAddress: MailAddress.create({ mailAddress: 'onodera@gmail.com' }),
+});
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// 参加者
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+export const enrolled = EnrolledStatusEnum.enrolled;
+
+const dummyData1 = {
+  personalInfo: personalIfo1,
+  enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
+  participantHavingTask: participantHavingTask1,
+};
+
+const dummyData2 = {
+  personalInfo: personalIfo2,
+  enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
+  participantHavingTask: participantHavingTask1,
+};
+
+const dummyData3 = {
+  personalInfo: personalIfo3,
+  enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
+  participantHavingTask: participantHavingTask1,
+};
+
+const dummyData4 = {
+  personalInfo: personalIfo4,
+  enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
+  participantHavingTask: participantHavingTask1,
+};
+
+const dummyData5 = {
+  personalInfo: personalIfo5,
+
   enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
+  participantHavingTask: participantHavingTask1,
+};
+const dummyData6 = {
+  personalInfo: personalIfo6,
+
+  enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
+  participantHavingTask: participantHavingTask1,
+};
+const dummyData7 = {
+  personalInfo: personalIfo7,
+
+  enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
+  participantHavingTask: participantHavingTask1,
 };
 
 export const participant1 = Participant.create(dummyData1, dummyId);
@@ -70,6 +105,7 @@ export const participant4 = Participant.create(dummyData4);
 export const participant5 = Participant.create(dummyData5);
 export const participant6 = Participant.create(dummyData6);
 export const participant7 = Participant.create(dummyData7);
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // ペア
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
