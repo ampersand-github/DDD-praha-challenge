@@ -1,7 +1,6 @@
 import { Participant } from '../../../../domain/participant/participant/participant';
 import { EnrolledStatusEnum } from '../../../../domain/participant/participant/enrolledStatus';
 import {
-  dummyData1,
   dummyId,
   participant1,
   participant2,
@@ -23,7 +22,7 @@ describe('Participant', (): void => {
     });
   });
   test('ステータス変更ができること', () => {
-    const actual = Participant.create(dummyData1);
+    const actual = participant1;
     const expected = EnrolledStatusEnum.recess;
     actual.changeEnrolledStatus(expected);
     expect(actual.enrolledStatus).toBe(expected);

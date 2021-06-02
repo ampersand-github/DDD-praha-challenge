@@ -1,4 +1,4 @@
-import { MailAddress } from '../../../../domain/participant/participant/mailAddress';
+import { MailAddress } from '../../../../domain/participant/personalInfo/mailAddress';
 
 describe('MailAddress', (): void => {
   test('クラスが生成できること', () => {
