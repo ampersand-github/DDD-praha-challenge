@@ -1,13 +1,15 @@
-import { ValueObject } from '../../shared/domain/ValueObject';
-import { Task } from '../task/task';
+import { Task } from '../../task/task';
 
 import { ProgressStatus, progressStatusType } from './progressStatus';
+import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
+import { Entity } from '../../../shared/domain/Entity';
 
 interface ParticipantHavingTaskProps {
+  id: UniqueEntityID;
   statusForEveryTask: Map<Task, ProgressStatus>;
 }
 
-export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProps> {
+export class ParticipantHavingTask extends Entity<ParticipantHavingTaskProps> {
   private constructor(props: ParticipantHavingTaskProps) {
     super(props);
   }

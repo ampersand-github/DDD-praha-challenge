@@ -1,4 +1,4 @@
-import { ValueObject } from '../../shared/domain/ValueObject';
+import { ValueObject } from '../../../shared/domain/ValueObject';
 
 export const ProgressStatusEnum = {
   complete: '完了',
@@ -20,6 +20,7 @@ export class ProgressStatus extends ValueObject<ProgressStatusProps> {
     super(props);
   }
   public static create(props: ProgressStatusProps): ProgressStatus {
+    // todo 別のやつと同じように修正
     return new ProgressStatus(props);
   }
 
