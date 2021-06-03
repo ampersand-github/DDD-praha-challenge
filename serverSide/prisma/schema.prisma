@@ -52,7 +52,7 @@ model Participant {
   enrolledParticipant EnrolledParticipant?
   pair Pair? @relation(fields: [pairId], references: [pairId])
   pairId String?
-  participantHavingTask ParticipantHavingTask[]
+  participantHavingTask ParticipantHavingTasks[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -94,12 +94,12 @@ model Task {
   description String @unique
   taskGroupId TaskGroup @relation(fields: [taskGroupName], references: [taskGroupName])
   taskGroupName String
-  participantHavingTask ParticipantHavingTask[]
+  participantHavingTask ParticipantHavingTasks[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model ParticipantHavingTask{
+model ParticipantHavingTasks{
     participantHavingTaskId String @id
     task Task @relation(fields: [taskId], references: [taskId])
     taskId String
@@ -110,7 +110,7 @@ model ParticipantHavingTask{
 
 model TaskProgress {
     taskProgressId String @id
-    participantHavingTask ParticipantHavingTask @relation(fields: [participantHavingTaskId], references: [participantHavingTaskId])
+    participantHavingTask ParticipantHavingTasks @relation(fields: [participantHavingTaskId], references: [participantHavingTaskId])
     participantHavingTaskId String
     progressStatusId ProgressStatus? @relation(fields: [progressStatus], references: [progressStatus])
     progressStatus String?
