@@ -1,11 +1,10 @@
-import { Task } from '../../../domain/task/task';
-import { TaskGroup, TaskGroupEnum } from '../../../domain/task/taskGroup';
+import { Task } from '../domain/task/task';
+import { TaskGroup, TaskGroupEnum } from '../domain/taskGroup/taskGroup';
 import {
   ProgressStatus,
   ProgressStatusEnum,
-} from '../../../domain/participant/participant/progressStatus';
-import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
-import { ParticipantHavingTask } from '../../../domain/participant/participant/participantHavingTask';
+} from '../domain/participant/progressStatus';
+import { ParticipantHavingTasks } from '../domain/participant/participantHavingTasks';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 課題
@@ -41,16 +40,14 @@ const complete = ProgressStatusEnum.complete;
 const readyForReview = ProgressStatusEnum.readyForReview;
 const notStarted = ProgressStatusEnum.notStarted;
 
-const id = new UniqueEntityID('99999999-a999-9b99-99c9-999999d99999');
 const statusForEveryTaskData = new Map<Task, ProgressStatus>([
   [task1, ProgressStatus.create({ progressStatus: complete })],
   [task2, ProgressStatus.create({ progressStatus: readyForReview })],
   [task3, ProgressStatus.create({ progressStatus: notStarted })],
 ]);
 export const participantHavingTask1Data = {
-  id: id,
-  statusForEveryTask: statusForEveryTaskData,
+  statusForEveryTasks: statusForEveryTaskData,
 };
-export const participantHavingTask1 = ParticipantHavingTask.create(
+export const participantHavingTask1 = ParticipantHavingTasks.create(
   participantHavingTask1Data,
 );

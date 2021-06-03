@@ -1,18 +1,17 @@
-import { Participant } from '../../../domain/participant/participant/participant';
-import { ParticipantName } from '../../../domain/participant/participant/participantName';
-import { MailAddress } from '../../../domain/participant/participant/mailAddress';
+import { PersonalInfo } from '../domain/participant/personalInfo';
+import { ParticipantName } from '../domain/participant/participantName';
+import { MailAddress } from '../domain/participant/mailAddress';
+import { UniqueEntityID } from '../domain/shared/UniqueEntityID';
 import {
   EnrolledStatus,
   EnrolledStatusEnum,
-} from '../../../domain/participant/participant/enrolledStatus';
-import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
-import { PairName } from '../../../domain/participant/pair/pairName';
-import { Pair } from '../../../domain/participant/pair/pair';
-import { TeamName } from '../../../domain/participant/team/teamName';
-import { Team } from '../../../domain/participant/team/team';
+} from '../domain/participant/enrolledStatus';
+import { Participant } from '../domain/participant/participant';
+import { PairName } from '../domain/pair/pairName';
+import { Pair } from '../domain/pair/pair';
+import { TeamName } from '../domain/team/teamName';
 import { participantHavingTask1 } from './taskDummyData';
-import { PersonalInfo } from '../../../domain/participant/participant/personalInfo';
-
+import { Team } from '../domain/team/team';
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 共通
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -22,11 +21,11 @@ export const dummyId = new UniqueEntityID(
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // 個人情報
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-const personalIfo1 = PersonalInfo.create({
+export const personalIfo1 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '山田太郎' }),
   mailAddress: MailAddress.create({ mailAddress: 'yamada@gmail.com' }),
 });
-const personalIfo2 = PersonalInfo.create({
+export const personalIfo2 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '鈴木為三' }),
   mailAddress: MailAddress.create({ mailAddress: 'suzuki@gmail.com' }),
 });
@@ -58,44 +57,41 @@ export const enrolled = EnrolledStatusEnum.enrolled;
 const dummyData1 = {
   personalInfo: personalIfo1,
   enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
-  participantHavingTask: participantHavingTask1,
+  participantHavingTasks: participantHavingTask1,
 };
 
 const dummyData2 = {
   personalInfo: personalIfo2,
   enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
-  participantHavingTask: participantHavingTask1,
+  participantHavingTasks: participantHavingTask1,
 };
 
 const dummyData3 = {
   personalInfo: personalIfo3,
   enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
-  participantHavingTask: participantHavingTask1,
+  participantHavingTasks: participantHavingTask1,
 };
 
 const dummyData4 = {
   personalInfo: personalIfo4,
   enrolledStatus: EnrolledStatus.create({ enrolledStatus: enrolled }),
-  participantHavingTask: participantHavingTask1,
+  participantHavingTasks: participantHavingTask1,
 };
 
 const dummyData5 = {
   personalInfo: personalIfo5,
-
   enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
-  participantHavingTask: participantHavingTask1,
+  participantHavingTasks: participantHavingTask1,
 };
 const dummyData6 = {
   personalInfo: personalIfo6,
-
   enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
-  participantHavingTask: participantHavingTask1,
+  participantHavingTasks: participantHavingTask1,
 };
 const dummyData7 = {
   personalInfo: personalIfo7,
-
   enrolledStatus: EnrolledStatus.create({ enrolledStatus: '在籍中' }),
-  participantHavingTask: participantHavingTask1,
+  participantHavingTasks: participantHavingTask1,
 };
 
 export const participant1 = Participant.create(dummyData1, dummyId);
@@ -145,9 +141,9 @@ export const pair3 = Pair.create(dummyPairData3); // idはランダムで割り�
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 export const teamUpperLimit = 99;
 export const teamLowerLimit = 3;
-const teamName1 = TeamName.create({ teamName: 1 });
-const teamName2 = TeamName.create({ teamName: 2 });
-const teamName3 = TeamName.create({ teamName: 3 });
+export const teamName1 = TeamName.create({ teamName: 1 });
+export const teamName2 = TeamName.create({ teamName: 2 });
+export const teamName3 = TeamName.create({ teamName: 3 });
 export const dummyTeamDataBase = {
   teamName: teamName1,
   pairs: [],
