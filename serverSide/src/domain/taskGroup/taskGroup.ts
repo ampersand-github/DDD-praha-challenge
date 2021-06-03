@@ -1,4 +1,4 @@
-import { ValueObject } from '../../shared/domain/ValueObject';
+import { ValueObject } from '../shared/ValueObject';
 
 export const TaskGroupEnum = {
   webBasic: 'WEBの基礎',
@@ -9,7 +9,7 @@ export const TaskGroupEnum = {
 export type taskGroupType = typeof TaskGroupEnum[keyof typeof TaskGroupEnum];
 
 export interface TaskGroupProps {
-  taskGroup: taskGroupType;
+  taskGroup: string;
 }
 
 export class TaskGroup extends ValueObject<TaskGroupProps> {
@@ -21,6 +21,11 @@ export class TaskGroup extends ValueObject<TaskGroupProps> {
     super(props);
   }
   public static create(props: TaskGroupProps): TaskGroup {
+    if (
+      !Object.values(TaskGroupEnum).includes(props.taskGroup as taskGroupType)
+    ) {
+      throw new Error('タスクグループ名が不正です。');
+    }
     return new TaskGroup(props);
   }
 }

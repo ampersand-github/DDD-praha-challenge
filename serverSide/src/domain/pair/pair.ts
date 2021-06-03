@@ -1,6 +1,6 @@
-import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
+import { UniqueEntityID } from '../shared/UniqueEntityID';
 import { Participant } from '../participant/participant';
-import { Entity } from '../../../shared/domain/Entity';
+import { Entity } from '../shared/Entity';
 import { PairName } from './pairName';
 
 interface PairProps {

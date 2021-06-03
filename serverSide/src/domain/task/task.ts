@@ -1,6 +1,6 @@
-import { TaskGroup } from './taskGroup';
-import { UniqueEntityID } from '../../shared/domain/UniqueEntityID';
-import { Entity } from '../../shared/domain/Entity';
+import { TaskGroup } from '../taskGroup/taskGroup';
+import { UniqueEntityID } from '../shared/UniqueEntityID';
+import { Entity } from '../shared/Entity';
 
 interface TaskProps {
   no: number;

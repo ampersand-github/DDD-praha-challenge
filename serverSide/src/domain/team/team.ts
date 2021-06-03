@@ -1,7 +1,7 @@
-import { Entity } from '../../../shared/domain/Entity';
-import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
 import { TeamName } from './teamName';
 import { Pair } from '../pair/pair';
+import { Entity } from '../shared/Entity';
+import { UniqueEntityID } from '../shared/UniqueEntityID';
 
 interface TeamProps {
   teamName: TeamName;
