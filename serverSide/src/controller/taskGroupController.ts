@@ -1,10 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { TaskGroupDTO } from '../dto/usecase/task/taskGroupDTO';
-import { whenEmptyOutputError } from '../shared/controller/whenEmptyOutputError';
+import { whenEmptyOutputError } from './shared/whenEmptyOutputError';
 import { TaskGroupRepository } from '../infra/db/repository/taskGroupRepository';
 import { FindAllTaskGroupUsecase } from '../usecase/taskGroup/FindAllTaskGroupUsecase';
 import { CreateTaskGroupUsecase } from '../usecase/taskGroup/CreateTaskGroupUsecase';
 import { DeleteTaskGroupUsecase } from '../usecase/taskGroup/DeleteTaskGroupUsecase';
+import { TaskGroupDTO } from '../usecase/taskGroup/DTO/taskGroupDTO';
 
 //
 // 動かすときはデータを初期化してから動かすこと

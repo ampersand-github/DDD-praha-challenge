@@ -7,14 +7,14 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { TaskRepository } from '../infra/db/repository/taskRepository';
-import { whenEmptyOutputError } from '../shared/controller/whenEmptyOutputError';
-import { TaskDTO } from '../dto/usecase/task/taskDTO';
+import { whenEmptyOutputError } from './shared/whenEmptyOutputError';
 import { FindAllTaskUsecase } from '../usecase/task/findAllTaskUsecase';
 import { FindOneTaskUsecase } from '../usecase/task/findOneTaskUsecase';
 import { DeleteTaskUsecase } from '../usecase/task/deleteTaskUsecase';
 import { CreateTaskUsecase } from '../usecase/task/createTaskUsecase';
 import { UpdateTaskUsecase } from '../usecase/task/updateTaskUsecase';
+import { TaskDTO } from '../usecase/task/DTO/taskDTO';
+import { TaskRepository } from '../infra/db/repository/taskRepository';
 
 //
 // 動かすときはデータを初期化してから動かすこと
