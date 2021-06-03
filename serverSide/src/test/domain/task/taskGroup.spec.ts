@@ -1,4 +1,4 @@
-import { TaskGroup, TaskGroupEnum } from '../../../domain/task/taskGroup';
+import { TaskGroup, TaskGroupEnum } from '../../../domain/taskGroup/taskGroup';
 
 describe('TaskGroup', (): void => {
   const taskGroup = { taskGroup: TaskGroupEnum.webBasic };

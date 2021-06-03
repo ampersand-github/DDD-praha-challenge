@@ -1,4 +1,4 @@
-import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
+import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 
 describe('UniqueEntityID', () => {
   test('uuidとして正しくない文字列を与えてエラーになる', () => {

@@ -1,4 +1,4 @@
-import { TaskGroup, TaskGroupEnum } from '../../../domain/task/taskGroup';
+import { TaskGroup, TaskGroupEnum } from '../../../domain/taskGroup/taskGroup';
 import { Task } from '../../../domain/task/task';
 
 describe('Task', (): void => {

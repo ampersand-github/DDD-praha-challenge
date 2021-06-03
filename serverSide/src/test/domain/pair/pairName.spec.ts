@@ -1,4 +1,4 @@
-import { PairName } from '../../../domain/participant/pair/pairName';
+import { PairName } from '../../../domain/pair/pairName';
 
 describe('PairName', (): void => {
   test('クラスが生成できること', () => {
