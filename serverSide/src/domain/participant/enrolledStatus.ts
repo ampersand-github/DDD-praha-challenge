@@ -1,4 +1,4 @@
-import { ValueObject } from '../../../shared/domain/ValueObject';
+import { ValueObject } from '../shared/ValueObject';
 
 export const EnrolledStatusEnum = {
   enrolled: '在籍中',

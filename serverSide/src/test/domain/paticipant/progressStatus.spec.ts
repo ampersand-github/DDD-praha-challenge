@@ -1,7 +1,7 @@
 import {
   ProgressStatus,
   ProgressStatusEnum,
-} from '../../../domain/participant/participant/progressStatus';
+} from '../../../domain/participant/progressStatus';
 
 describe('ProgressStatus', (): void => {
   const complete = { progressStatus: ProgressStatusEnum.complete };

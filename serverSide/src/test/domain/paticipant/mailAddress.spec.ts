@@ -1,4 +1,4 @@
-import { MailAddress } from '../../../domain/participant/participant/mailAddress';
+import { MailAddress } from '../../../domain/participant/mailAddress';
 
 describe('MailAddress', (): void => {
   test('クラスが生成できること', () => {
@@ -24,5 +24,10 @@ describe('MailAddress', (): void => {
     expect(() => {
       MailAddress.create(email);
     }).toThrow(`${email.mailAddress}のメールアドレスの書式が間違っています。`);
+  });
+  test('等しいこと', () => {
+    const goodAddress = { mailAddress: 'aaa@gmail.com' };
+    const result = MailAddress.create(goodAddress);
+    expect(result.equals(result)).toBe(true);
   });
 });

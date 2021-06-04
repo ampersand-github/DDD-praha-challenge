@@ -1,13 +1,14 @@
-import { Entity } from '../../../shared/domain/Entity';
-import { UniqueEntityID } from '../../../shared/domain/UniqueEntityID';
+import { Entity } from '../shared/Entity';
+import { UniqueEntityID } from '../shared/UniqueEntityID';
 import { EnrolledStatus } from './enrolledStatus';
-import { ParticipantHavingTask } from './participantHavingTask';
+
 import { PersonalInfo } from './personalInfo';
+import { ParticipantHavingTasks } from './participantHavingTasks';
 
 export interface ParticipantProps {
   personalInfo: PersonalInfo;
   enrolledStatus: EnrolledStatus;
-  participantHavingTask: ParticipantHavingTask;
+  participantHavingTasks: ParticipantHavingTasks;
 }
 
 export class Participant extends Entity<ParticipantProps> {

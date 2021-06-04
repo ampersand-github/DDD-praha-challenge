@@ -1,4 +1,4 @@
-import { ValueObject } from '../../../shared/domain/ValueObject';
+import { ValueObject } from '../shared/ValueObject';
 
 export const ProgressStatusEnum = {
   complete: '完了',
