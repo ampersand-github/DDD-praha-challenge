@@ -1,17 +1,41 @@
-import { TaskGroup, TaskGroupEnum } from '../../../domain/taskGroup/taskGroup';
-import { Task } from '../../../domain/task/task';
+import { dummyTask1 } from '../../../testUtil/dummyTask';
 
 describe('Task', (): void => {
-  const data = {
-    no: 1,
-    name: 'よく使うHTTPヘッダを理解する',
-    description:
-      'HTTPは様々な情報をやりとりしますが、その実態は「ヘッダー」で挙動を変化させて、情報を「ボディ」で送信する、非常にシンプルな作りです',
-    group: TaskGroup.create({ taskGroup: TaskGroupEnum.webBasic }),
-  };
+  describe('no()', (): void => {
+    test('[正常]値を取得できる', () => {
+      expect(dummyTask1.no).toBe(1);
+    });
+  });
+  describe('name()', (): void => {
+    test('[正常]値を取得できる', () => {
+      expect(dummyTask1.name).toBe('よく使うHTTPヘッダを理解する');
+    });
+  });
+  describe('description()', (): void => {
+    test('[正常]値を取得できる', () => {
+      expect(dummyTask1.description).toBe(
+        'HTTPは様々な情報をやりとりしますが、その実態は「ヘッダー」で挙動を変化させて、情報を「ボディ」で送信する、非常にシンプルな作りです',
+      );
+    });
+  });
+  describe('group()', (): void => {
+    test('[正常]値を取得できる', () => {
+      expect(dummyTask1.group).toBe('WEBの基礎');
+    });
+  });
 
-  test('オブジェクトが生成できること', () => {
-    const actual = Task.create(data);
-    expect(actual).toBeInstanceOf(Task);
+  describe('changeName()', (): void => {
+    test('[正常]値を変更できる', () => {
+      const expected = 'aaa';
+      const actual = dummyTask1.changeName(expected);
+      expect(actual.name).toBe('aaa');
+    });
+  });
+  describe('changeNo()', (): void => {
+    test('[正常]値を変更できる', () => {
+      const expected = 100;
+      const actual = dummyTask1.changeNo(expected);
+      expect(actual.no).toBe(expected);
+    });
   });
 });
