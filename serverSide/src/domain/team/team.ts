@@ -30,6 +30,7 @@ export class Team extends Entity<TeamProps> {
     }
   }
 
+  /*
   private static validation_upperLimit(
     participantsCount: number,
     upperLimit: TeamProps['upperLimit'],
@@ -40,6 +41,7 @@ export class Team extends Entity<TeamProps> {
       );
     }
   }
+ */
 
   private static validation_pairExist(
     basePair: TeamProps['pairs'],
@@ -70,7 +72,7 @@ export class Team extends Entity<TeamProps> {
     const participantCount = this.participantCount(props.pairs);
     this.validation_lowerLimit(participantCount, props.lowerLimit);
     // 仕様に人数上限は存在しないが、今後仕様変更があることを想定して入れる
-    this.validation_upperLimit(participantCount, props.upperLimit);
+    //this.validation_upperLimit(participantCount, props.upperLimit);
     return new Team(props, id);
   }
 
@@ -81,9 +83,9 @@ export class Team extends Entity<TeamProps> {
   public addPair(pair: Pair): void {
     Team.validation_pairExist(this.props.pairs, pair);
     this.props.pairs.push(pair);
-    const participantCount = Team.participantCount(this.props.pairs);
+    // const participantCount = Team.participantCount(this.props.pairs);
     // 仕様に人数上限は存在しないが、今後仕様変更があることを想定して入れる
-    Team.validation_upperLimit(participantCount, this.props.upperLimit);
+    // Team.validation_upperLimit(participantCount, this.props.upperLimit);
   }
 
   public removePair(pair: Pair): void {

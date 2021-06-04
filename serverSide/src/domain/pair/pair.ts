@@ -11,7 +11,7 @@ interface PairProps {
 }
 
 export class Pair extends Entity<PairProps> {
-  public get participants() {
+  public get participants(): Participant[] {
     return this.props.participants;
   }
   private static validation_lowerLimit(
