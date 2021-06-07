@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { whenEmptyOutputError } from './shared/whenEmptyOutputError';
 import { FindAllTaskUsecase } from '../usecase/task/findAllTaskUsecase';
 import { FindOneTaskUsecase } from '../usecase/task/findOneTaskUsecase';

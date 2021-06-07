@@ -1,8 +1,5 @@
 import { v4 as uuid } from 'uuid';
-export const participantHavingTaskDataSource = (
-  taskDataSource,
-  participantDataSource,
-) => {
+export const participantHavingTaskDataSource = (taskDataSource, participantDataSource) => {
   return [
     {
       participantHavingTaskId: uuid(),

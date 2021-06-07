@@ -31,9 +31,7 @@ const dummyTeamData3 = {
   pairs: [dummyPair1, dummyPair2, dummyPair3],
 };
 
-export const dummyTeamId = new UniqueEntityID(
-  '99999999-9999-team-9999-99999999999s',
-);
+export const dummyTeamId = new UniqueEntityID('99999999-9999-team-9999-99999999999s');
 
 export const dummyTeam1 = Team.create(dummyTeamData1, dummyTeamId);
 export const dummyTeam2 = Team.create(dummyTeamData2, dummyTeamId);

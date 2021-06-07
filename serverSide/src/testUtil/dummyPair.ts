@@ -42,9 +42,7 @@ const dummyPairData3 = {
   participants: [dummyParticipant5, dummyParticipant6, dummyParticipant7],
 };
 
-export const dummyPairId = new UniqueEntityID(
-  '99999999-9999-pair-4444-99999999999s',
-);
+export const dummyPairId = new UniqueEntityID('99999999-9999-pair-4444-99999999999s');
 export const dummyPair1 = Pair.create(dummyPairData1, dummyPairId);
 export const dummyPair2 = Pair.create(dummyPairData2, dummyPairId);
 export const dummyPair3 = Pair.create(dummyPairData3); // idはランダムで割り振られる

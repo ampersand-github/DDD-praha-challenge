@@ -43,20 +43,14 @@ export class Team extends Entity<TeamProps> {
   }
  */
 
-  private static validation_pairExist(
-    basePair: TeamProps['pairs'],
-    pair: Pair,
-  ): void {
+  private static validation_pairExist(basePair: TeamProps['pairs'], pair: Pair): void {
     const _result = basePair.find((one) => one.equals(pair));
     if (_result) {
       throw new Error('このペアは既にチームに存在します。');
     }
   }
 
-  private static validation_participantNotExist(
-    basePair: TeamProps['pairs'],
-    pair: Pair,
-  ): void {
+  private static validation_participantNotExist(basePair: TeamProps['pairs'], pair: Pair): void {
     const _result = basePair.find((one) => one.equals(pair));
     if (!_result) {
       throw new Error('このペアはチームに存在しません。');

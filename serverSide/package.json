@@ -80,7 +80,7 @@
     "collectCoverageFrom": [
       "<rootDir>/domain/**/*.(t|j)s",
       "<rootDir>/usecase/**/*.(t|j)s",
-      "<rootDir>/infra/**/*.(t|j)s"
+      "<rootDir>/infra/db/repository/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

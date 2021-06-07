@@ -19,9 +19,7 @@ export class Pair extends Entity<PairProps> {
     lowerLimit: PairProps['lowerLimit'],
   ): void {
     if (participantsCount < lowerLimit) {
-      throw new Error(
-        `ペアに所属する参加者の人数が足りません。ペアの下限は${lowerLimit}名です。`,
-      );
+      throw new Error(`ペアに所属する参加者の人数が足りません。ペアの下限は${lowerLimit}名です。`);
     }
   }
 
@@ -30,9 +28,7 @@ export class Pair extends Entity<PairProps> {
     upperLimit: PairProps['upperLimit'],
   ): void {
     if (participantsCount > upperLimit) {
-      throw new Error(
-        `ペアに所属する参加者の人数が多すぎます。ペアの上限は${upperLimit}名です。`,
-      );
+      throw new Error(`ペアに所属する参加者の人数が多すぎます。ペアの上限は${upperLimit}名です。`);
     }
   }
 
@@ -69,21 +65,13 @@ export class Pair extends Entity<PairProps> {
   public addParticipant(participant: Participant): void {
     Pair.validation_participantExist(this.props.participants, participant);
     this.props.participants.push(participant);
-    Pair.validation_upperLimit(
-      this.props.participants.length,
-      this.props.upperLimit,
-    );
+    Pair.validation_upperLimit(this.props.participants.length, this.props.upperLimit);
   }
 
   public removeParticipant(participant: Participant): void {
     Pair.validation_participantNotExist(this.props.participants, participant);
-    this.props.participants = this.props.participants.filter(
-      (one) => !one.equals(participant),
-    );
-    Pair.validation_lowerLimit(
-      this.props.participants.length,
-      this.props.lowerLimit,
-    );
+    this.props.participants = this.props.participants.filter((one) => !one.equals(participant));
+    Pair.validation_lowerLimit(this.props.participants.length, this.props.lowerLimit);
   }
 
   public participantCount(): number {

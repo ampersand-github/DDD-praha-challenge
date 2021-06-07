@@ -21,9 +21,7 @@ export class TaskGroup extends ValueObject<TaskGroupProps> {
     super(props);
   }
   public static create(props: TaskGroupProps): TaskGroup {
-    if (
-      !Object.values(TaskGroupEnum).includes(props.taskGroup as taskGroupType)
-    ) {
+    if (!Object.values(TaskGroupEnum).includes(props.taskGroup as taskGroupType)) {
       throw new Error('タスクグループ名が不正です。');
     }
     return new TaskGroup(props);

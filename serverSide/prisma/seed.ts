@@ -19,29 +19,21 @@ async function main() {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 設定系データ
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const participantUpperLimitInPair = await prisma.participantUpperLimitInPair.create(
-    {
-      data: { upperLimit: 3 },
-    },
-  );
+  const participantUpperLimitInPair = await prisma.participantUpperLimitInPair.create({
+    data: { upperLimit: 3 },
+  });
 
-  const participantUpperLimitInTeam = await prisma.participantUpperLimitInTeam.create(
-    {
-      data: { upperLimit: 99 },
-    },
-  );
+  const participantUpperLimitInTeam = await prisma.participantUpperLimitInTeam.create({
+    data: { upperLimit: 99 },
+  });
 
-  const participantLowerLimitInPair = await prisma.participantLowerLimitInPair.create(
-    {
-      data: { lowerLimit: 2 },
-    },
-  );
+  const participantLowerLimitInPair = await prisma.participantLowerLimitInPair.create({
+    data: { lowerLimit: 2 },
+  });
 
-  const participantLowerLimitInTeam = await prisma.participantLowerLimitInTeam.create(
-    {
-      data: { lowerLimit: 3 },
-    },
-  );
+  const participantLowerLimitInTeam = await prisma.participantLowerLimitInTeam.create({
+    data: { lowerLimit: 3 },
+  });
 
   const progressStatus = await prisma.progressStatus.createMany({
     data: [
@@ -84,9 +76,7 @@ async function main() {
   const pairData = pairDataSource(teamData);
   const participantData = participantDataSource(pairData);
 
-  const enrolledParticipantData = enrolledParticipantDataSource(
-    participantData,
-  );
+  const enrolledParticipantData = enrolledParticipantDataSource(participantData);
   //
   const team = await prisma.team.createMany({ data: teamData });
   const pair = await prisma.pair.createMany({ data: pairData });
@@ -102,10 +92,7 @@ async function main() {
   // 課題集約
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   const taskData = taskDataSource();
-  const participantHavingTaskData = participantHavingTaskDataSource(
-    taskData,
-    participantData,
-  );
+  const participantHavingTaskData = participantHavingTaskDataSource(taskData, participantData);
   const taskProgressData = taskProgressDataSource(participantHavingTaskData);
   //
   const task = await prisma.task.createMany({ data: taskData });

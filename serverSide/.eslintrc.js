@@ -29,6 +29,13 @@ module.exports = {
         "selector": "class",
         "format": ["PascalCase"],
       }
+    ],
+
+    "prettier/prettier" : [
+      "error",
+      {
+        printWidth: 100,   // 行の最大長 (80)
+      }
     ]
   },
 };

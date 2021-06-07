@@ -69,8 +69,7 @@ export const taskDataSource = () => {
       taskId: uuid(),
       taskNo: 9,
       taskName: 'jestで単体テストを書こう',
-      description:
-        '品質の高いコードを書く上で、単体テストほど重要な存在はありません',
+      description: '品質の高いコードを書く上で、単体テストほど重要な存在はありません',
       taskGroupName: 'テスト',
     },
     {
@@ -157,8 +156,7 @@ export const taskDataSource = () => {
       taskId: uuid(),
       taskNo: 21,
       taskName: 'ランザクションについて理解する',
-      description:
-        'トランザクションはデータベースの世界で特に重要で、かつ体感しづらい概念です',
+      description: 'トランザクションはデータベースの世界で特に重要で、かつ体感しづらい概念です',
       taskGroupName: 'DB',
     },
   ];

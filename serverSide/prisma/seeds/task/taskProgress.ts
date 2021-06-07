@@ -3,45 +3,38 @@ export const taskProgressDataSource = (participantHavingTaskData) => {
   return [
     {
       taskProgressId: uuid(),
-      participantHavingTaskId:
-        participantHavingTaskData[0].participantHavingTaskId,
+      participantHavingTaskId: participantHavingTaskData[0].participantHavingTaskId,
       progressStatus: '完了',
     },
     {
       taskProgressId: uuid(),
-      participantHavingTaskId:
-        participantHavingTaskData[1].participantHavingTaskId,
+      participantHavingTaskId: participantHavingTaskData[1].participantHavingTaskId,
       progressStatus: '完了',
     },
     {
       taskProgressId: uuid(),
-      participantHavingTaskId:
-        participantHavingTaskData[2].participantHavingTaskId,
+      participantHavingTaskId: participantHavingTaskData[2].participantHavingTaskId,
       progressStatus: 'レビュー待ち',
     },
     {
       taskProgressId: uuid(),
-      participantHavingTaskId:
-        participantHavingTaskData[3].participantHavingTaskId,
+      participantHavingTaskId: participantHavingTaskData[3].participantHavingTaskId,
       progressStatus: '未着手',
     },
 
     {
       taskProgressId: uuid(),
-      participantHavingTaskId:
-        participantHavingTaskData[4].participantHavingTaskId,
+      participantHavingTaskId: participantHavingTaskData[4].participantHavingTaskId,
       progressStatus: '完了',
     },
     {
       taskProgressId: uuid(),
-      participantHavingTaskId:
-        participantHavingTaskData[5].participantHavingTaskId,
+      participantHavingTaskId: participantHavingTaskData[5].participantHavingTaskId,
       progressStatus: '未着手',
     },
     {
       taskProgressId: uuid(),
-      participantHavingTaskId:
-        participantHavingTaskData[6].participantHavingTaskId,
+      participantHavingTaskId: participantHavingTaskData[6].participantHavingTaskId,
       progressStatus: '未着手',
     },
   ];
