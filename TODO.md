@@ -58,8 +58,7 @@
   + [x] リポジトリ調整
   + [x] モデル図修正
   + [x] sharedのディレクトリ構成再考
-  + [ ] `Jest did not exit one second after the test run has completed.`
   + [x] リポジトリテスト微調整
-  + [ ] jestでerror起こす
+  + [x] jestでerror起こす
   + [ ] 集約に合わせたディレクトリ設計
   + [ ] taskIdとidみたいな表記のズレを一致させる
