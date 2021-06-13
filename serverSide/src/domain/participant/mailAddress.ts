@@ -16,11 +16,18 @@ export class MailAddress extends ValueObject<MailAddressProps> {
     super(props);
   }
   public static create(props: MailAddressProps): MailAddress {
-    if (!this.reg.test(props.mailAddress)) {
-      throw new Error(
-        `${props.mailAddress}のメールアドレスの書式が間違っています。`,
-      );
-    }
+    MailAddress.validation_format(props.mailAddress);
     return new MailAddress(props);
+  }
+  private static validation_format(mailAddress: string): void {
+    if (!this.reg.test(mailAddress)) {
+      throw new Error(`${mailAddress}のメールアドレスの書式が間違っています。`);
+    }
+  }
+
+  public changeMailAddress(mailAddress: string): MailAddress {
+    MailAddress.validation_format(mailAddress);
+    this.props.mailAddress = mailAddress;
+    return this;
   }
 }

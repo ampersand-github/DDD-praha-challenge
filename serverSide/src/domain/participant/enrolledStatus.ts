@@ -8,11 +8,11 @@ export const EnrolledStatusEnum = {
 type EnrolledStatusType = typeof EnrolledStatusEnum[keyof typeof EnrolledStatusEnum];
 
 export interface EnrolledStatusProps {
-  enrolledStatus: EnrolledStatusType;
+  enrolledStatus: string;
 }
 
 export class EnrolledStatus extends ValueObject<EnrolledStatusProps> {
-  public get enrolledStatus() {
+  public get enrolledStatus(): string {
     return this.props.enrolledStatus;
   }
 
@@ -20,6 +20,17 @@ export class EnrolledStatus extends ValueObject<EnrolledStatusProps> {
     super(props);
   }
   public static create(props: EnrolledStatusProps): EnrolledStatus {
+    EnrolledStatus.validation_format(props.enrolledStatus);
     return new EnrolledStatus(props);
+  }
+  private static validation_format(enrolledStatus: string): void {
+    if (!Object.values(EnrolledStatusEnum).includes(enrolledStatus as EnrolledStatusType)) {
+      throw new Error('タスクグループ名が不正です。');
+    }
+  }
+  public changeEnrolledStatus(enrolledStatus: string): EnrolledStatus {
+    EnrolledStatus.validation_format(enrolledStatus);
+    this.props.enrolledStatus = enrolledStatus;
+    return this;
   }
 }
