@@ -19,22 +19,6 @@ async function main() {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 設定系データ
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  const participantUpperLimitInPair = await prisma.participantUpperLimitInPair.create({
-    data: { upperLimit: 3 },
-  });
-
-  const participantUpperLimitInTeam = await prisma.participantUpperLimitInTeam.create({
-    data: { upperLimit: 99 },
-  });
-
-  const participantLowerLimitInPair = await prisma.participantLowerLimitInPair.create({
-    data: { lowerLimit: 2 },
-  });
-
-  const participantLowerLimitInTeam = await prisma.participantLowerLimitInTeam.create({
-    data: { lowerLimit: 3 },
-  });
-
   const progressStatus = await prisma.progressStatus.createMany({
     data: [
       { progressStatus: '完了' },
@@ -60,15 +44,7 @@ async function main() {
     ],
   });
 
-  console.log(
-    participantUpperLimitInPair,
-    participantUpperLimitInTeam,
-    participantLowerLimitInPair,
-    participantLowerLimitInTeam,
-    progressStatus,
-    enrolledStatus,
-    taskGroup,
-  );
+  console.log(progressStatus, enrolledStatus, taskGroup);
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 参加者集約
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

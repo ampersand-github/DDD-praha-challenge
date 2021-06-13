@@ -51,12 +51,7 @@ describe('Pair', (): void => {
       // 4人も参加者がいる
       const fourPair = {
         ...dummyPairData1,
-        participants: [
-          dummyParticipant1,
-          dummyParticipant2,
-          dummyParticipant3,
-          dummyParticipant4,
-        ],
+        participants: [dummyParticipant1, dummyParticipant2, dummyParticipant3, dummyParticipant4],
       };
       expect(() => {
         Pair.create(fourPair);
