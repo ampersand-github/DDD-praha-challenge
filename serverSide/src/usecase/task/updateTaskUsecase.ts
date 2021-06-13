@@ -2,6 +2,7 @@ import { Task } from '../../domain/task/task';
 import { TaskGroup, taskGroupType } from '../../domain/taskGroup/taskGroup';
 import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
 import { ITaskRepository } from '../../domain/task/repositoryInterface/ITaskRepository';
+import { TaskDTO } from './DTO/taskDTO';
 
 interface UpdateTaskUsecaseProps {
   taskId: string;
@@ -18,7 +19,7 @@ export class UpdateTaskUsecase {
     this.repo = repository;
   }
 
-  public async do(props: UpdateTaskUsecaseProps): Promise<Task> {
+  public async do(props: UpdateTaskUsecaseProps): Promise<TaskDTO> {
     const data = {
       no: props.newNo,
       name: props.newName,
@@ -30,9 +31,6 @@ export class UpdateTaskUsecase {
     const id = new UniqueEntityID(props.taskId);
     const updateTask = Task.create(data, id);
     const result = await this.repo.update(updateTask);
-    if (result instanceof Error) {
-      throw result;
-    }
-    return result;
+    return new TaskDTO(result);
   }
 }

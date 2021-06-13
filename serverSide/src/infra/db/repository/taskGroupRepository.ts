@@ -8,17 +8,22 @@ export class TaskGroupRepository implements ITaskGroupRepository {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async create(taskGroup: TaskGroup): Promise<TaskGroup | Error> {
+  public async create(taskGroup: TaskGroup): Promise<TaskGroup> {
     return Promise.resolve(undefined);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async delete(id: UniqueEntityID): Promise<number | Error> {
+  public async delete(taskGroup: TaskGroup): Promise<number> {
     return Promise.resolve(undefined);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public async update(taskGroup: TaskGroup): Promise<TaskGroup | Error> {
+  public async update(taskGroup: TaskGroup): Promise<TaskGroup> {
+    return Promise.resolve(undefined);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public async findOne(taskGroup: string): Promise<TaskGroup> {
     return Promise.resolve(undefined);
   }
 }

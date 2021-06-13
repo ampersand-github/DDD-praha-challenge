@@ -3,7 +3,6 @@ import { FindOneTaskUsecase } from '../../../usecase/task/findOneTaskUsecase';
 import { Task } from '../../../domain/task/task';
 import { TaskGroup } from '../../../domain/taskGroup/taskGroup';
 import { TaskDTO } from '../../../usecase/task/DTO/taskDTO';
-import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 
 describe('FindOneTaskUsecase', (): void => {
   const repo = new InMemoryTaskRepository();
@@ -31,19 +30,6 @@ describe('FindOneTaskUsecase', (): void => {
 
       // 結果確認
       expect(await usecase.do(data)).toStrictEqual(taskDTO1);
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-
-    test('[正常]リポジトリからERRORクラスが返る', async () => {
-      // データ作成
-      const expected = new Error('error');
-      const data = { id: new UniqueEntityID().toValue() };
-      const spy = jest
-        .spyOn(InMemoryTaskRepository.prototype, 'findOne')
-        .mockResolvedValueOnce(expected);
-
-      // 結果確認
-      await expect(usecase.do(data)).rejects.toThrowError(expected);
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
