@@ -1,7 +1,4 @@
 import { InMemoryPairRepository } from '../../../infra/db/inMemory/inMemoryPairRepository';
-import { AddParticipantInPairUsecase } from '../../../usecase/pair/addParticipantInPairUsecase';
-import { CreatePairUsecase } from '../../../usecase/pair/createPairUsecase';
-import { FindAllUsecase } from '../../../usecase/pair/findAllPairUsecase';
 import { FindOnePairUsecase } from '../../../usecase/pair/findOnePairUsecase';
 import { dummyPair1 } from '../../../testUtil/dummyPair';
 import { PairDTO } from '../../../usecase/pair/DTO/pairDTO';
