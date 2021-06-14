@@ -12,6 +12,9 @@ export class Pair extends Entity<PairProps> {
   private static upperLimit = 3;
   private static lowerLimit = 2;
 
+  public get pairName(): string {
+    return this.props.pairName.pairName;
+  }
   public get participants(): Participant[] {
     return this.props.participants;
   }
