@@ -1,4 +1,3 @@
-import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
 import { ITaskRepository } from '../../domain/task/repositoryInterface/ITaskRepository';
 import { TaskDTO } from './DTO/taskDTO';
 
@@ -14,11 +13,7 @@ export class FindOneTaskUsecase {
   }
 
   public async do(props: findOneTaskUsecaseProps): Promise<TaskDTO> {
-    const id = new UniqueEntityID(props.id);
-    const result = await this.repo.findOne(id);
-    if (result instanceof Error) {
-      throw result;
-    }
+    const result = await this.repo.findOne(props.id);
     return new TaskDTO(result);
   }
 }

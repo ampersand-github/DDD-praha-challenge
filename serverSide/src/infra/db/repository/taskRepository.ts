@@ -1,24 +1,8 @@
 import { Task } from '../../../domain/task/task';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient, Task as PrismaTaskProps } from '@prisma/client';
 import { TaskGroup, taskGroupType } from '../../../domain/taskGroup/taskGroup';
 import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 import { ITaskRepository } from '../../../domain/task/repositoryInterface/ITaskRepository';
-
-/*
-prismaのindex.d.tsをそのままもってきた。
-index.d.tsのをimportしたかったが、
-type名がドメインオブジェクトと被ってimportできないので、
-ここで同じものを定義した。
- */
-type PrismaTaskProps = {
-  taskId: string;
-  taskNo: number;
-  taskName: string;
-  description: string;
-  taskGroupName: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
 
 export class TaskRepository implements ITaskRepository {
   private prismaClient: PrismaClient = new PrismaClient();
@@ -45,21 +29,20 @@ export class TaskRepository implements ITaskRepository {
     return findMany.map((one) => TaskRepository.convertTo(one));
   }
 
-  public async findOne(id: UniqueEntityID): Promise<Task | Error> {
+  public async findOne(id: string): Promise<Task> {
     const taskData = await this.prismaClient.task.findUnique({
       where: {
-        taskId: id.toValue(),
+        taskId: id,
       },
     });
-
-    if (taskData === null) {
-      return new Error(`このレコードは存在しません。`);
-    }
-
     return TaskRepository.convertTo(taskData);
   }
 
-  public async create(task: Task): Promise<Task | Error> {
+  public async findByTaskGroup(taskGroup: TaskGroup): Promise<Task[]> {
+    throw new Error('Method not implemented.');
+  }
+
+  public async create(task: Task): Promise<Task> {
     try {
       await this.prismaClient.task.create({
         data: {
@@ -73,15 +56,16 @@ export class TaskRepository implements ITaskRepository {
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2002') {
-          return new Error(
-            `${e.meta['target'][0]}が重複していますので作成されませんでした。`,
-          );
+          throw new Error(`${e.meta['target'][0]}が重複していますので作成されませんでした。`);
         }
       }
     }
+    return task;
   }
 
-  public async delete(taskId: UniqueEntityID): Promise<number> {
+  // todo カスケード周り削除
+  public async delete(task: Task): Promise<number> {
+    // todo　カスケードやめる
     // prisma.〇〇.deleteManyではカスケード削除ができない。
     // prismaの仕様がまだ対応していないらしい
     // でもsqlでならカスケード削除がいける
@@ -89,11 +73,11 @@ export class TaskRepository implements ITaskRepository {
       `delete
          FROM public."Task"
          where "taskId" = $1`,
-      taskId.toValue(),
+      task.id.toValue(),
     );
   }
 
-  public async update(task: Task): Promise<Task | Error> {
+  public async update(task: Task): Promise<Task> {
     try {
       await this.prismaClient.task.update({
         where: {
@@ -109,20 +93,17 @@ export class TaskRepository implements ITaskRepository {
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
         if (e.code === 'P2025') {
-          return new Error(`更新すべきレコードが見つかりませんでした。`);
+          throw new Error(`更新すべきレコードが見つかりませんでした。`);
         }
         if (e.code === 'P2002') {
-          return new Error(
-            `${e.meta['target'][0]}が重複していますので更新されませんでした。`,
-          );
+          throw new Error(`${e.meta['target'][0]}が重複していますので更新されませんでした。`);
         }
       }
-      console.log(e);
+      return task;
     }
   }
 
-  public async nextTaskNo(): Promise<number> {
-    // taskNoの最大値を取得して+1を返す
+  public async taskMaxNo(): Promise<number> {
     const result = await this.prismaClient.task.findFirst({
       select: {
         taskNo: true,
@@ -132,16 +113,18 @@ export class TaskRepository implements ITaskRepository {
       },
     });
     if (result === null) {
-      return 1;
+      return 0;
     }
-    return result.taskNo + 1;
+    return result.taskNo;
   }
 
-  public async reAssignTaskNo(): Promise<void | Error> {
-    // taskNoを再構成する処理
-    // 欠番を埋めたりとかする
-    // taskNoがユニークなのでそのまま更新できない。
-    // いったん+10000した値にしておいて、その後、改めて振り分ける
+  public async reAssignTaskNo(): Promise<void> {
+    /*
+    taskNoを再構成する処理
+    欠番を埋めたりとかする
+    taskNoがユニークなのでそのまま更新できない。
+    いったん+10000した値にしておいて、その後、改めて振り分ける
+  */
     const findMany = await this.prismaClient.task.findMany({
       orderBy: {
         taskNo: 'asc',

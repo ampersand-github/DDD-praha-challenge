@@ -1,6 +1,6 @@
-import { Task } from '../../domain/task/task';
-import { TaskGroup } from '../../domain/taskGroup/taskGroup';
 import { ITaskRepository } from '../../domain/task/repositoryInterface/ITaskRepository';
+import { TaskDTO } from './DTO/taskDTO';
+import { TaskFactory } from '../../domain/task/taskFactory';
 
 interface CreateTaskUsecaseProps {
   name: string;
@@ -10,28 +10,16 @@ interface CreateTaskUsecaseProps {
 
 export class CreateTaskUsecase {
   private readonly repo: ITaskRepository;
+  private readonly factory;
 
-  public constructor(repository: ITaskRepository) {
+  public constructor(repository: ITaskRepository, factory: TaskFactory) {
     this.repo = repository;
+    this.factory = factory;
   }
 
-  public async do(props: CreateTaskUsecaseProps): Promise<Task> {
-    const group = TaskGroup.create({
-      taskGroup: props.group,
-    });
-    // todo ドメインサービスにすべき？
-    const nextTaskNo = await this.repo.nextTaskNo();
-
-    const task = Task.create({
-      no: nextTaskNo + 1,
-      name: props.name,
-      description: props.description,
-      group: group,
-    });
+  public async do(props: CreateTaskUsecaseProps): Promise<TaskDTO> {
+    const task = await this.factory.factory(props);
     const result = await this.repo.create(task);
-    if (result instanceof Error) {
-      throw result;
-    }
-    return result;
+    return new TaskDTO(result);
   }
 }

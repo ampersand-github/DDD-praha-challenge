@@ -2,10 +2,13 @@ import { InMemoryTaskRepository } from '../../../infra/db/inMemory/inMemoryTaskR
 import { CreateTaskUsecase } from '../../../usecase/task/createTaskUsecase';
 import { TaskGroup, TaskGroupEnum } from '../../../domain/taskGroup/taskGroup';
 import { Task } from '../../../domain/task/task';
+import { TaskDTO } from '../../../usecase/task/DTO/taskDTO';
+import { TaskFactory } from '../../../domain/task/taskFactory';
 
 describe('CreateTaskUsecase', (): void => {
   const repo = new InMemoryTaskRepository();
-  const usecase = new CreateTaskUsecase(repo);
+  const taskFactory = new TaskFactory(repo);
+  const usecase = new CreateTaskUsecase(repo, taskFactory);
 
   const inputData = {
     name: 'create',
@@ -34,22 +37,9 @@ describe('CreateTaskUsecase', (): void => {
         .mockResolvedValueOnce(task);
 
       // 結果確認
-      expect(await usecase.do(inputData)).toStrictEqual(task);
+      expect(await usecase.do(inputData)).toStrictEqual(new TaskDTO(task));
       expect(spy).toHaveBeenCalledTimes(1);
     });
-
-    test('[正常]リポジトリからERRORクラスが変える', async () => {
-      // データ作成
-      const expected = new Error('error');
-      const spy = jest
-        .spyOn(InMemoryTaskRepository.prototype, 'create')
-        .mockResolvedValueOnce(expected);
-
-      // 結果確認
-      await expect(usecase.do(inputData)).rejects.toThrowError(expected);
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-
     test('[異常]想定してないエラーが発生する', async () => {
       // データ作成
       const expected = new Error('error');

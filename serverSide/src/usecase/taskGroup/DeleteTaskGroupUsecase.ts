@@ -1,24 +1,32 @@
-import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
 import { ITaskGroupRepository } from '../../domain/taskGroup/ITaskGroupRepository';
+import { ITaskRepository } from '../../domain/task/repositoryInterface/ITaskRepository';
+import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
+import { TaskGroupDeleteDomainService } from '../../domain/taskGroup/taskGroupDeleteDomainService';
 
 interface DeleteTaskGroupUsecaseProps {
-  id: string;
+  taskGroup: string;
 }
 
 export class DeleteTaskGroupUsecase {
-  private readonly repo: ITaskGroupRepository;
+  private readonly taskRepository: ITaskRepository;
+  private readonly taskGroupRepository: ITaskGroupRepository;
+  private readonly participantRepository: IParticipantRepository;
 
-  public constructor(repository: ITaskGroupRepository) {
-    this.repo = repository;
+  public constructor(
+    taskRepository: ITaskRepository,
+    taskGroupRepository: ITaskGroupRepository,
+    participantRepository: IParticipantRepository,
+  ) {
+    this.taskRepository = taskRepository;
+    this.taskGroupRepository = taskGroupRepository;
+    this.participantRepository = participantRepository;
   }
-
-  public async do(props: DeleteTaskGroupUsecaseProps): Promise<number> {
-    const id = new UniqueEntityID(props.id);
-    // todo task,ユーザー保有課題を削除する、ドメインサービス化
-    const result = await this.repo.delete(id);
-    if (result instanceof Error) {
-      throw result;
-    }
-    return result;
+  public async do(props: DeleteTaskGroupUsecaseProps): Promise<void> {
+    const taskGroupDeleteDomainService = new TaskGroupDeleteDomainService(
+      this.taskRepository,
+      this.taskGroupRepository,
+      this.participantRepository,
+    );
+    await taskGroupDeleteDomainService.do({ taskGroup: props.taskGroup });
   }
 }

@@ -3,6 +3,7 @@ import { UpdateTaskUsecase } from '../../../usecase/task/updateTaskUsecase';
 import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 import { TaskGroup } from '../../../domain/taskGroup/taskGroup';
 import { Task } from '../../../domain/task/task';
+import { TaskDTO } from '../../../usecase/task/DTO/taskDTO';
 
 describe('UpdateTaskUsecase', (): void => {
   const repo = new InMemoryTaskRepository();
@@ -34,18 +35,7 @@ describe('UpdateTaskUsecase', (): void => {
         .mockResolvedValueOnce(task);
 
       // 結果確認
-      expect(await usecase.do(data)).toStrictEqual(task);
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-    test('[正常]リポジトリからERRORクラスが返る', async () => {
-      // データ作成
-      const expected = new Error('error');
-      const spy = jest
-        .spyOn(InMemoryTaskRepository.prototype, 'update')
-        .mockResolvedValueOnce(expected);
-
-      // 結果確認
-      await expect(usecase.do(data)).rejects.toThrowError(expected);
+      expect(await usecase.do(data)).toStrictEqual(new TaskDTO(task));
       expect(spy).toHaveBeenCalledTimes(1);
     });
 

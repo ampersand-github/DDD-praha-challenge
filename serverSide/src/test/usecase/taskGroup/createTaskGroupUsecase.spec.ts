@@ -1,12 +1,13 @@
 import { InMemoryTaskGroupRepository } from '../../../infra/db/inMemory/inMemoryTaskGroupRepository';
 import { TaskGroup, TaskGroupEnum } from '../../../domain/taskGroup/taskGroup';
 import { CreateTaskGroupUsecase } from '../../../usecase/taskGroup/CreateTaskGroupUsecase';
+import { TaskGroupDTO } from '../../../usecase/taskGroup/DTO/taskGroupDTO';
 
 describe('CreateTaskGroupUsecase', (): void => {
   const repo = new InMemoryTaskGroupRepository();
   const usecase = new CreateTaskGroupUsecase(repo);
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
@@ -20,19 +21,7 @@ describe('CreateTaskGroupUsecase', (): void => {
         .mockResolvedValueOnce(taskGroup);
 
       // 結果確認
-      expect(await usecase.do(data)).toStrictEqual(taskGroup);
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-    test('[正常]リポジトリからERRORクラスが変える', async () => {
-      // データ作成
-      const expected = new Error('error');
-      const data = { name: TaskGroupEnum.test };
-      const spy = jest
-        .spyOn(InMemoryTaskGroupRepository.prototype, 'create')
-        .mockResolvedValueOnce(expected);
-
-      // 結果確認
-      await expect(usecase.do(data)).rejects.toThrowError(expected);
+      expect(await usecase.do(data)).toStrictEqual(new TaskGroupDTO(taskGroup));
       expect(spy).toHaveBeenCalledTimes(1);
     });
 
