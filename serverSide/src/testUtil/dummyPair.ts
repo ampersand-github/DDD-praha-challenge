@@ -20,8 +20,6 @@ const DummyPairC = PairName.create({ pairName: 'c' });
 const dummyPairDataBase = {
   pairName: DummyPairA,
   participants: [],
-  upperLimit: DummyPairUpperLimit,
-  lowerLimit: DummyPairLowerLimit,
 };
 
 export const dummyPairData1 = {
