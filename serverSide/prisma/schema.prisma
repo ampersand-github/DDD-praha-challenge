@@ -13,19 +13,6 @@ generator client {
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // -- 設定系データ
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-model ParticipantUpperLimitInPair{
-     upperLimit Int @id
- }
-model ParticipantUpperLimitInTeam{
-     upperLimit Int @id
- }
-model ParticipantLowerLimitInPair{
-     lowerLimit Int @id
- }
-model ParticipantLowerLimitInTeam{
-     lowerLimit Int @id
- }
-
 model EnrolledStatus{
      enrolledStatus String @id
      enrolledParticipant EnrolledParticipant[]

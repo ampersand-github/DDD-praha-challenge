@@ -5,8 +5,6 @@ interface ParticipantNameProps {
 }
 
 export class ParticipantName extends ValueObject<ParticipantNameProps> {
-  private static minimumLength = 0;
-
   public get participantName() {
     return this.props.participantName;
   }
@@ -15,9 +13,17 @@ export class ParticipantName extends ValueObject<ParticipantNameProps> {
     super(props);
   }
   public static create(props: ParticipantNameProps): ParticipantName {
-    if (props.participantName.length <= this.minimumLength) {
-      throw new Error('名前をフルネームで入力してください。');
-    }
+    ParticipantName.validation_format(props.participantName);
     return new ParticipantName(props);
+  }
+  private static validation_format(participantName: string): void {
+    if (!participantName) {
+      throw new Error('名前を入力してください。');
+    }
+  }
+  public changeParticipantName(participantName: string): ParticipantName {
+    ParticipantName.validation_format(participantName);
+    this.props.participantName = participantName;
+    return this;
   }
 }
