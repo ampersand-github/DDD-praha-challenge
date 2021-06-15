@@ -15,7 +15,7 @@ export class TaskFactory {
   }
   public async factory(props: TaskFactoryProps): Promise<Task> {
     const group = TaskGroup.create({ taskGroup: props.group });
-    const nextTaskNo = await this.taskRepository.nextTaskNo();
+    const nextTaskNo = await this.taskRepository.taskMaxNo();
     return Task.create({
       no: nextTaskNo + 1,
       name: props.name,
