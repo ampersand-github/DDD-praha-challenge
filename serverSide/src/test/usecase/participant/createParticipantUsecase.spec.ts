@@ -15,7 +15,7 @@ describe('CreateParticipantUsecase', (): void => {
   const participantService = new ParticipantFactory(data);
   const usecase = new CreateParticipantUsecase(participantRepository, participantService);
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

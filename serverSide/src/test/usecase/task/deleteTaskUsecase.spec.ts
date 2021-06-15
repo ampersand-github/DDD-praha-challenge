@@ -9,7 +9,7 @@ describe('DeleteTaskUsecase', (): void => {
   const taskRepository = new InMemoryTaskRepository();
   const usecase = new DeleteTaskUsecase(taskRepository, participantRepository);
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

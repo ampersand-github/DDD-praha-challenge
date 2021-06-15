@@ -23,7 +23,7 @@ describe('UpdateTaskUsecase', (): void => {
     group: TaskGroup.create({ taskGroup: data.newGroup }),
   });
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

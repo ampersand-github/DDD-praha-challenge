@@ -16,7 +16,7 @@ describe('FindOneTaskUsecase', (): void => {
   });
   const taskDTO1 = new TaskDTO(task1);
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

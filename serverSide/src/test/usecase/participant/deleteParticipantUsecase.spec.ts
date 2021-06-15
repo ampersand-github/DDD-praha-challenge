@@ -7,7 +7,7 @@ describe('DeleteParticipantUsecase', (): void => {
   const repo = new InMemoryParticipantRepository();
   const usecase = new DeleteParticipantUsecase(repo);
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

@@ -9,7 +9,7 @@ describe('UpdatePersonalInfoUsecase', (): void => {
   const service = new DisallowDuplicateMailAddressService(participantRepository);
   const usecase = new UpdatePersonalInfoUsecase(participantRepository, service);
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
