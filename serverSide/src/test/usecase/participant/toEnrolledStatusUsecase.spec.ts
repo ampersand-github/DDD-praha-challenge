@@ -9,7 +9,7 @@ describe('ToEnrolledStatusUsecase', (): void => {
   const repo = new InMemoryParticipantRepository();
   const usecase = new ToEnrolledStatusUsecase(repo);
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
   });
 

@@ -1,5 +1,4 @@
 import { Task } from '../task';
-import { UniqueEntityID } from '../../shared/UniqueEntityID';
 import { TaskGroup } from '../../taskGroup/taskGroup';
 
 export interface ITaskRepository {

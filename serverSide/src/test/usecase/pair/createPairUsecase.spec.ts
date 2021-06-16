@@ -1,4 +1,5 @@
 import { InMemoryPairRepository } from '../../../infra/db/inMemory/inMemoryPairRepository';
+import { AddParticipantInPairUsecase } from '../../../usecase/pair/addParticipantInPairUsecase';
 import { CreatePairUsecase } from '../../../usecase/pair/createPairUsecase';
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { PairFactory } from '../../../domain/pair/domainService/pairFactory';
@@ -12,7 +13,7 @@ describe('CreatePairUsecase', (): void => {
   const factory = new PairFactory(pairRepository);
   const usecase = new CreatePairUsecase(participantRepository, pairRepository, factory);
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
   });
 
