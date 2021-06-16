@@ -8,7 +8,7 @@ describe('FindAllTaskUsecase', (): void => {
   const repo = new InMemoryTaskRepository();
   const usecase = new FindAllTaskUsecase(repo);
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
   });
 

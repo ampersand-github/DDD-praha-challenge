@@ -23,7 +23,7 @@ describe('CreateTaskUsecase', (): void => {
     group: group,
   });
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
   });
 
