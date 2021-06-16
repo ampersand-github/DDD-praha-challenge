@@ -9,7 +9,7 @@ describe('ToRecessStatusUsecase', (): void => {
   const repo = new InMemoryParticipantRepository();
   const usecase = new ToRecessStatusUsecase(repo);
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
   });
 

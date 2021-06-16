@@ -7,7 +7,7 @@ describe('FindOnePairUsecase', (): void => {
   const repo = new InMemoryPairRepository();
   const usecase = new FindOnePairUsecase(repo);
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
   });
 

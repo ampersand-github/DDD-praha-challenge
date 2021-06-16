@@ -9,7 +9,7 @@ describe('ToWithdrawalStatusUsecase', (): void => {
   const repo = new InMemoryParticipantRepository();
   const usecase = new ToWithdrawalStatusUsecase(repo);
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
   });
 
