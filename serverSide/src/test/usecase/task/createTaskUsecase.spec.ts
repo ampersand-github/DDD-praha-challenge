@@ -3,10 +3,12 @@ import { CreateTaskUsecase } from '../../../usecase/task/createTaskUsecase';
 import { TaskGroup, TaskGroupEnum } from '../../../domain/taskGroup/taskGroup';
 import { Task } from '../../../domain/task/task';
 import { TaskDTO } from '../../../usecase/task/DTO/taskDTO';
+import { TaskFactory } from '../../../domain/task/taskFactory';
 
 describe('CreateTaskUsecase', (): void => {
   const repo = new InMemoryTaskRepository();
-  const usecase = new CreateTaskUsecase(repo);
+  const taskFactory = new TaskFactory(repo);
+  const usecase = new CreateTaskUsecase(repo, taskFactory);
 
   const inputData = {
     name: 'create',

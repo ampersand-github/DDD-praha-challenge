@@ -8,6 +8,6 @@ export interface ITaskRepository {
   create(task: Task): Promise<Task>;
   update(task: Task): Promise<Task>;
   delete(task: Task): Promise<number>; // numberは削除件数
-  nextTaskNo(): Promise<number>;
+  taskMaxNo(): Promise<number>;
   reAssignTaskNo(): Promise<void>;
 }
