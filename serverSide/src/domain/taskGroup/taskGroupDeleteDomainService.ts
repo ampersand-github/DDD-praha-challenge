@@ -25,7 +25,7 @@ export class TaskGroupDeleteDomainService {
     const taskGroupDeleteTarget = await this.taskGroupRepository.findOne(props.taskGroup);
     const taskDeleteTarget = await this.taskRepository.findByTaskGroup(taskGroupDeleteTarget);
     for (const task of taskDeleteTarget) {
-      await this.participantRepository.deleteByTask(task);
+      await this.participantRepository.deleteUserHavingTasksByTask(task);
       await this.taskRepository.delete(task);
     }
     await this.taskGroupRepository.delete(taskGroupDeleteTarget);
