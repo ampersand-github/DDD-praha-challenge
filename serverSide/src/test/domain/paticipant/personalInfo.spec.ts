@@ -1,4 +1,4 @@
-import { dummyPersonalIfo1 } from '../../../testUtil/dummyPersonalInfo';
+import { dummyPersonalIfo1 } from '../../../testUtil/dummy/dummyPersonalInfo';
 
 describe('PersonalInfo', () => {
   describe('participantName', () => {

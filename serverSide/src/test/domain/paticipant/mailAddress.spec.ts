@@ -30,4 +30,14 @@ describe('MailAddress', (): void => {
     const result = MailAddress.create(goodAddress);
     expect(result.equals(result)).toBe(true);
   });
+
+  describe('等価比較', (): void => {
+    test('値を変更してもとの値と等価比較したら失敗する', () => {
+      const goodAddress = { mailAddress: 'aaa@gmail.com' };
+      const goodAddress2 = { mailAddress: 'bbb@gmail.com' };
+      const mailAddress = MailAddress.create(goodAddress);
+      const updateMailAddress = mailAddress.changeMailAddress(goodAddress2.mailAddress);
+      expect(mailAddress.equals(updateMailAddress)).toBe(false);
+    });
+  });
 });
