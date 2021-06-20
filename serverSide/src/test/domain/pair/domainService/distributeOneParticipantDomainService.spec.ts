@@ -1,7 +1,7 @@
 import { InMemoryPairRepository } from '../../../../infra/db/inMemory/inMemoryPairRepository';
 import { DistributeOneParticipantForAnotherPairDomainService } from '../../../../domain/pair/domainService/distributeOneParticipantDomainService';
-import { dummyPair1, dummyPair2, dummyPair3 } from '../../../../testUtil/dummyPair';
-import { dummyParticipant1, dummyParticipant5 } from '../../../../testUtil/dummyPerticipant';
+import { dummyPair1, dummyPair2, dummyPair3 } from '../../../../testUtil/dummy/dummyPair';
+import { dummyParticipant1, dummyParticipant5 } from '../../../../testUtil/dummy/dummyPerticipant';
 
 describe('DistributeOneParticipantForAnotherPairDomainService', () => {
   const pairRepository = new InMemoryPairRepository();

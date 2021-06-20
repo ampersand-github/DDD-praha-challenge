@@ -6,8 +6,8 @@ import {
   dummyTeamDataBase,
   dummyTeamId,
   dummyTeamLowerLimit,
-} from '../../../testUtil/dummyTeam';
-import { dummyPair1, dummyPair3 } from '../../../testUtil/dummyPair';
+} from '../../../testUtil/dummy/dummyTeam';
+import { dummyPair1, dummyPair3 } from '../../../testUtil/dummy/dummyPair';
 
 describe('Team', (): void => {
   test('idを指定してクラスを作成し、そのクラスのidを取得できること(team)', () => {

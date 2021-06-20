@@ -1,7 +1,7 @@
-import { dummyParticipant1 } from '../../../testUtil/dummyPerticipant';
-import { dummyRecess } from '../../../testUtil/dummyEnrolledStatus';
+import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
+import { dummyRecess } from '../../../testUtil/dummy/dummyEnrolledStatus';
 import { EnrolledStatusEnum } from '../../../domain/participant/enrolledStatus';
-import { dummyTask1 } from '../../../testUtil/dummyTask';
+import { dummyTask1 } from '../../../testUtil/dummy/dummyTask';
 import { ProgressStatusEnum } from '../../../domain/participant/progressStatus';
 import { Participant } from '../../../domain/participant/participant';
 
