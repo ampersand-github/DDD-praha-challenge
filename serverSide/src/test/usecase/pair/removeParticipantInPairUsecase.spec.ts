@@ -1,7 +1,7 @@
 import { InMemoryPairRepository } from '../../../infra/db/inMemory/inMemoryPairRepository';
 import { RemoveParticipantInPairUsecase } from '../../../usecase/pair/removeParticipantInPairUsecase';
 import { DistributeOneParticipantForAnotherPairDomainService } from '../../../domain/pair/domainService/distributeOneParticipantDomainService';
-import { dummyPair1, dummyPair3 } from '../../../testUtil/dummyPair';
+import { dummyPair1, dummyPair3 } from '../../../testUtil/dummy/dummyPair';
 
 describe('RemoveParticipantInPairUsecase', (): void => {
   const repo = new InMemoryPairRepository();

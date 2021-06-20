@@ -1,7 +1,7 @@
 import { ParticipantHavingTasksDTO } from '../../../../usecase/participant/DTO/participantHavingTasksDTO';
 import { TaskDTO } from '../../../../usecase/task/DTO/taskDTO';
-import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummyTask';
-import { dummyParticipantHavingTasks1 } from '../../../../testUtil/dummyParticipantHavingTasks';
+import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/dummyTask';
+import { dummyParticipantHavingTasks1 } from '../../../../testUtil/dummy/dummyParticipantHavingTasks';
 
 describe('ParticipantHavingTasksDTO', (): void => {
   describe('constructor', (): void => {

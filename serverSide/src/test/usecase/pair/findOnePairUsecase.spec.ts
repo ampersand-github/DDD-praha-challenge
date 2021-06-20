@@ -1,6 +1,6 @@
 import { InMemoryPairRepository } from '../../../infra/db/inMemory/inMemoryPairRepository';
 import { FindOnePairUsecase } from '../../../usecase/pair/findOnePairUsecase';
-import { dummyPair1 } from '../../../testUtil/dummyPair';
+import { dummyPair1 } from '../../../testUtil/dummy/dummyPair';
 import { PairDTO } from '../../../usecase/pair/DTO/pairDTO';
 
 describe('FindOnePairUsecase', (): void => {

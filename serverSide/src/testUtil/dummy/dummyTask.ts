@@ -1,6 +1,6 @@
-import { Task } from '../domain/task/task';
-import { TaskGroup, TaskGroupEnum } from '../domain/taskGroup/taskGroup';
-import { UniqueEntityID } from '../domain/shared/UniqueEntityID';
+import { Task } from '../../domain/task/task';
+import { TaskGroup, TaskGroupEnum } from '../../domain/taskGroup/taskGroup';
+import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
 
 export const dummyTask1 = Task.create(
   {
@@ -27,12 +27,15 @@ export const dummyTask2 = Task.create(
   new UniqueEntityID('99999999-9999-9999-bbbb-999999999999'),
 );
 
-export const dummyTask3 = Task.create({
-  no: 3,
-  name: 'リクエストをパースするWEBサーバを作ってみる',
-  description: 'OSSのレポジトリにエラーを報告すると、...',
-  group: TaskGroup.create({ taskGroup: TaskGroupEnum.webBasic }),
-});
+export const dummyTask3 = Task.create(
+  {
+    no: 3,
+    name: 'リクエストをパースするWEBサーバを作ってみる',
+    description: 'OSSのレポジトリにエラーを報告すると、...',
+    group: TaskGroup.create({ taskGroup: TaskGroupEnum.webBasic }),
+  },
+  new UniqueEntityID('99999999-3333-9999-bbbb-999999999999'),
+);
 
 export const dummyTask4 = Task.create({
   no: 4,

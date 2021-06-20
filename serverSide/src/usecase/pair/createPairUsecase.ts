@@ -1,10 +1,10 @@
 import { IPairRepository } from '../../domain/pair/repositoryInterface/IPairRepository';
 import { Pair } from '../../domain/pair/pair';
-import { dummyPair1 } from '../../testUtil/dummyPair';
+import { dummyPair1 } from '../../testUtil/dummy/dummyPair';
 import { PairDTO } from './DTO/pairDTO';
 import { PairFactory } from '../../domain/pair/domainService/pairFactory';
 import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
-import { dummyParticipant1 } from '../../testUtil/dummyPerticipant';
+import { dummyParticipant1 } from '../../testUtil/dummy/dummyPerticipant';
 import { Participant } from '../../domain/participant/participant';
 
 interface CreatePairUsecaseProps {
