@@ -1,7 +1,7 @@
-import { TeamName } from '../domain/team/teamName';
-import { Team } from '../domain/team/team';
+import { TeamName } from '../../domain/team/teamName';
+import { Team } from '../../domain/team/team';
 import { dummyPair1, dummyPair2, dummyPair3 } from './dummyPair';
-import { UniqueEntityID } from '../domain/shared/UniqueEntityID';
+import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
 
 const dummyTeamUpperLimit = 99;
 export const dummyTeamLowerLimit = 3;
