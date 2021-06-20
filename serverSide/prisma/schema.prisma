@@ -23,10 +23,6 @@ model ProgressStatus{
      TaskProgress TaskProgress[]
  }
 
-model TaskGroup{
-      taskGroupName String @id
-      task Task[]
-  }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // -- 参加者集約
@@ -79,7 +75,6 @@ model Task {
   taskNo Int @unique
   taskName String @unique
   description String @unique
-  taskGroupId TaskGroup @relation(fields: [taskGroupName], references: [taskGroupName])
   taskGroupName String
   participantHavingTask ParticipantHavingTasks[]
   createdAt DateTime @default(now())

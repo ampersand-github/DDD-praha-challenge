@@ -35,16 +35,7 @@ async function main() {
     ],
   });
 
-  const taskGroup = await prisma.taskGroup.createMany({
-    data: [
-      { taskGroupName: 'WEBの基礎' },
-      { taskGroupName: 'テスト' },
-      { taskGroupName: 'DB' },
-      { taskGroupName: '設計' },
-    ],
-  });
-
-  console.log(progressStatus, enrolledStatus, taskGroup);
+  console.log(progressStatus, enrolledStatus);
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 参加者集約
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
