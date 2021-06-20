@@ -1,7 +1,7 @@
 import { dummyTask1, dummyTask2, dummyTask3 } from './dummyTask';
-import { ProgressStatus, ProgressStatusEnum } from '../../domain/participant/progressStatus';
-import { Task } from '../../domain/task/task';
-import { ParticipantHavingTasks } from '../../domain/participant/participantHavingTasks';
+import { ProgressStatus, ProgressStatusEnum } from '../domain/participant/progressStatus';
+import { Task } from '../domain/task/task';
+import { ParticipantHavingTasks } from '../domain/participant/participantHavingTasks';
 
 const complete = ProgressStatusEnum.complete;
 const readyForReview = ProgressStatusEnum.readyForReview;

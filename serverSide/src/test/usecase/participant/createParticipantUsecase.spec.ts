@@ -1,7 +1,7 @@
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { CreateParticipantUsecase } from '../../../usecase/participant/createParticipantUsecase';
 import { InMemoryTaskRepository } from '../../../infra/db/inMemory/inMemoryTaskRepository';
-import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
+import { dummyParticipant1 } from '../../../testUtil/dummyPerticipant';
 import { ParticipantDTO } from '../../../usecase/participant/DTO/participantDTO';
 import { ParticipantFactory } from '../../../domain/participant/service/participantFactory';
 

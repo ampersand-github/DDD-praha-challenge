@@ -1,4 +1,4 @@
-import { dummyTask1 } from '../../../testUtil/dummy/dummyTask';
+import { dummyTask1 } from '../../../testUtil/dummyTask';
 
 describe('Task', (): void => {
   describe('no()', (): void => {

@@ -1,6 +1,6 @@
-import { PersonalInfo } from '../../domain/participant/personalInfo';
-import { ParticipantName } from '../../domain/participant/participantName';
-import { MailAddress } from '../../domain/participant/mailAddress';
+import { PersonalInfo } from '../domain/participant/personalInfo';
+import { ParticipantName } from '../domain/participant/participantName';
+import { MailAddress } from '../domain/participant/mailAddress';
 
 export const dummyPersonalIfo1 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '山田太郎' }),

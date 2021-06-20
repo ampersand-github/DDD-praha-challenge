@@ -1,5 +1,5 @@
-import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
-import { Participant } from '../../domain/participant/participant';
+import { UniqueEntityID } from '../domain/shared/UniqueEntityID';
+import { Participant } from '../domain/participant/participant';
 import {
   dummyPersonalIfo1,
   dummyPersonalIfo2,

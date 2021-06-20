@@ -1,4 +1,4 @@
-import { EnrolledStatus, EnrolledStatusEnum } from '../../domain/participant/enrolledStatus';
+import { EnrolledStatus, EnrolledStatusEnum } from '../domain/participant/enrolledStatus';
 
 const dummyEnrolledData = { enrolledStatus: EnrolledStatusEnum.enrolled };
 const dummyRecessData = { enrolledStatus: EnrolledStatusEnum.recess };

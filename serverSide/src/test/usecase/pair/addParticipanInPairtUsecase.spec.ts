@@ -2,8 +2,8 @@ import { InMemoryPairRepository } from '../../../infra/db/inMemory/inMemoryPairR
 import { DividePairDomainService } from '../../../domain/pair/domainService/dividePairDomainService';
 import { DisallowDuplicateParticipantInTPairDomainService } from '../../../domain/pair/domainService/disallowDuplicateParticipantDomainService';
 import { AddParticipantInPairUsecase } from '../../../usecase/pair/addParticipantInPairUsecase';
-import { dummyPair1, dummyPair2, dummyPair3 } from '../../../testUtil/dummy/dummyPair';
-import { dummyParticipant5 } from '../../../testUtil/dummy/dummyPerticipant';
+import { dummyPair1, dummyPair2, dummyPair3 } from '../../../testUtil/dummyPair';
+import { dummyParticipant5 } from '../../../testUtil/dummyPerticipant';
 import { PairDTO } from '../../../usecase/pair/DTO/pairDTO';
 
 describe('AddParticipantInPairUsecase', (): void => {
