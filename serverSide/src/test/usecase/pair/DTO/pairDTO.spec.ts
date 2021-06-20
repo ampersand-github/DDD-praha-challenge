@@ -1,4 +1,4 @@
-import { dummyPair1 } from '../../../../testUtil/dummy/dummyPair';
+import { dummyPair1 } from '../../../../testUtil/dummyPair';
 import { PairDTO } from '../../../../usecase/pair/DTO/pairDTO';
 
 describe('PairDTO', (): void => {

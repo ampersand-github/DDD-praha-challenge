@@ -1,5 +1,5 @@
 import { EnrolledStatusDTO } from '../../../../usecase/participant/DTO/enrolledStatusDTO';
-import { dummyEnrolled } from '../../../../testUtil/dummy/dummyEnrolledStatus';
+import { dummyEnrolled } from '../../../../testUtil/dummyEnrolledStatus';
 
 describe('EnrolledStatusDTO', (): void => {
   describe('constructor', (): void => {

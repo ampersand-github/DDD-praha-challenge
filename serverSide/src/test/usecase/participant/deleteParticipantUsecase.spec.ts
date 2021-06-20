@@ -1,6 +1,6 @@
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { DeleteParticipantUsecase } from '../../../usecase/participant/deleteParticipantUsecase';
-import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
+import { dummyParticipant1 } from '../../../testUtil/dummyPerticipant';
 import { ParticipantDTO } from '../../../usecase/participant/DTO/participantDTO';
 
 describe('DeleteParticipantUsecase', (): void => {

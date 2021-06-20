@@ -7,14 +7,14 @@ import {
   dummyPairId,
   DummyPairLowerLimit,
   DummyPairUpperLimit,
-} from '../../../testUtil/dummy/dummyPair';
+} from '../../../testUtil/dummyPair';
 import {
   dummyParticipant1,
   dummyParticipant2,
   dummyParticipant3,
   dummyParticipant4,
   dummyParticipant7,
-} from '../../../testUtil/dummy/dummyPerticipant';
+} from '../../../testUtil/dummyPerticipant';
 
 describe('Pair', (): void => {
   test('idを指定してクラスを作成し、そのクラスのidを取得できること(pair)', () => {

@@ -3,8 +3,8 @@ import { ParticipantHavingTasks } from '../../../domain/participant/participantH
 import {
   dummyParticipantHavingTasks1,
   dummyStatusAndTasksData,
-} from '../../../testUtil/dummy/dummyParticipantHavingTasks';
-import { dummyTask1, dummyTask2, dummyTask3, dummyTask4 } from '../../../testUtil/dummy/dummyTask';
+} from '../../../testUtil/dummyParticipantHavingTasks';
+import { dummyTask1, dummyTask2, dummyTask3, dummyTask4 } from '../../../testUtil/dummyTask';
 
 describe('ParticipantHavingTask', () => {
   test('オブジェクトが生成できること', () => {

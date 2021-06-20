@@ -19,7 +19,6 @@ export abstract class ValueObject<T extends ValueObjectProps> {
     };
   }
 
-  // todo 値オブジェクトの場合、参照渡しをしたのと比べると等価でないオブジェクトでも等価になってしまう
   public equals(vo?: ValueObject<T>): boolean {
     return deepEqual(this.props, vo.props);
   }

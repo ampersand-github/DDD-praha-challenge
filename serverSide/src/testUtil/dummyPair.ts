@@ -1,4 +1,4 @@
-import { PairName } from '../../domain/pair/pairName';
+import { PairName } from '../domain/pair/pairName';
 import {
   dummyParticipant1,
   dummyParticipant2,
@@ -8,8 +8,8 @@ import {
   dummyParticipant6,
   dummyParticipant7,
 } from './dummyPerticipant';
-import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
-import { Pair } from '../../domain/pair/pair';
+import { UniqueEntityID } from '../domain/shared/UniqueEntityID';
+import { Pair } from '../domain/pair/pair';
 
 export const DummyPairUpperLimit = 3;
 export const DummyPairLowerLimit = 2;

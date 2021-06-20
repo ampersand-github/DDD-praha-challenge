@@ -1,7 +1,7 @@
 import { InMemoryPairRepository } from '../../../../infra/db/inMemory/inMemoryPairRepository';
 import { DisallowDuplicatePairNameDomainService } from '../../../../domain/pair/domainService/disallowDuplicatePairNameDomainService';
-import { dummyPair1, dummyPair2 } from '../../../../testUtil/dummy/dummyPair';
-import { dummyParticipant1, dummyParticipant5 } from '../../../../testUtil/dummy/dummyPerticipant';
+import { dummyPair1, dummyPair2 } from '../../../../testUtil/dummyPair';
+import { dummyParticipant1, dummyParticipant5 } from '../../../../testUtil/dummyPerticipant';
 
 describe('DisallowDuplicatePairNameDomainService', () => {
   const pairRepository = new InMemoryPairRepository();

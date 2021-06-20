@@ -1,6 +1,6 @@
 import { InMemoryParticipantRepository } from '../../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { InMemoryTaskRepository } from '../../../../infra/db/inMemory/inMemoryTaskRepository';
-import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/dummyTask';
+import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummyTask';
 import { Participant } from '../../../../domain/participant/participant';
 import { ParticipantFactory } from '../../../../domain/participant/service/participantFactory';
 

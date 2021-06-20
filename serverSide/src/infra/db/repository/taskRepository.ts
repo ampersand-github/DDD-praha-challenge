@@ -39,14 +39,7 @@ export class TaskRepository implements ITaskRepository {
   }
 
   public async findByTaskGroup(taskGroup: TaskGroup): Promise<Task[]> {
-    const taskData = await this.prismaClient.task.findMany({
-      where: {
-        taskGroupName: taskGroup.taskGroup,
-      },
-    });
-    return taskData.map((one) => {
-      return TaskRepository.convertTo(one);
-    });
+    throw new Error('Method not implemented.');
   }
 
   public async create(task: Task): Promise<Task> {
@@ -70,18 +63,18 @@ export class TaskRepository implements ITaskRepository {
     return task;
   }
 
+  // todo カスケード周り削除
   public async delete(task: Task): Promise<number> {
-    const result1 = await this.prismaClient.participantHavingTasks.deleteMany({
-      where: {
-        taskId: task.id.toValue(),
-      },
-    });
-    const result2 = await this.prismaClient.task.deleteMany({
-      where: {
-        taskId: task.id.toValue(),
-      },
-    });
-    return result1.count + result2.count;
+    // todo　カスケードやめる
+    // prisma.〇〇.deleteManyではカスケード削除ができない。
+    // prismaの仕様がまだ対応していないらしい
+    // でもsqlでならカスケード削除がいける
+    return await this.prismaClient.$executeRaw(
+      `delete
+         FROM public."Task"
+         where "taskId" = $1`,
+      task.id.toValue(),
+    );
   }
 
   public async update(task: Task): Promise<Task> {
@@ -131,7 +124,7 @@ export class TaskRepository implements ITaskRepository {
     欠番を埋めたりとかする
     taskNoがユニークなのでそのまま更新できない。
     いったん+10000した値にしておいて、その後、改めて振り分ける
-    */
+  */
     const findMany = await this.prismaClient.task.findMany({
       orderBy: {
         taskNo: 'asc',

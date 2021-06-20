@@ -1,6 +1,6 @@
 import { FindAllParticipantUsecase } from '../../../usecase/participant/findAllUsecase';
 import { PersonalInfoDTO } from '../../../usecase/participant/DTO/personalInfoDTO';
-import { dummyPersonalIfo1, dummyPersonalIfo2 } from '../../../testUtil/dummy/dummyPersonalInfo';
+import { dummyPersonalIfo1, dummyPersonalIfo2 } from '../../../testUtil/dummyPersonalInfo';
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 
 describe('FindAllParticipantUsecase', (): void => {
