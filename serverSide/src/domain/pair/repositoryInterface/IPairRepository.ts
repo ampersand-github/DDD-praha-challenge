@@ -1,5 +1,4 @@
 import { Pair } from '../pair';
-import { Participant } from '../../participant/participant';
 
 export interface IPairRepository {
   findAll(): Promise<Pair[]>;

@@ -4,7 +4,6 @@ import { DisallowDuplicateParticipantInTPairDomainService } from '../../../domai
 import { AddParticipantInPairUsecase } from '../../../usecase/pair/addParticipantInPairUsecase';
 import { dummyPair1, dummyPair2, dummyPair3 } from '../../../testUtil/dummy/dummyPair';
 import { dummyParticipant5 } from '../../../testUtil/dummy/dummyPerticipant';
-import { PairDTO } from '../../../usecase/pair/DTO/pairDTO';
 
 describe('AddParticipantInPairUsecase', (): void => {
   const repo = new InMemoryPairRepository();

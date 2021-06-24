@@ -1,5 +1,4 @@
 import { InMemoryPairRepository } from '../../../infra/db/inMemory/inMemoryPairRepository';
-import { AddParticipantInPairUsecase } from '../../../usecase/pair/addParticipantInPairUsecase';
 import { CreatePairUsecase } from '../../../usecase/pair/createPairUsecase';
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { PairFactory } from '../../../domain/pair/domainService/pairFactory';
