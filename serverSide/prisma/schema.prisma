@@ -11,60 +11,49 @@ generator client {
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-// -- 設定系データ
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-model EnrolledStatus{
-     enrolledStatus String @id
-     enrolledParticipant EnrolledParticipant[]
- }
-
-model ProgressStatus{
-     progressStatus String @id
-     TaskProgress TaskProgress[]
- }
-
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // -- 参加者集約
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-model Participant {
-  participantId String @id
+model PersonalInfo {
   name String
   mailAddress String @unique
-  // todo null許容したくないが、?をつけないとエラーになる
-  enrolledParticipant EnrolledParticipant?
-  pair Pair? @relation(fields: [pairId], references: [pairId])
-  pairId String?
-  participantHavingTask ParticipantHavingTasks[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  participant Participant @relation(fields: [participantId], references: [participantId])
+  participantId String
 }
 
-model EnrolledParticipant {
-    enrolledParticipantId String @id
+model ParticipantHavingTask{
+    participantHavingTaskId String @id
+    taskProgress String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    task Task @relation(fields: [taskId], references: [taskId])
+    taskId String
     participant Participant @relation(fields: [participantId], references: [participantId])
     participantId String
-    enrolledStatusId EnrolledStatus @relation(fields: [enrolledStatus], references: [enrolledStatus])
-    enrolledStatus String
 }
 
+model Participant {
+  participantId String @id
+  personalInfo PersonalInfo?
+  participantHavingTask ParticipantHavingTask[]
+  enrolledParticipant String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  pair Pair? @relation(fields: [pairName], references: [pairName])
+  pairName String?
+
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// -- ペア集約
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 model Pair {
-  pairId String @id
-  pairName String
-  participant Participant[]
-  team Team @relation(fields: [teamId], references: [teamId])
-  teamId String
+  pairName String @unique
+  participants Participant[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  @@unique([pairName, teamId])
-}
 
-model Team {
-  teamId String @id
-  teamName String @unique
-  pair Pair[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -76,24 +65,8 @@ model Task {
   taskName String @unique
   description String @unique
   taskGroupName String
-  participantHavingTask ParticipantHavingTasks[]
+  participantHavingTask ParticipantHavingTask[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model ParticipantHavingTasks{
-    participantHavingTaskId String @id
-    task Task @relation(fields: [taskId], references: [taskId])
-    taskId String
-    taskProgress TaskProgress?
-    participant Participant @relation(fields: [participantId], references: [participantId])
-    participantId String
-}
-
-model TaskProgress {
-    taskProgressId String @id
-    participantHavingTask ParticipantHavingTasks @relation(fields: [participantHavingTaskId], references: [participantHavingTaskId])
-    participantHavingTaskId String
-    progressStatusId ProgressStatus? @relation(fields: [progressStatus], references: [progressStatus])
-    progressStatus String?
-}
