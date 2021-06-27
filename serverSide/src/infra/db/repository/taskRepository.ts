@@ -71,7 +71,7 @@ export class TaskRepository implements ITaskRepository {
   }
 
   public async delete(task: Task): Promise<number> {
-    const result1 = await this.prismaClient.participantHavingTasks.deleteMany({
+    const result1 = await this.prismaClient.participantHavingTask.deleteMany({
       where: {
         taskId: task.id.toValue(),
       },

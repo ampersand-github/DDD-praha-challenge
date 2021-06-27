@@ -19,7 +19,7 @@ export class TaskDeleteDomainService {
 
   public async do(props: TaskDeleteDomainServiceProps): Promise<void> {
     const shouldDeleteTask = await this.taskRepository.findOne(props.taskId);
-    await this.participantRepository.deleteUserHavingTasksByTask(shouldDeleteTask);
+    await this.participantRepository.deleteParticipantHavingTaskByTask(shouldDeleteTask);
     await this.taskRepository.delete(shouldDeleteTask);
   }
 }
