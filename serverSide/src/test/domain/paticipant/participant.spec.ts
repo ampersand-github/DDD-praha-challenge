@@ -1,7 +1,7 @@
 import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
 import { dummyRecess } from '../../../testUtil/dummy/dummyEnrolledStatus';
 import { EnrolledStatusEnum } from '../../../domain/participant/enrolledStatus';
-import { dummyTask1 } from '../../../testUtil/dummy/dummyTask';
+import { dummyTask2 } from '../../../testUtil/dummy/dummyTask';
 import { ProgressStatusEnum } from '../../../domain/participant/progressStatus';
 import { Participant } from '../../../domain/participant/participant';
 
@@ -29,8 +29,8 @@ describe('Participant', (): void => {
   describe('changeParticipantHavingTasks', (): void => {
     test('[正常]進捗ステータスが変更ができること', () => {
       const complete = ProgressStatusEnum.complete;
-      const actual: Participant = dummyParticipant1.changeProgressStatus(dummyTask1, complete);
-      const result = actual.participantHavingTasks.statusAndTasks.get(dummyTask1).progressStatus;
+      const actual: Participant = dummyParticipant1.changeProgressStatus(dummyTask2, complete);
+      const result = actual.getStatusFromTask(dummyTask2);
       expect(result).toBe(complete);
     });
   });
