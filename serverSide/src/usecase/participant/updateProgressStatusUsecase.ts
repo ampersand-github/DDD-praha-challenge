@@ -1,8 +1,8 @@
 import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
 import { Participant } from '../../domain/participant/participant';
 import { ITaskRepository } from '../../domain/task/repositoryInterface/ITaskRepository';
-import { ParticipantHavingTasksDTO } from './DTO/participantHavingTasksDTO';
 import { Task } from '../../domain/task/task';
+import { ParticipantHavingTaskCollectionDTO } from './DTO/participantHavingTasksDTO';
 
 interface UpdateParticipantHavingTasksUsecaseProps {
   participantId: string;
@@ -23,13 +23,13 @@ export class UpdateParticipantHavingTasksUsecase {
 
   public async do(
     props: UpdateParticipantHavingTasksUsecaseProps,
-  ): Promise<ParticipantHavingTasksDTO> {
+  ): Promise<ParticipantHavingTaskCollectionDTO> {
     const [currentParticipant, task]: [Participant, Task] = await Promise.all([
       this.participantRepository.findOne(props.participantId),
       this.taskRepository.findOne(props.taskId),
     ]);
     //
     const result = currentParticipant.changeProgressStatus(task, props.progressStatus);
-    return new ParticipantHavingTasksDTO(result.participantHavingTasks);
+    return new ParticipantHavingTaskCollectionDTO(result);
   }
 }
