@@ -7,7 +7,8 @@ import { EnrolledStatus, EnrolledStatusEnum } from '../enrolledStatus';
 import { ITaskRepository } from '../../task/repositoryInterface/ITaskRepository';
 import { Task } from '../../task/task';
 import { ProgressStatus, ProgressStatusEnum } from '../progressStatus';
-import { ParticipantHavingTasks } from '../participantHavingTasks';
+import { ParticipantHavingTaskCollection } from '../participantHavingTaskCollection';
+import { ParticipantHavingTask } from '../participantHavingTask';
 
 interface ParticipantServiceProps {
   participantRepository: IParticipantRepository;
@@ -62,19 +63,18 @@ export class ParticipantFactory {
     const tasks = await this.taskRepo.findAll();
     const notStartedData = { progressStatus: ProgressStatusEnum.notStarted };
     const notStarted = ProgressStatus.create(notStartedData);
-    const participantHavingTasksData = new Map<Task, ProgressStatus>();
-    tasks.map((one: Task) => {
-      participantHavingTasksData.set(one, notStarted);
+    const participantHavingTasksData = tasks.map((one: Task) => {
+      return ParticipantHavingTask.create({ task: one, progressStatus: notStarted });
     });
-    const participantHavingTasks = ParticipantHavingTasks.create({
-      statusAndTasks: participantHavingTasksData,
+    const participantHavingTaskCollection = ParticipantHavingTaskCollection.create({
+      participantHavingTaskCollection: participantHavingTasksData,
     });
     //
     // 参加者作成
     const data = {
       personalInfo: personalInfo,
       enrolledStatus: enrolled,
-      participantHavingTasks: participantHavingTasks,
+      participantHavingTaskCollection: participantHavingTaskCollection,
     };
     return Participant.create(data);
   }
