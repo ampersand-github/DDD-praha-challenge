@@ -16,7 +16,7 @@ describe('DeleteTaskGroupUsecase', (): void => {
     participantRepository,
   );
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

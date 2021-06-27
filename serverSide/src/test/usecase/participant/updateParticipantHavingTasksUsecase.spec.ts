@@ -11,7 +11,7 @@ describe('UpdateProgressStatusUsecase', (): void => {
   const taskRepository = new InMemoryTaskRepository();
   const usecase = new UpdateParticipantHavingTasksUsecase(participantRepository, taskRepository);
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

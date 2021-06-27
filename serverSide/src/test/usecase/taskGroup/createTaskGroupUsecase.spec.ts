@@ -7,7 +7,7 @@ describe('CreateTaskGroupUsecase', (): void => {
   const repo = new InMemoryTaskGroupRepository();
   const usecase = new CreateTaskGroupUsecase(repo);
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 
