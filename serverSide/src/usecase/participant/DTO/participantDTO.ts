@@ -1,14 +1,14 @@
 import { Participant } from '../../../domain/participant/participant';
 import { PersonalInfoDTO } from './personalInfoDTO';
-import { ParticipantHavingTasksDTO } from './participantHavingTasksDTO';
+import { ParticipantHavingTaskCollectionDTO } from './participantHavingTasksDTO';
 
 export class ParticipantDTO {
   public readonly personalInfoDTO: PersonalInfoDTO;
   public readonly enrolledStatus: string;
-  public readonly participantHavingTasksDTO: ParticipantHavingTasksDTO;
+  public readonly participantHavingTasksDTO: ParticipantHavingTaskCollectionDTO;
   public constructor(props: Participant) {
-    this.personalInfoDTO = new PersonalInfoDTO(props.personalInfo);
+    this.personalInfoDTO = new PersonalInfoDTO(props);
     this.enrolledStatus = props.enrolledStatus;
-    this.participantHavingTasksDTO = new ParticipantHavingTasksDTO(props.participantHavingTasks);
+    this.participantHavingTasksDTO = new ParticipantHavingTaskCollectionDTO(props);
   }
 }
