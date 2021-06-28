@@ -1,4 +1,3 @@
-import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
 import { ITaskRepository } from '../../domain/task/repositoryInterface/ITaskRepository';
 import { TaskDeleteDomainService } from '../../domain/task/taskDeleteDomainService';
 import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';

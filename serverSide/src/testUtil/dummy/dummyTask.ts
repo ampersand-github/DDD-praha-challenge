@@ -1,6 +1,6 @@
-import { Task } from '../domain/task/task';
-import { TaskGroup, TaskGroupEnum } from '../domain/taskGroup/taskGroup';
-import { UniqueEntityID } from '../domain/shared/UniqueEntityID';
+import { Task } from '../../domain/task/task';
+import { TaskGroup, TaskGroupEnum } from '../../domain/taskGroup/taskGroup';
+import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
 
 export const dummyTask1 = Task.create(
   {

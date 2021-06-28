@@ -2,7 +2,7 @@ import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemo
 import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 import { EnrolledStatus, EnrolledStatusEnum } from '../../../domain/participant/enrolledStatus';
 import { EnrolledStatusDTO } from '../../../usecase/participant/DTO/enrolledStatusDTO';
-import { dummyParticipant1 } from '../../../testUtil/dummyPerticipant';
+import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
 import { ToWithdrawalStatusUsecase } from '../../../usecase/participant/toWithdrawalStatusUsecase';
 
 describe('ToWithdrawalStatusUsecase', (): void => {

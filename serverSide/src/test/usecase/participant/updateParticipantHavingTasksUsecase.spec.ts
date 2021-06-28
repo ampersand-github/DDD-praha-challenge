@@ -1,9 +1,9 @@
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { InMemoryTaskRepository } from '../../../infra/db/inMemory/inMemoryTaskRepository';
-import { dummyTask1, dummyTask4 } from '../../../testUtil/dummyTask';
+import { dummyTask1, dummyTask4 } from '../../../testUtil/dummy/dummyTask';
 import { ParticipantHavingTasksDTO } from '../../../usecase/participant/DTO/participantHavingTasksDTO';
 import { ProgressStatusEnum } from '../../../domain/participant/progressStatus';
-import { dummyParticipant1 } from '../../../testUtil/dummyPerticipant';
+import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
 import { UpdateParticipantHavingTasksUsecase } from '../../../usecase/participant/updateProgressStatusUsecase';
 
 describe('UpdateProgressStatusUsecase', (): void => {

@@ -22,12 +22,12 @@ export class TaskGroupDeleteDomainService {
   }
 
   public async do(props: TaskGroupDeleteDomainServiceProps): Promise<void> {
-    const taskGroupDeleteTarget = await this.taskGroupRepository.findOne(props.taskGroup);
-    const taskDeleteTarget = await this.taskRepository.findByTaskGroup(taskGroupDeleteTarget);
+    const shouldDeleteTaskGroup = await this.taskGroupRepository.findOne(props.taskGroup);
+    const taskDeleteTarget = await this.taskRepository.findByTaskGroup(shouldDeleteTaskGroup);
     for (const task of taskDeleteTarget) {
       await this.participantRepository.deleteUserHavingTasksByTask(task);
       await this.taskRepository.delete(task);
     }
-    await this.taskGroupRepository.delete(taskGroupDeleteTarget);
+    await this.taskGroupRepository.delete(shouldDeleteTaskGroup);
   }
 }

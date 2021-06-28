@@ -1,10 +1,9 @@
 import { InMemoryPairRepository } from '../../../infra/db/inMemory/inMemoryPairRepository';
-import { AddParticipantInPairUsecase } from '../../../usecase/pair/addParticipantInPairUsecase';
 import { CreatePairUsecase } from '../../../usecase/pair/createPairUsecase';
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { PairFactory } from '../../../domain/pair/domainService/pairFactory';
-import { dummyParticipant1, dummyParticipant2 } from '../../../testUtil/dummyPerticipant';
-import { dummyPair1 } from '../../../testUtil/dummyPair';
+import { dummyParticipant1, dummyParticipant2 } from '../../../testUtil/dummy/dummyPerticipant';
+import { dummyPair1 } from '../../../testUtil/dummy/dummyPair';
 import { PairDTO } from '../../../usecase/pair/DTO/pairDTO';
 
 describe('CreatePairUsecase', (): void => {

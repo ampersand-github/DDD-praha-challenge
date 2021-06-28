@@ -5,7 +5,6 @@ import { ITaskRepository } from '../../../domain/task/repositoryInterface/ITaskR
 import { TaskGroup } from '../../../domain/taskGroup/taskGroup';
 
 export class InMemoryTaskRepository implements ITaskRepository {
-
   public create(task: Task): Promise<Task> {
     return Promise.resolve(undefined);
   }
