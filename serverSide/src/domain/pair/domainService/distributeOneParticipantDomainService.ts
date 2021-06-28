@@ -22,7 +22,10 @@ export class DistributeOneParticipantForAnotherPairDomainService {
     if (props.pair.participants.length !== 2) {
       throw new Error('ペア数が2人ではありません。');
     }
-    if (!props.pair.participants.includes(props.shouldBeDistributedParticipant)) {
+    const result = props.pair.participants.some((one) => {
+      return one.equals(props.shouldBeDistributedParticipant);
+    });
+    if (!result) {
       throw new Error('他のペアに振り分けられるべき参加者がこのこのペアに参加していません。');
     }
 
@@ -33,10 +36,11 @@ export class DistributeOneParticipantForAnotherPairDomainService {
       return one !== props.pair && one.participants.length === 2;
     });
     // todo 参加者保有課題の完了数が近いペアに振り分けたい。いづれ作るかもしれない
+    if (twoParticipantPair.length === 0) {
+      throw new Error('振り分けられるペアが存在しません。');
+    }
     const bestMatchPair: Pair = twoParticipantPair[0];
-
     const pair = bestMatchPair.addParticipant(props.shouldBeDistributedParticipant);
-
     // ペアが確定したので、1名になったペアは削除される
     await this.pairRepository.delete(props.pair);
     await this.pairRepository.update(pair);
