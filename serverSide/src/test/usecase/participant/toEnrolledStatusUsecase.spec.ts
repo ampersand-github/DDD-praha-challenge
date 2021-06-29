@@ -16,20 +16,15 @@ describe('ToEnrolledStatusUsecase', (): void => {
   describe('do', (): void => {
     test('[正常]在籍ステータスを在籍中に変更できる', async () => {
       // データ作成
-      const data = { participantId: new UniqueEntityID().toValue() };
-      //
-      const enrolledData = { enrolledStatus: EnrolledStatusEnum.enrolled };
-      const enrolled = EnrolledStatus.create(enrolledData);
-      const enrolledStatusDTO = new EnrolledStatusDTO(enrolled);
-      //
       const spy1 = jest
         .spyOn(InMemoryParticipantRepository.prototype, 'findOne')
         .mockResolvedValueOnce(dummyParticipant1);
       const spy2 = jest
-        .spyOn(InMemoryParticipantRepository.prototype, 'updateEnrolledStatus')
-        .mockResolvedValueOnce(enrolled);
+        .spyOn(InMemoryParticipantRepository.prototype, 'update')
+        .mockResolvedValueOnce(dummyParticipant1);
+      const data = { participantId: new UniqueEntityID().toValue() };
       // 結果確認
-      await expect(usecase.do(data)).resolves.toStrictEqual(enrolledStatusDTO);
+      await expect(usecase.do(data)).resolves.toBeInstanceOf(EnrolledStatusDTO);
       expect(spy1).toHaveBeenCalledTimes(1);
       expect(spy2).toHaveBeenCalledTimes(1);
     });
