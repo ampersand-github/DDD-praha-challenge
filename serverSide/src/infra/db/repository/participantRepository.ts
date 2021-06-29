@@ -86,15 +86,17 @@ export class ParticipantRepository implements IParticipantRepository {
   }
 
   public async findAll(): Promise<Participant[]> {
-    const findMany: PrismaParticipantProps[] = await this.prismaClient.participant.findMany({
-      include: {
-        personalInfo: true,
-        participantHavingTask: true,
+    const findManyParticipant: PrismaParticipantProps[] = await this.prismaClient.participant.findMany(
+      {
+        include: {
+          personalInfo: true,
+          participantHavingTask: true,
+        },
       },
-    });
+    );
 
     return await Promise.all(
-      findMany.map((one: PrismaParticipantProps) =>
+      findManyParticipant.map((one: PrismaParticipantProps) =>
         ParticipantRepository.convertToParticipant(one),
       ),
     );
