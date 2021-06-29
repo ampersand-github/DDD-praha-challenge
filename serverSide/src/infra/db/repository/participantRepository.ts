@@ -217,14 +217,9 @@ export class ParticipantRepository implements IParticipantRepository {
     baseList: ParticipantHavingTask[],
     target: ParticipantHavingTask,
   ) {
-    let bool = false;
-    for (const oldOne of baseList) {
-      const result = target.equals(oldOne);
-      if (result) {
-        bool = true;
-      }
-      return bool;
-    }
+    return baseList.some((one) => {
+      return one.equals(target);
+    });
   }
 
   private static async updateParticipantHavingTaskCollection(participant: Participant) {
