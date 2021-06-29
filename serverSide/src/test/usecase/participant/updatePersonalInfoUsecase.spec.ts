@@ -27,14 +27,13 @@ describe('UpdatePersonalInfoUsecase', (): void => {
       const spy2 = jest
         .spyOn(DisallowDuplicateMailAddressService.prototype, 'do')
         .mockResolvedValueOnce();
-      //
       const spy3 = jest
-        .spyOn(InMemoryParticipantRepository.prototype, 'updatePersonalInfo')
-        .mockResolvedValueOnce(dummyPersonalIfo1);
+        .spyOn(InMemoryParticipantRepository.prototype, 'update')
+        .mockResolvedValueOnce(dummyParticipant1);
       //
       // 結果確認
       const result = await usecase.do(data);
-      expect(result.mailAddress).toBe(dummyPersonalIfo1.mailAddress);
+      await expect(result.mailAddress).toBe(data.shouldUpdateMailAddress);
       expect(result.participantName).toBe(dummyPersonalIfo1.participantName);
       expect(spy1).toHaveBeenCalledTimes(1);
       expect(spy2).toHaveBeenCalledTimes(1);
@@ -59,17 +58,15 @@ describe('UpdatePersonalInfoUsecase', (): void => {
       const spy1 = jest
         .spyOn(InMemoryParticipantRepository.prototype, 'findOne')
         .mockResolvedValueOnce(dummyParticipant1);
-      //
       const spy3 = jest
-        .spyOn(InMemoryParticipantRepository.prototype, 'updatePersonalInfo')
-        .mockResolvedValueOnce(dummyPersonalIfo1);
+        .spyOn(InMemoryParticipantRepository.prototype, 'update')
+        .mockResolvedValueOnce(dummyParticipant1);
       //
       // 結果確認
       const result = await usecase.do(data);
-      expect(result.mailAddress).toBe(dummyPersonalIfo1.mailAddress);
+      expect(result.mailAddress).toBe(dummyParticipant1.mailAddress);
       expect(result.participantName).toBe(dummyPersonalIfo1.participantName);
       expect(spy1).toHaveBeenCalledTimes(1);
-      expect(spy3).toHaveBeenCalledTimes(1);
     });
   });
 });
