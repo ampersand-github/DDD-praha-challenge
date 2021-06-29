@@ -66,10 +66,11 @@ describe('TaskRepository', (): void => {
       describe('delete()', () => {
         test('[正常]削除できる', async () => {
           // 結果確認
-          const result = await participantRepository.delete(dummyParticipant1);
-          expect(result).toStrictEqual(
-            1 + 1 + dummyParticipant1.participantHavingTaskCollection.length,
-          );
+          const id = dummyParticipant1.id.toValue();
+          const result = await participantRepository.findOne(dummyParticipant1.id.toValue());
+          expect(result.participantHavingTaskCollection.length).toBe(3);
+          await participantRepository.delete(result);
+          await expect(participantRepository.findOne(id)).rejects.toThrowError();
         });
       });
 
