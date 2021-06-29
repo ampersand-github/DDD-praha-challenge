@@ -113,7 +113,7 @@ export class ParticipantRepository implements IParticipantRepository {
 
   public async isExistMailAddress(mailAddress: string): Promise<boolean> {
     const count = await prismaClient.personalInfo.count({ where: { mailAddress: mailAddress } });
-    return count !== 0;
+    return count > 0;
   }
 
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
