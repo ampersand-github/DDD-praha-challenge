@@ -35,20 +35,3 @@ describe('Participant', (): void => {
     });
   });
 });
-
-/*
-  test('idを指定してクラスを作成し、そのクラスのidを取得できること(participant)', () => {
-    expect(dummyParticipant1.id).toBe(dummyParticipantId);
-  });
-
-  describe('equals', () => {
-    test('等価比較ができること', () => {
-      expect(dummyParticipant1.equals(dummyParticipant2)).toBe(true);
-    });
-
-    test('異なるidによる等価比較で等価と判定されないこと', () => {
-      expect(dummyParticipant1.equals(dummyParticipant3)).toBe(false);
-    });
-  });
-
- */
