@@ -1,7 +1,7 @@
 import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
 import { dummyRecess } from '../../../testUtil/dummy/dummyEnrolledStatus';
 import { EnrolledStatusEnum } from '../../../domain/participant/enrolledStatus';
-import { dummyTask2 } from '../../../testUtil/dummy/dummyTask';
+import { dummyTask1, dummyTask2 } from '../../../testUtil/dummy/dummyTask';
 import { ProgressStatusEnum } from '../../../domain/participant/progressStatus';
 import { Participant } from '../../../domain/participant/participant';
 
@@ -32,6 +32,14 @@ describe('Participant', (): void => {
       const actual: Participant = dummyParticipant1.changeProgressStatus(dummyTask2, complete);
       const result = actual.getStatusFromTask(dummyTask2);
       expect(result).toBe(complete);
+    });
+  });
+
+  describe('deleteByTask', (): void => {
+    test('[正常]', () => {
+      expect(dummyParticipant1.participantHavingTaskCollection.length).toBe(3);
+      dummyParticipant1.deleteByTask([dummyTask1]);
+      expect(dummyParticipant1.participantHavingTaskCollection.length).toBe(2);
     });
   });
 });
