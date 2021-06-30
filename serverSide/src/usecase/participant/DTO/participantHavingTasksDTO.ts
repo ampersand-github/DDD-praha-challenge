@@ -1,17 +1,17 @@
 import { TaskDTO } from '../../task/DTO/taskDTO';
-import { ParticipantHavingTasks } from '../../../domain/participant/participantHavingTasks';
 
-export class ParticipantHavingTasksDTO {
-  private readonly tasks: [TaskDTO, string][];
+import { Participant } from '../../../domain/participant/participant';
 
-  public get participantHavingTasks(): [TaskDTO, string][] {
-    return this.tasks;
-  }
+export class ParticipantHavingTaskCollectionDTO {
+  public readonly tasks: [TaskDTO, string][];
 
-  public constructor(props: ParticipantHavingTasks) {
+  public constructor(props: Participant) {
     const taskList = [];
-    for (const [task, progressStatus] of props.statusAndTasks) {
-      taskList.push([new TaskDTO(task), progressStatus.progressStatus]);
+    for (const participantHavingTask of props.participantHavingTaskCollection) {
+      taskList.push([
+        new TaskDTO(participantHavingTask.task),
+        participantHavingTask.progressStatus.progressStatus,
+      ]);
     }
     this.tasks = taskList;
   }
