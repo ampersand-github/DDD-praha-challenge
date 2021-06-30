@@ -1,7 +1,7 @@
-import { dummyParticipant1 } from '../../../testUtil/dummyPerticipant';
-import { dummyRecess } from '../../../testUtil/dummyEnrolledStatus';
+import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
+import { dummyRecess } from '../../../testUtil/dummy/dummyEnrolledStatus';
 import { EnrolledStatusEnum } from '../../../domain/participant/enrolledStatus';
-import { dummyTask1 } from '../../../testUtil/dummyTask';
+import { dummyTask1, dummyTask2 } from '../../../testUtil/dummy/dummyTask';
 import { ProgressStatusEnum } from '../../../domain/participant/progressStatus';
 import { Participant } from '../../../domain/participant/participant';
 
@@ -29,26 +29,17 @@ describe('Participant', (): void => {
   describe('changeParticipantHavingTasks', (): void => {
     test('[正常]進捗ステータスが変更ができること', () => {
       const complete = ProgressStatusEnum.complete;
-      const actual: Participant = dummyParticipant1.changeProgressStatus(dummyTask1, complete);
-      const result = actual.participantHavingTasks.statusAndTasks.get(dummyTask1).progressStatus;
+      const actual: Participant = dummyParticipant1.changeProgressStatus(dummyTask2, complete);
+      const result = actual.getStatusFromTask(dummyTask2);
       expect(result).toBe(complete);
     });
   });
+
+  describe('deleteByTask', (): void => {
+    test('[正常]', () => {
+      expect(dummyParticipant1.participantHavingTaskCollection.length).toBe(3);
+      dummyParticipant1.deleteByTask([dummyTask1]);
+      expect(dummyParticipant1.participantHavingTaskCollection.length).toBe(2);
+    });
+  });
 });
-
-/*
-  test('idを指定してクラスを作成し、そのクラスのidを取得できること(participant)', () => {
-    expect(dummyParticipant1.id).toBe(dummyParticipantId);
-  });
-
-  describe('equals', () => {
-    test('等価比較ができること', () => {
-      expect(dummyParticipant1.equals(dummyParticipant2)).toBe(true);
-    });
-
-    test('異なるidによる等価比較で等価と判定されないこと', () => {
-      expect(dummyParticipant1.equals(dummyParticipant3)).toBe(false);
-    });
-  });
-
- */

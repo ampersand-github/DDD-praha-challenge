@@ -1,7 +1,7 @@
 import { InMemoryPairRepository } from '../../../../infra/db/inMemory/inMemoryPairRepository';
 import { DividePairDomainService } from '../../../../domain/pair/domainService/dividePairDomainService';
-import { dummyPair1, dummyPair2, dummyPair3 } from '../../../../testUtil/dummyPair';
-import { dummyParticipant1 } from '../../../../testUtil/dummyPerticipant';
+import { dummyPair1, dummyPair2, dummyPair3 } from '../../../../testUtil/dummy/dummyPair';
+import { dummyParticipant1 } from '../../../../testUtil/dummy/dummyPerticipant';
 import { PairFactory } from '../../../../domain/pair/domainService/pairFactory';
 
 describe('DividePairDomainService', () => {

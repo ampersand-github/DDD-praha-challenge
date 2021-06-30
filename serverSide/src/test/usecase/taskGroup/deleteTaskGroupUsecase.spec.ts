@@ -1,6 +1,5 @@
 import { InMemoryTaskGroupRepository } from '../../../infra/db/inMemory/inMemoryTaskGroupRepository';
 import { DeleteTaskGroupUsecase } from '../../../usecase/taskGroup/DeleteTaskGroupUsecase';
-import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { InMemoryTaskRepository } from '../../../infra/db/inMemory/inMemoryTaskRepository';
 import { TaskGroupEnum } from '../../../domain/taskGroup/taskGroup';

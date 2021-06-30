@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { Participant } from '../../../domain/participant/participant';
 import { Pair } from '../../../domain/pair/pair';
 import { IPairRepository } from '../../../domain/pair/repositoryInterface/IPairRepository';
 

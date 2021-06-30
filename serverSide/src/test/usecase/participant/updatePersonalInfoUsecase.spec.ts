@@ -1,7 +1,7 @@
-import { dummyParticipant1 } from '../../../testUtil/dummyPerticipant';
+import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { UpdatePersonalInfoUsecase } from '../../../usecase/participant/updatePersonalInfoUsecase';
-import { dummyPersonalIfo1 } from '../../../testUtil/dummyPersonalInfo';
+import { dummyPersonalIfo1 } from '../../../testUtil/dummy/dummyPersonalInfo';
 import { DisallowDuplicateMailAddressService } from '../../../domain/participant/service/disallowDuplicateMailaddressService';
 
 describe('UpdatePersonalInfoUsecase', (): void => {

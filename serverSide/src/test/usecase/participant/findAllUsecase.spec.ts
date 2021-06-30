@@ -1,7 +1,7 @@
 import { FindAllParticipantUsecase } from '../../../usecase/participant/findAllUsecase';
 import { PersonalInfoDTO } from '../../../usecase/participant/DTO/personalInfoDTO';
-import { dummyPersonalIfo1, dummyPersonalIfo2 } from '../../../testUtil/dummyPersonalInfo';
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
+import { dummyParticipant1, dummyParticipant2 } from '../../../testUtil/dummy/dummyPerticipant';
 
 describe('FindAllParticipantUsecase', (): void => {
   const repo = new InMemoryParticipantRepository();
@@ -16,12 +16,12 @@ describe('FindAllParticipantUsecase', (): void => {
       // データ作成
       const spy = jest
         .spyOn(InMemoryParticipantRepository.prototype, 'findAll')
-        .mockResolvedValueOnce([dummyPersonalIfo1, dummyPersonalIfo2]);
+        .mockResolvedValueOnce([dummyParticipant1, dummyParticipant2]);
 
       // 結果確認
       await expect(usecase.do()).resolves.toStrictEqual([
-        new PersonalInfoDTO(dummyPersonalIfo1),
-        new PersonalInfoDTO(dummyPersonalIfo2),
+        new PersonalInfoDTO(dummyParticipant1),
+        new PersonalInfoDTO(dummyParticipant2),
       ]);
       expect(spy).toHaveBeenCalledTimes(1);
     });
