@@ -16,5 +16,5 @@ export interface IParticipantRepository {
   //
   // todo DBの参加者の一部の項目を個人情報テーブルに分離すること
   delete(participant: Participant): Promise<number>; // numberは削除件数
-  deleteByTask(task: Task): Promise<number>; // numberは削除件数
+  deleteUserHavingTasksByTask(task: Task): Promise<number>; // numberは削除件数
 }

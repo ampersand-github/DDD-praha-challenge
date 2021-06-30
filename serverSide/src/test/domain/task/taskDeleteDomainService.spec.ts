@@ -10,7 +10,7 @@ describe('TaskDeleteDomainService', () => {
     participantRepository,
   );
 
-  beforeEach(async () => {
+  beforeEach(() => {
     jest.clearAllMocks();
   });
 

@@ -1,24 +1,8 @@
 import { Task } from '../../../domain/task/task';
-import { Prisma, PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient, Task as PrismaTaskProps } from '@prisma/client';
 import { TaskGroup, taskGroupType } from '../../../domain/taskGroup/taskGroup';
 import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 import { ITaskRepository } from '../../../domain/task/repositoryInterface/ITaskRepository';
-
-/*
-prismaのindex.d.tsをそのままもってきた。
-index.d.tsのをimportしたかったが、
-type名がドメインオブジェクトと被ってimportできないので、
-ここで同じものを定義した。
- */
-type PrismaTaskProps = {
-  taskId: string;
-  taskNo: number;
-  taskName: string;
-  description: string;
-  taskGroupName: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
 
 export class TaskRepository implements ITaskRepository {
   private prismaClient: PrismaClient = new PrismaClient();
@@ -81,6 +65,7 @@ export class TaskRepository implements ITaskRepository {
 
   // todo カスケード周り削除
   public async delete(task: Task): Promise<number> {
+    // todo　カスケードやめる
     // prisma.〇〇.deleteManyではカスケード削除ができない。
     // prismaの仕様がまだ対応していないらしい
     // でもsqlでならカスケード削除がいける
@@ -118,8 +103,7 @@ export class TaskRepository implements ITaskRepository {
     }
   }
 
-  public async nextTaskNo(): Promise<number> {
-    // taskNoの最大値を取得して+1を返す
+  public async taskMaxNo(): Promise<number> {
     const result = await this.prismaClient.task.findFirst({
       select: {
         taskNo: true,
@@ -129,9 +113,9 @@ export class TaskRepository implements ITaskRepository {
       },
     });
     if (result === null) {
-      return 1;
+      return 0;
     }
-    return result.taskNo + 1;
+    return result.taskNo;
   }
 
   public async reAssignTaskNo(): Promise<void> {
