@@ -21,7 +21,7 @@ export class ToWithdrawalStatusUsecase {
     //
     // todo チーム・ペアの削除のドメインサービスをここにいれる
     //
-    const result = await this.repo.updateEnrolledStatus(participant);
+    const result = await this.repo.update(participant);
     return new EnrolledStatusDTO(result);
   }
 }

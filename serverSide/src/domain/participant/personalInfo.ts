@@ -1,14 +1,13 @@
 import { MailAddress } from './mailAddress';
 import { ParticipantName } from './participantName';
-import { Entity } from '../shared/Entity';
-import { UniqueEntityID } from '../shared/UniqueEntityID';
+import { ValueObject } from '../shared/ValueObject';
 
 export interface PersonalInfoProps {
   participantName: ParticipantName;
   mailAddress: MailAddress;
 }
 
-export class PersonalInfo extends Entity<PersonalInfoProps> {
+export class PersonalInfo extends ValueObject<PersonalInfoProps> {
   public get participantName() {
     return this.props.participantName.participantName;
   }
@@ -16,12 +15,12 @@ export class PersonalInfo extends Entity<PersonalInfoProps> {
     return this.props.mailAddress.mailAddress;
   }
 
-  private constructor(props: PersonalInfoProps, id?: UniqueEntityID) {
-    super(props, id);
+  private constructor(props: PersonalInfoProps) {
+    super(props);
   }
 
-  public static create(props: PersonalInfoProps, id?: UniqueEntityID): PersonalInfo {
-    return new PersonalInfo(props, id);
+  public static create(props: PersonalInfoProps): PersonalInfo {
+    return new PersonalInfo(props);
   }
 
   public changeMailAddress(mailAddress: string): PersonalInfo {
