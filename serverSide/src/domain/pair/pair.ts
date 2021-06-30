@@ -12,6 +12,9 @@ export class Pair extends Entity<PairProps> {
   private static upperLimit = 3;
   private static lowerLimit = 2;
 
+  public get pairName(): string {
+    return this.props.pairName.pairName;
+  }
   public get participants(): Participant[] {
     return this.props.participants;
   }
@@ -61,16 +64,18 @@ export class Pair extends Entity<PairProps> {
     return new Pair(props, id);
   }
 
-  public addParticipant(participant: Participant): void {
+  public addParticipant(participant: Participant) {
     Pair.validation_participantExist(this.props.participants, participant);
     this.props.participants.push(participant);
     Pair.validation_upperLimit(this.props.participants.length);
+    return this;
   }
 
-  public removeParticipant(participant: Participant): void {
+  public removeParticipant(participant: Participant) {
     Pair.validation_participantNotExist(this.props.participants, participant);
     this.props.participants = this.props.participants.filter((one) => !one.equals(participant));
     Pair.validation_lowerLimit(this.props.participants.length);
+    return this;
   }
 
   public participantCount(): number {

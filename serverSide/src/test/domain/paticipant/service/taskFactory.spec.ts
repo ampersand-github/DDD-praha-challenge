@@ -20,7 +20,7 @@ describe('TaskFactory', () => {
         group: TaskGroupEnum.db,
       };
       const spy1 = jest
-        .spyOn(InMemoryTaskRepository.prototype, 'nextTaskNo')
+        .spyOn(InMemoryTaskRepository.prototype, 'taskMaxNo')
         .mockResolvedValueOnce(999);
       // 結果確認
       const result = taskFactory.factory(data);
@@ -36,7 +36,7 @@ describe('TaskFactory', () => {
       };
       const expected = new Error('error');
       const spy2 = jest
-        .spyOn(InMemoryTaskRepository.prototype, 'nextTaskNo')
+        .spyOn(InMemoryTaskRepository.prototype, 'taskMaxNo')
         .mockRejectedValueOnce(expected);
       // 結果確認
       await expect(taskFactory.factory(data)).rejects.toThrowError('error');
@@ -50,7 +50,7 @@ describe('TaskFactory', () => {
         group: 'ダミー',
       };
       const spy1 = jest
-        .spyOn(InMemoryTaskRepository.prototype, 'nextTaskNo')
+        .spyOn(InMemoryTaskRepository.prototype, 'taskMaxNo')
         .mockResolvedValueOnce(999);
       // 結果確認
       await expect(taskFactory.factory(data)).rejects.toThrowError('タスクグループ名が不正です。');
