@@ -195,13 +195,13 @@ export class ParticipantRepository implements IParticipantRepository {
     participantId: string,
     allTask: Task[],
   ): Promise<ParticipantHavingTask[]> {
-    const result1 = await prismaClient.participantHavingTask.findMany({
+    const findManyParticipantHavingTask = await prismaClient.participantHavingTask.findMany({
       where: {
         participantId: participantId,
       },
     });
     const result2 = await ParticipantRepository.convertToParticipantHavingTaskCollection(
-      result1,
+      findManyParticipantHavingTask,
       allTask,
     );
     return result2.participantHavingTaskCollection;
