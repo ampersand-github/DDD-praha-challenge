@@ -61,10 +61,9 @@ export class ParticipantRepository implements IParticipantRepository {
         },
       },
     });
-    const allTask = await this.findAllTsk();
-
     // 参加者保有課題を別途でupdate
-    await ParticipantRepository.updateParticipantHavingTaskCollection(participant, allTask);
+    const allTask = await this.findAllTsk();
+    await this.updateParticipantHavingTaskCollection(participant, allTask);
 
     return await this.findOne(participant.id.toValue());
   }
@@ -155,6 +154,7 @@ export class ParticipantRepository implements IParticipantRepository {
       allTask,
     );
 
+    participantHavingTaskCollection.sort();
     return Participant.create(
       {
         personalInfo: personalInfo,
@@ -165,20 +165,22 @@ export class ParticipantRepository implements IParticipantRepository {
     );
   }
 
-  private static async updateParticipantHavingTaskCollection(
-    participant: Participant,
-    allTask: Task[],
-  ) {
+  private async updateParticipantHavingTaskCollection(participant: Participant, allTask: Task[]) {
     const id = participant.id.toValue();
     const oldList = await ParticipantRepository.getParticipantHavingTaskFromDb(id, allTask);
     const newList = participant.participantHavingTaskCollection;
     const shouldUpdateParticipantHavingTaskList = await ParticipantRepository.shouldUpdateParticipantHavingTaskList(
-      oldList,
       newList,
+      oldList,
     );
+    await this.updateParticipantHavingTask(shouldUpdateParticipantHavingTaskList);
+  }
 
-    shouldUpdateParticipantHavingTaskList.map((one) => {
-      prismaClient.participantHavingTask.update({
+  private async updateParticipantHavingTask(
+    shouldUpdateParticipantHavingTaskList: ParticipantHavingTask[],
+  ) {
+    shouldUpdateParticipantHavingTaskList.map(async (one) => {
+      await prismaClient.participantHavingTask.update({
         where: {
           participantHavingTaskId: one.id.toValue(),
         },
@@ -229,9 +231,7 @@ export class ParticipantRepository implements IParticipantRepository {
     oldCollection: ParticipantHavingTask[],
   ): Promise<ParticipantHavingTask[]> {
     return newCollection.filter((newOne) => {
-      const result = this.existInParticipantHavingTaskList(oldCollection, newOne);
-      // 差分(更新)がない場合trueになる。更新したいリストを作るのでfalseのリストをつくる
-      if (!result) {
+      if (!this.existInParticipantHavingTaskList(oldCollection, newOne)) {
         return newOne;
       }
     });
@@ -240,9 +240,13 @@ export class ParticipantRepository implements IParticipantRepository {
   private static existInParticipantHavingTaskList(
     baseList: ParticipantHavingTask[],
     target: ParticipantHavingTask,
-  ) {
-    return baseList.some((one) => {
-      return one.equals(target);
+  ): boolean {
+    return baseList.some((one: ParticipantHavingTask) => {
+      // エンティティのidで比べてしまうと変更があるかわからないので、entity.equalを使わずに以下のようにする
+      return (
+        one.task.id.toValue() === target.task.id.toValue() &&
+        one.progressStatus.progressStatus === target.progressStatus.progressStatus
+      );
     });
   }
 }
