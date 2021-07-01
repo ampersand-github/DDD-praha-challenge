@@ -200,11 +200,11 @@ export class ParticipantRepository implements IParticipantRepository {
         participantId: participantId,
       },
     });
-    const result2 = await ParticipantRepository.convertToParticipantHavingTaskCollection(
+    const participantHavingTaskCollection = await ParticipantRepository.convertToParticipantHavingTaskCollection(
       findManyParticipantHavingTask,
       allTask,
     );
-    return result2.participantHavingTaskCollection;
+    return participantHavingTaskCollection.participantHavingTaskCollection;
   }
 
   private static async convertToParticipantHavingTaskCollection(
