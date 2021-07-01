@@ -6,7 +6,7 @@ import { dummyParticipant1, dummyParticipant3 } from '../../../../testUtil/dummy
 import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/dummyTask';
 import { ProgressStatusEnum } from '../../../../domain/participant/progressStatus';
 
-describe('TaskRepository', (): void => {
+describe('ParticipantRepository', (): void => {
   const participantRepository = new ParticipantRepository();
   const taskRepository = new TaskRepository();
 
@@ -38,12 +38,14 @@ describe('TaskRepository', (): void => {
     describe('update()', () => {
       test('[正常]更新できる', async () => {
         // データ作成
-        const update2 = dummyParticipant1.changeProgressStatus(
-          dummyTask2,
-          ProgressStatusEnum.complete,
-        );
+        const updated = await participantRepository.findOne(dummyParticipant1.id.toValue());
+        //
+        updated.changeProgressStatus(dummyTask2, ProgressStatusEnum.complete);
+        expect(updated.getStatusFromTask(dummyTask2)).toBe(ProgressStatusEnum.complete);
+        //
+        const result = await participantRepository.update(updated);
         // 結果確認
-        expect(update2).toStrictEqual(update2);
+        expect(updated).toStrictEqual(result);
       });
 
       describe('findOne()', () => {
