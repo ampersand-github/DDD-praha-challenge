@@ -63,4 +63,7 @@ export class Participant extends Entity<ParticipantProps> {
   public getStatusFromTask(task: Task): string {
     return this.props.participantHavingTaskCollection.getStatusFromTask(task).progressStatus;
   }
+  public deleteByTask(deleteTargets: Task[]): void {
+    this.props.participantHavingTaskCollection.deleteByTask(deleteTargets);
+  }
 }

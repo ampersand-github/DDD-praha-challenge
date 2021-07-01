@@ -8,5 +8,4 @@ export interface IParticipantRepository {
   create(participant: Participant): Promise<Participant>;
   update(participant: Participant): Promise<Participant>;
   delete(participant: Participant): Promise<number>; // numberは削除件数
-  deleteParticipantHavingTaskByTask(task: Task): Promise<number>;
 }
