@@ -41,4 +41,10 @@ export class ParticipantHavingTaskCollection extends ValueObject<ParticipantHavi
     participantHavingTask[0].changeProgressStatus(status);
     return this;
   }
+
+  public sort() {
+    this.props.participantHavingTaskCollection = this.props.participantHavingTaskCollection.sort(
+      (a, b) => (a.participantHavingTask.task.no > b.participantHavingTask.task.no ? 1 : -1),
+    );
+  }
 }
