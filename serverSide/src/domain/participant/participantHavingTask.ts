@@ -1,14 +1,13 @@
 import { Task } from '../task/task';
 import { ProgressStatus } from './progressStatus';
-import { Entity } from '../shared/Entity';
-import { UniqueEntityID } from '../shared/UniqueEntityID';
+import { ValueObject } from '../shared/ValueObject';
 
 export interface ParticipantHavingTaskProps {
   task: Task;
   progressStatus: ProgressStatus;
 }
 
-export class ParticipantHavingTask extends Entity<ParticipantHavingTaskProps> {
+export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProps> {
   public get participantHavingTask() {
     return this.props;
   }
@@ -19,15 +18,12 @@ export class ParticipantHavingTask extends Entity<ParticipantHavingTaskProps> {
     return this.props.task;
   }
 
-  private constructor(props: ParticipantHavingTaskProps, id?: UniqueEntityID) {
-    super(props, id);
+  private constructor(props: ParticipantHavingTaskProps) {
+    super(props);
   }
 
-  public static create(
-    props: ParticipantHavingTaskProps,
-    id?: UniqueEntityID,
-  ): ParticipantHavingTask {
-    return new ParticipantHavingTask(props, id);
+  public static create(props: ParticipantHavingTaskProps): ParticipantHavingTask {
+    return new ParticipantHavingTask(props);
   }
 
   public changeProgressStatus(updateStatus: string): ParticipantHavingTask {
