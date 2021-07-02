@@ -68,12 +68,15 @@ describe('ParticipantRepository', (): void => {
       describe('delete()', () => {
         test('[正常]削除できる', async () => {
           // 結果確認
+          const beforeCount = await prismaClient.participant.count();
+          // 参加者削除
           const id = dummyParticipant1.id.toValue();
-          const result = await participantRepository.findOne(dummyParticipant1.id.toValue());
-          expect(result.participantHavingTaskCollection.length).toBe(3);
+          const result = await participantRepository.findOne(id);
           await participantRepository.delete(result);
-          // todo 書き方変更
-          await expect(participantRepository.findOne(id)).rejects.toThrowError();
+          //
+          const afterCount = await prismaClient.participant.count();
+          // カウントする前後で１人消してるので差が１になる
+          await expect(beforeCount - afterCount).toBe(1);
         });
       });
       describe('deleteParticipantHavingTaskByTask()', () => {
