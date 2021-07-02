@@ -58,12 +58,16 @@ describe('UpdatePersonalInfoUsecase', (): void => {
       const spy1 = jest
         .spyOn(InMemoryParticipantRepository.prototype, 'findOne')
         .mockResolvedValueOnce(dummyParticipant1);
+      const spy2 = jest
+        .spyOn(InMemoryParticipantRepository.prototype, 'update')
+        .mockResolvedValueOnce(dummyParticipant1);
       //
       // 結果確認
       const result = await usecase.do(data);
       expect(result.mailAddress).toBe(dummyParticipant1.mailAddress);
-      expect(result.participantName).toBe(dummyPersonalIfo1.participantName);
+      expect(result.participantName).toBe(dummyParticipant1.participantName);
       expect(spy1).toHaveBeenCalledTimes(1);
+      expect(spy2).toHaveBeenCalledTimes(1);
     });
   });
 });
