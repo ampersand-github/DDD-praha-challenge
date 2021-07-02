@@ -58,9 +58,6 @@ describe('UpdatePersonalInfoUsecase', (): void => {
       const spy1 = jest
         .spyOn(InMemoryParticipantRepository.prototype, 'findOne')
         .mockResolvedValueOnce(dummyParticipant1);
-      const spy3 = jest
-        .spyOn(InMemoryParticipantRepository.prototype, 'update')
-        .mockResolvedValueOnce(dummyParticipant1);
       //
       // 結果確認
       const result = await usecase.do(data);
