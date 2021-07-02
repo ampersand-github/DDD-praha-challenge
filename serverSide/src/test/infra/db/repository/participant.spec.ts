@@ -75,6 +75,21 @@ describe('ParticipantRepository', (): void => {
           await expect(participantRepository.findOne(id)).rejects.toThrowError();
         });
       });
+      describe('deleteParticipantHavingTaskByTask()', () => {
+        test('[正常]削除できる', async () => {
+          // 現在の参加者保有課題件数
+          const id = dummyParticipant1.id.toValue();
+          const beforeOne = await participantRepository.findOne(id);
+          const beforeCount = beforeOne.participantHavingTaskCollection.length;
+          expect(beforeCount).toBe(3);
+          //
+          const deleteTargetTask = dummyParticipant1.participantHavingTaskCollection[0].task;
+          await participantRepository.deleteParticipantHavingTaskByTask(deleteTargetTask);
+          const afterOne = await participantRepository.findOne(id);
+          const afterCount = afterOne.participantHavingTaskCollection.length;
+          await expect(afterCount).toBe(2);
+        });
+      });
 
       describe('isExistMailAddress()', () => {
         test('[正常]存在する', async () => {
