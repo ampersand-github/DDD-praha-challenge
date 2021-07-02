@@ -64,13 +64,11 @@ describe('TaskRepository', (): void => {
       expect(actual).toEqual(dummyTask3);
     });
 
-    test('[異常]データが重複しているので作成できない', async () => {
+    test('[異常]', async () => {
       // データ作成
       await repo.create(dummyTask3);
       // 結果確認
-      await expect(repo.create(dummyTask3)).rejects.toThrowError(
-        `taskIdが重複していますので作成されませんでした。`,
-      );
+      await expect(repo.create(dummyTask3)).rejects.toThrowError();
     });
   });
 
@@ -101,27 +99,18 @@ describe('TaskRepository', (): void => {
       const actual = await repo.findOne(updatedTask.id.toValue());
       expect(actual.name).toStrictEqual(updatedName);
     });
-
-    test('[異常]存在しないタスク名なので更新できない', async () => {
-      await expect(repo.update(dummyTask3)).rejects.toThrowError(
-        `更新すべきレコードが見つかりませんでした。`,
-      );
-    });
-    test('[異常]更新後のnoが他のと重複する', async () => {
-      // データ作成
-      const task1 = clone(dummyTask1);
-      const updatedTask = task1.changeNo(2); // 1 -> 2
-      // 結果確認
-      await expect(repo.update(updatedTask)).rejects.toThrowError(
-        `taskNoが重複していますので更新されませんでした。`,
-      );
-    });
   });
   describe('taskMaxNo()', () => {
     test('[正常]タスクナンバーの最大値が取得できる', async () => {
       // 結果確認
       const taskMaxNo = await repo.taskMaxNo();
       expect(taskMaxNo).toStrictEqual(2);
+    });
+    test('[正常]タスクがないときに0が返る', async () => {
+      await truncateAllTable();
+      // 結果確認
+      const taskMaxNo = await repo.taskMaxNo();
+      expect(taskMaxNo).toStrictEqual(0);
     });
   });
 

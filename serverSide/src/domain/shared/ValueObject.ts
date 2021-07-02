@@ -19,6 +19,7 @@ export abstract class ValueObject<T extends ValueObjectProps> {
     };
   }
 
+  // todo テスト、オブジェクトの等価比較
   public equals(vo?: ValueObject<T>): boolean {
     return deepEqual(this.props, vo.props);
   }
