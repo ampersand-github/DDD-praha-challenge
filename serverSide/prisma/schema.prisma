@@ -23,7 +23,6 @@ model PersonalInfo {
 }
 
 model ParticipantHavingTask{
-    participantHavingTaskId String @id
     taskProgress String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
@@ -31,6 +30,7 @@ model ParticipantHavingTask{
     taskId String
     participant Participant @relation(fields: [participantId], references: [participantId])
     participantId String
+   @@unique([participantId, taskId])
 }
 
 model Participant {

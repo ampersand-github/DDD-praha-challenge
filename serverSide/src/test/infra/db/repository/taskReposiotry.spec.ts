@@ -13,10 +13,10 @@ describe('TaskRepository', (): void => {
   });
 
   beforeEach(async () => {
+    await prismaClient.participantHavingTask.deleteMany();
     await prismaClient.task.deleteMany(); // truncateと同じ
     await repo.create(dummyTask1);
     await repo.create(dummyTask2);
-    // TODO participantHavingTasksテーブルつくったらここに生やす
   });
 
   afterAll(async () => {

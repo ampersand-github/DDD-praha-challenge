@@ -42,14 +42,9 @@ export class ParticipantHavingTaskCollection extends ValueObject<ParticipantHavi
     return this;
   }
 
-  // タスクを渡してあげると、そのタスクの参加者保有課題を削除する
-  public deleteByTask(deleteTargets: Task[]): void {
-    const result = this.props.participantHavingTaskCollection.filter((one) => {
-      const resultFind = deleteTargets.find((task) => {
-        return task.equals(one.task);
-      });
-      return !resultFind;
-    });
-    this.props.participantHavingTaskCollection = result;
+  public sort() {
+    this.props.participantHavingTaskCollection = this.props.participantHavingTaskCollection.sort(
+      (a, b) => (a.participantHavingTask.task.no > b.participantHavingTask.task.no ? 1 : -1),
+    );
   }
 }
