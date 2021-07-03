@@ -21,7 +21,7 @@ export class ToEnrolledStatusUsecase {
     //
     // 今後の要件によって、ここに条件を書いていく
     //
-    const result = await this.repo.updateEnrolledStatus(participant);
+    const result = await this.repo.update(participant);
     return new EnrolledStatusDTO(result);
   }
 }
