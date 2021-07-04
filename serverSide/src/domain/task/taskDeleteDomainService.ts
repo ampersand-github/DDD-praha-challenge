@@ -17,14 +17,10 @@ export class TaskDeleteDomainService {
     this.participantRepository = participantRepository;
   }
 
+  // todo 再度作り込み
   public async do(props: TaskDeleteDomainServiceProps): Promise<void> {
     const shouldDeleteTask = await this.taskRepository.findOne(props.taskId);
-    const allParticipant = await this.participantRepository.findAll();
-    // 参加者から参加者保有課題を削除して更新
-    allParticipant.map(async (one) => {
-      one.deleteByTask([shouldDeleteTask]);
-      await this.participantRepository.update(one);
-    });
+    //  await this.participantRepository.deleteParticipantHavingTaskByTask(shouldDeleteTask);
     await this.taskRepository.delete(shouldDeleteTask);
   }
 }

@@ -1,5 +1,4 @@
 import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
-import { PersonalInfo } from '../../domain/participant/personalInfo';
 import { DisallowDuplicateMailAddressService } from '../../domain/participant/service/disallowDuplicateMailaddressService';
 import { Participant } from '../../domain/participant/participant';
 

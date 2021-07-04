@@ -1,5 +1,4 @@
 import { Participant } from '../participant';
-import { Task } from '../../task/task';
 
 export interface IParticipantRepository {
   findAll(): Promise<Participant[]>;

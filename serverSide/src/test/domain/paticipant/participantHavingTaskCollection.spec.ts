@@ -38,15 +38,4 @@ describe('ParticipantHavingTaskCollection', () => {
       }).toThrow('指定されたタスクが存在しません');
     });
   });
-  describe('deleteByTask', () => {
-    test('[正常]', () => {
-      // データ作成
-      const collection = dummyParticipantHavingTasks1;
-      const deleteTargetTask = dummyParticipantHavingTasks1.participantHavingTaskCollection[0].task;
-      expect(collection.participantHavingTaskCollection.length).toStrictEqual(3);
-      // 結果確認
-      collection.deleteByTask([deleteTargetTask]);
-      expect(collection.participantHavingTaskCollection.length).toStrictEqual(2);
-    });
-  });
 });
