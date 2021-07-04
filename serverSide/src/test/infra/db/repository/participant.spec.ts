@@ -39,7 +39,7 @@ describe('ParticipantRepository', (): void => {
       test('[正常]更新できる', async () => {
         // データ作成
         const updated = await participantRepository.findOne(dummyParticipant1.id.toValue());
-        //
+        //　ステータスを完了を変更する
         updated.changeProgressStatus(dummyTask2, ProgressStatusEnum.complete);
         expect(updated.getStatusFromTask(dummyTask2)).toBe(ProgressStatusEnum.complete);
         //
@@ -68,26 +68,27 @@ describe('ParticipantRepository', (): void => {
       describe('delete()', () => {
         test('[正常]削除できる', async () => {
           // 結果確認
+          const beforeCount = await prismaClient.participant.count();
+          // 参加者削除
           const id = dummyParticipant1.id.toValue();
-          const result = await participantRepository.findOne(dummyParticipant1.id.toValue());
-          expect(result.participantHavingTaskCollection.length).toBe(3);
+          const result = await participantRepository.findOne(id);
           await participantRepository.delete(result);
-          await expect(participantRepository.findOne(id)).rejects.toThrowError();
+          //
+          const afterCount = await prismaClient.participant.count();
+          // カウントする前後で１人消してるので差が１になる
+          await expect(beforeCount - afterCount).toBe(1);
         });
       });
       describe('deleteParticipantHavingTaskByTask()', () => {
         test('[正常]削除できる', async () => {
           // 現在の参加者保有課題件数
-          const id = dummyParticipant1.id.toValue();
-          const beforeOne = await participantRepository.findOne(id);
-          const beforeCount = beforeOne.participantHavingTaskCollection.length;
+          const beforeCount = await prismaClient.participantHavingTask.count();
           expect(beforeCount).toBe(3);
           //
           const deleteTargetTask = dummyParticipant1.participantHavingTaskCollection[0].task;
           await participantRepository.deleteParticipantHavingTaskByTask(deleteTargetTask);
-          const afterOne = await participantRepository.findOne(id);
-          const afterCount = afterOne.participantHavingTaskCollection.length;
-          await expect(afterCount).toBe(2);
+          const afterCount = await prismaClient.participantHavingTask.count();
+          await expect(afterCount).toBe(afterCount);
         });
       });
 

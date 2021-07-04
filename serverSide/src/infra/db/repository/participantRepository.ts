@@ -132,7 +132,6 @@ export class ParticipantRepository implements IParticipantRepository {
   private static MakeParticipantHavingTaskCollectionData(participant: Participant) {
     return participant.participantHavingTaskCollection.map((one) => {
       return {
-        participantHavingTaskId: one.id.toValue(),
         taskProgress: one.progressStatus.progressStatus,
         taskId: one.task.id.toValue(),
       };
@@ -173,16 +172,20 @@ export class ParticipantRepository implements IParticipantRepository {
       newList,
       oldList,
     );
-    await this.updateParticipantHavingTask(shouldUpdateParticipantHavingTaskList);
+    await this.updateParticipantHavingTask(shouldUpdateParticipantHavingTaskList, id);
   }
 
   private async updateParticipantHavingTask(
     shouldUpdateParticipantHavingTaskList: ParticipantHavingTask[],
+    participantId: string,
   ) {
     shouldUpdateParticipantHavingTaskList.map(async (one) => {
       await prismaClient.participantHavingTask.update({
         where: {
-          participantHavingTaskId: one.id.toValue(),
+          participantId_taskId: {
+            taskId: one.task.id.toValue(),
+            participantId: participantId,
+          },
         },
         data: {
           taskProgress: one.progressStatus.progressStatus,
@@ -213,11 +216,10 @@ export class ParticipantRepository implements IParticipantRepository {
   ): Promise<ParticipantHavingTaskCollection> {
     const participantHavingTaskCollectionData: ParticipantHavingTask[] = await Promise.all(
       data.map(async (one: PrismaParticipantHavingTask) => {
-        const id = new UniqueEntityID(one.participantHavingTaskId);
         const progressStatus = ProgressStatus.create({ progressStatus: one.taskProgress });
         const taskId = new UniqueEntityID(one.taskId);
         const task = allTask.find((one: Task) => one.id.equals(taskId));
-        return ParticipantHavingTask.create({ task: task, progressStatus: progressStatus }, id);
+        return ParticipantHavingTask.create({ task: task, progressStatus: progressStatus });
       }),
     );
     // ドメインオブジェクト作成
@@ -244,6 +246,7 @@ export class ParticipantRepository implements IParticipantRepository {
     return baseList.some((one: ParticipantHavingTask) => {
       // エンティティのidで比べてしまうと変更があるかわからないので、entity.equalを使わずに以下のようにする
       return (
+        // todo valueObjectのequalにする
         one.task.id.toValue() === target.task.id.toValue() &&
         one.progressStatus.progressStatus === target.progressStatus.progressStatus
       );
