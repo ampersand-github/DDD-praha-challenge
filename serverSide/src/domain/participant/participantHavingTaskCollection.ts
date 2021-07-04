@@ -4,12 +4,12 @@ import { ParticipantHavingTask } from './participantHavingTask';
 import { ValueObject } from '../shared/ValueObject';
 
 interface ParticipantHavingTaskCollectionProps {
-  participantHavingTaskCollection: ParticipantHavingTask[];
+  participantHavingTaskList: ParticipantHavingTask[];
 }
 
 export class ParticipantHavingTaskCollection extends ValueObject<ParticipantHavingTaskCollectionProps> {
   public get participantHavingTaskCollection(): ParticipantHavingTask[] {
-    return this.props.participantHavingTaskCollection;
+    return this.props.participantHavingTaskList;
   }
   private constructor(props: ParticipantHavingTaskCollectionProps) {
     super(props);
@@ -21,18 +21,16 @@ export class ParticipantHavingTaskCollection extends ValueObject<ParticipantHavi
   }
 
   public getStatusFromTask(task: Task): ProgressStatus {
-    const result = this.props.participantHavingTaskCollection.filter((one) =>
-      one.task.equals(task),
-    );
-    if (result[0] === undefined) {
+    const result = this.props.participantHavingTaskList.find((one) => one.task.equals(task));
+    if (result === undefined) {
       throw new Error('指定されたタスクが存在しません。');
     }
-    return result[0].progressStatus;
+    return result.progressStatus;
   }
 
   // タスク(引数)の現在の進捗ステータスを進捗ステータス(引数)へ変更する
   public changeStatus(task: Task, status: string): ParticipantHavingTaskCollection {
-    const participantHavingTask = this.props.participantHavingTaskCollection.filter((one) =>
+    const participantHavingTask = this.props.participantHavingTaskList.filter((one) =>
       one.task.equals(task),
     );
     if (participantHavingTask[0] === undefined) {
