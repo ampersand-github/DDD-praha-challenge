@@ -23,7 +23,7 @@ export const dummyParticipantHavingTask3 = ParticipantHavingTask.create({
 });
 
 export const dummyParticipantHavingTaskCollectionData1 = {
-  participantHavingTaskList: [
+  participantHavingTaskCollection: [
     dummyParticipantHavingTask1,
     dummyParticipantHavingTask2,
     dummyParticipantHavingTask3,
@@ -36,13 +36,6 @@ export const dummyParticipantHavingTasks1 = ParticipantHavingTaskCollection.crea
       task: dummyTask1,
       progressStatus: complete,
     }),
-  participantHavingTaskList: [
-    ParticipantHavingTask.create(
-      {
-        task: dummyTask1,
-        progressStatus: complete,
-      },
-    ),
 
     ParticipantHavingTask.create({
       task: dummyTask2,
@@ -56,7 +49,7 @@ export const dummyParticipantHavingTasks1 = ParticipantHavingTaskCollection.crea
 });
 
 export const dummyParticipantHavingTasks2 = ParticipantHavingTaskCollection.create({
-  participantHavingTaskList: [
+  participantHavingTaskCollection: [
     ParticipantHavingTask.create({
       task: dummyTask1,
       progressStatus: complete,
@@ -73,7 +66,7 @@ export const dummyParticipantHavingTasks2 = ParticipantHavingTaskCollection.crea
 });
 
 export const dummyParticipantHavingTasks3 = ParticipantHavingTaskCollection.create({
-  participantHavingTaskList: [
+  participantHavingTaskCollection: [
     ParticipantHavingTask.create({
       task: dummyTask1,
       progressStatus: complete,
@@ -94,14 +87,6 @@ export const dummyParticipantHavingTasks1update = ParticipantHavingTaskCollectio
       task: dummyTask1,
       progressStatus: complete,
     }),
-  participantHavingTaskList: [
-    ParticipantHavingTask.create(
-      {
-        task: dummyTask1,
-        progressStatus: complete,
-      },
-    ),
-
 
     ParticipantHavingTask.create({
       task: dummyTask2,
