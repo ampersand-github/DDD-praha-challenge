@@ -157,7 +157,6 @@ export class ParticipantRepository implements IParticipantRepository {
       allTask,
     );
 
-    participantHavingTaskCollection.sort();
     return Participant.create(
       {
         personalInfo: personalInfo,
