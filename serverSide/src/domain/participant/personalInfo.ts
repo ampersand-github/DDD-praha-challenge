@@ -7,6 +7,7 @@ export interface PersonalInfoProps {
   mailAddress: MailAddress;
 }
 
+// todo これってエンティティにすべき？　検討
 export class PersonalInfo extends ValueObject<PersonalInfoProps> {
   public get participantName() {
     return this.props.participantName.participantName;

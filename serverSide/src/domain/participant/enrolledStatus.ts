@@ -28,6 +28,7 @@ export class EnrolledStatus extends ValueObject<EnrolledStatusProps> {
       throw new Error('タスクグループ名が不正です。');
     }
   }
+  // todo 一つ上の階層にあげる
   public changeEnrolledStatus(enrolledStatus: string): EnrolledStatus {
     EnrolledStatus.validation_format(enrolledStatus);
     this.props.enrolledStatus = enrolledStatus;

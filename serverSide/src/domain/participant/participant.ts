@@ -55,11 +55,13 @@ export class Participant extends Entity<ParticipantProps> {
     return this;
   }
 
+  // todo ここで値オブジェクトを作って返す
   public changeProgressStatus(task: Task, status: string): Participant {
     const result = this.props.participantHavingTaskCollection.changeStatus(task, status);
     this.props.participantHavingTaskCollection = result;
     return this;
   }
+  // todo ここで値オブジェクトを作って返す
   public getStatusFromTask(task: Task): string {
     return this.props.participantHavingTaskCollection.getStatusFromTask(task).progressStatus;
   }

@@ -31,6 +31,7 @@ export class ParticipantHavingTaskCollection extends ValueObject<ParticipantHavi
   }
 
   // タスク(引数)の現在の進捗ステータスを進捗ステータス(引数)へ変更する
+  // todo 値をつくって返す
   public changeStatus(task: Task, status: string): ParticipantHavingTaskCollection {
     const participantHavingTask = this.props.participantHavingTaskCollection.filter((one) =>
       one.task.equals(task),

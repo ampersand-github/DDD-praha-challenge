@@ -25,6 +25,7 @@ export class MailAddress extends ValueObject<MailAddressProps> {
     }
   }
 
+  // todo 一つ上の階層にあげる
   public changeMailAddress(mailAddress: string): MailAddress {
     MailAddress.validation_format(mailAddress);
     this.props.mailAddress = mailAddress;

@@ -21,6 +21,7 @@ export class ParticipantName extends ValueObject<ParticipantNameProps> {
       throw new Error('名前を入力してください。');
     }
   }
+  // todo 一つ上の階層にあげる
   public changeParticipantName(participantName: string): ParticipantName {
     ParticipantName.validation_format(participantName);
     this.props.participantName = participantName;
