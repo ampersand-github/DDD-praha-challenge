@@ -5,8 +5,6 @@ import { TaskGroup } from '../../../domain/taskGroup/taskGroup';
 import { ITaskGroupRepository } from '../../../domain/taskGroup/ITaskGroupRepository';
 
 export class InMemoryTaskGroupRepository implements ITaskGroupRepository {
-  private prismaClient: PrismaClient = new PrismaClient();
-
   public findAll(): Promise<TaskGroup[]> {
     return Promise.resolve([]);
   }

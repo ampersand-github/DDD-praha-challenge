@@ -1,10 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import { Pair } from '../../../domain/pair/pair';
 import { IPairRepository } from '../../../domain/pair/repositoryInterface/IPairRepository';
 
 export class InMemoryPairRepository implements IPairRepository {
-  private prismaClient: PrismaClient = new PrismaClient();
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public create(pair: Pair): Promise<Pair> {
     return Promise.resolve(undefined);

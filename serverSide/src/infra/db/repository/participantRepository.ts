@@ -25,9 +25,13 @@ type PrismaParticipantProps = PrismaParticipant & {
 };
 
 export class ParticipantRepository implements IParticipantRepository {
-  // todo 引数でわすようにする
-  private prismaClient: PrismaClient = prismaClient;
-  private taskRepository: TaskRepository = new TaskRepository();
+  private taskRepository: TaskRepository;
+  private readonly prismaClient: PrismaClient;
+
+  public constructor(prismaClient: PrismaClient) {
+    this.prismaClient = prismaClient;
+    this.taskRepository = new TaskRepository(prismaClient);
+  }
 
   public async create(participant: Participant): Promise<Participant> {
     const personalInfoData = ParticipantRepository.MakePersonalInfoData(participant);

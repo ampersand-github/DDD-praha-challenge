@@ -6,7 +6,7 @@ import { TaskGroup } from '../../../../domain/taskGroup/taskGroup';
 import clone from 'clone';
 
 describe('TaskRepository', (): void => {
-  const repo = new TaskRepository();
+  const repo = new TaskRepository(prismaClient);
 
   beforeAll(() => {
     truncateAllTable();

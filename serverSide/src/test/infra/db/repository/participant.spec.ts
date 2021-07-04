@@ -7,8 +7,8 @@ import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/d
 import { ProgressStatusEnum } from '../../../../domain/participant/progressStatus';
 
 describe('ParticipantRepository', (): void => {
-  const participantRepository = new ParticipantRepository();
-  const taskRepository = new TaskRepository();
+  const participantRepository = new ParticipantRepository(prismaClient);
+  const taskRepository = new TaskRepository(prismaClient);
 
   beforeAll(() => {
     truncateAllTable();
