@@ -54,6 +54,10 @@ export class ParticipantHavingTaskCollection extends Collection<ParticipantHavin
     return this;
   }
 
+  private find(task: Task) {
+    return this.props.participantHavingTaskCollection.find((one) => one.task.equals(task));
+  }
+
   private static sort(list: ParticipantHavingTask[]): ParticipantHavingTask[] {
     return list.sort((a, b) =>
       a.participantHavingTask.task.no > b.participantHavingTask.task.no ? 1 : -1,
