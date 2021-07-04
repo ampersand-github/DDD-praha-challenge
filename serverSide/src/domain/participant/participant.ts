@@ -76,7 +76,6 @@ export class Participant extends Entity<ParticipantProps> {
     return this;
   }
 
-  // todo ここで値オブジェクトを作って返す
   public getStatusFromTask(task: Task): string {
     return this.props.participantHavingTaskCollection.getStatusFromTask(task).progressStatus;
   }
