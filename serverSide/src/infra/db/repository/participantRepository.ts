@@ -247,12 +247,7 @@ export class ParticipantRepository implements IParticipantRepository {
     target: ParticipantHavingTask,
   ): boolean {
     return baseList.some((one: ParticipantHavingTask) => {
-      // エンティティのidで比べてしまうと変更があるかわからないので、entity.equalを使わずに以下のようにする
-      return (
-        // todo valueObjectのequalにする
-        one.task.id.toValue() === target.task.id.toValue() &&
-        one.progressStatus.progressStatus === target.progressStatus.progressStatus
-      );
+      return one.equals(target);
     });
   }
 }

@@ -1,6 +1,7 @@
 import { Task } from '../task/task';
 import { ProgressStatus } from './progressStatus';
 import { ValueObject } from '../shared/ValueObject';
+import { shallowEqual } from 'shallow-equal-object';
 
 export interface ParticipantHavingTaskProps {
   task: Task;
@@ -11,9 +12,11 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
   public get participantHavingTask() {
     return this.props;
   }
+
   public get progressStatus() {
     return this.props.progressStatus;
   }
+
   public get task() {
     return this.props.task;
   }
@@ -24,5 +27,12 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
 
   public static create(props: ParticipantHavingTaskProps): ParticipantHavingTask {
     return new ParticipantHavingTask(props);
+  }
+
+  public equals(vo: ParticipantHavingTask): boolean {
+    if (vo === null || vo === undefined) {
+      return false;
+    }
+    return this.task.equals(vo.task) && this.progressStatus.equals(vo.progressStatus);
   }
 }
