@@ -1,13 +1,13 @@
 import { Task } from '../task/task';
 import { ProgressStatus } from './progressStatus';
 import { ParticipantHavingTask } from './participantHavingTask';
-import { ValueObject } from '../shared/ValueObject';
+import { Collection } from '../shared/FirstclassCollection';
 
 interface ParticipantHavingTaskCollectionProps {
   participantHavingTaskCollection: ParticipantHavingTask[];
 }
 
-export class ParticipantHavingTaskCollection extends ValueObject<ParticipantHavingTaskCollectionProps> {
+export class ParticipantHavingTaskCollection extends Collection<ParticipantHavingTaskCollectionProps> {
   public get participantHavingTaskCollection(): ParticipantHavingTask[] {
     return this.props.participantHavingTaskCollection;
   }
@@ -17,7 +17,8 @@ export class ParticipantHavingTaskCollection extends ValueObject<ParticipantHavi
   public static create(
     props: ParticipantHavingTaskCollectionProps,
   ): ParticipantHavingTaskCollection {
-    return new ParticipantHavingTaskCollection(props);
+    const sortedList = ParticipantHavingTaskCollection.sort(props.participantHavingTaskCollection);
+    return new ParticipantHavingTaskCollection({ participantHavingTaskCollection: sortedList });
   }
 
   public getStatusFromTask(task: Task): ProgressStatus {
@@ -31,21 +32,31 @@ export class ParticipantHavingTaskCollection extends ValueObject<ParticipantHavi
   }
 
   // タスク(引数)の現在の進捗ステータスを進捗ステータス(引数)へ変更する
-  // todo 値をつくって返す
-  public changeStatus(task: Task, status: string): ParticipantHavingTaskCollection {
-    const participantHavingTask = this.props.participantHavingTaskCollection.filter((one) =>
+  public changeProgressStatus(task: Task, status: string): ParticipantHavingTaskCollection {
+    // todo private メソッドにしてよい
+    const findResult = this.props.participantHavingTaskCollection.find((one) =>
       one.task.equals(task),
     );
-    if (participantHavingTask[0] === undefined) {
+    if (findResult === undefined) {
       throw new Error('指定されたタスクが存在しません。');
     }
-    participantHavingTask[0].changeProgressStatus(status);
+
+    const updated = this.props.participantHavingTaskCollection.map((one) => {
+      if (!one.task.equals(task)) {
+        return one;
+      } else {
+        const newStatus = ProgressStatus.create({ progressStatus: status });
+        return ParticipantHavingTask.create({ task: task, progressStatus: newStatus });
+      }
+    });
+    this.props.participantHavingTaskCollection = ParticipantHavingTaskCollection.sort(updated);
+
     return this;
   }
 
-  public sort() {
-    this.props.participantHavingTaskCollection = this.props.participantHavingTaskCollection.sort(
-      (a, b) => (a.participantHavingTask.task.no > b.participantHavingTask.task.no ? 1 : -1),
+  private static sort(list: ParticipantHavingTask[]): ParticipantHavingTask[] {
+    return list.sort((a, b) =>
+      a.participantHavingTask.task.no > b.participantHavingTask.task.no ? 1 : -1,
     );
   }
 }
