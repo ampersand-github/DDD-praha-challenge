@@ -24,11 +24,4 @@ export class MailAddress extends ValueObject<MailAddressProps> {
       throw new Error(`${mailAddress}のメールアドレスの書式が間違っています。`);
     }
   }
-
-  // todo 一つ上の階層にあげる
-  public changeMailAddress(mailAddress: string): MailAddress {
-    MailAddress.validation_format(mailAddress);
-    this.props.mailAddress = mailAddress;
-    return this;
-  }
 }

@@ -30,13 +30,4 @@ export class ProgressStatus extends ValueObject<ProgressStatusProps> {
       throw new Error('進捗ステータス名が不正です。');
     }
   }
-
-  // todo 一つ上の階層にあげる
-  public changeStatus(updatedStatus: string): ProgressStatus {
-    ProgressStatus.validation_format(updatedStatus);
-    if (this.progressStatus === ProgressStatusEnum.complete) {
-      throw new Error('完了ステータスになっているタスクは変更できません');
-    }
-    return new ProgressStatus({ progressStatus: updatedStatus });
-  }
 }

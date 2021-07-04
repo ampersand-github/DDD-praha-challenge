@@ -25,9 +25,4 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
   public static create(props: ParticipantHavingTaskProps): ParticipantHavingTask {
     return new ParticipantHavingTask(props);
   }
-  // todo 一つ上の階層にあげる
-  public changeProgressStatus(updateStatus: string): ParticipantHavingTask {
-    this.props.progressStatus = this.props.progressStatus.changeStatus(updateStatus);
-    return this;
-  }
 }
