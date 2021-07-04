@@ -27,10 +27,12 @@ export class TaskGroupDeleteDomainService {
     const allParticipant = await this.participantRepository.findAll();
 
     // 参加者から参加者保有課題を削除して更新
+    /*
     allParticipant.map(async (one) => {
       one.deleteByTask(taskDeleteTargetList);
       await this.participantRepository.update(one);
     });
+ */
     await this.taskGroupRepository.delete(shouldDeleteTaskGroup);
   }
 }

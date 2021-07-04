@@ -2,7 +2,6 @@ import { dummyTask1, dummyTask2, dummyTask3 } from './dummyTask';
 import { ProgressStatus, ProgressStatusEnum } from '../../domain/participant/progressStatus';
 import { ParticipantHavingTask } from '../../domain/participant/participantHavingTask';
 import { ParticipantHavingTaskCollection } from '../../domain/participant/participantHavingTaskCollection';
-import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
 
 const complete = ProgressStatus.create({ progressStatus: ProgressStatusEnum.complete });
 const readyForReview = ProgressStatus.create({
@@ -32,13 +31,17 @@ export const dummyParticipantHavingTaskCollectionData1 = {
 };
 
 export const dummyParticipantHavingTasks1 = ParticipantHavingTaskCollection.create({
+  participantHavingTaskCollection: [
+    ParticipantHavingTask.create({
+      task: dummyTask1,
+      progressStatus: complete,
+    }),
   participantHavingTaskList: [
     ParticipantHavingTask.create(
       {
         task: dummyTask1,
         progressStatus: complete,
       },
-      new UniqueEntityID('99999999-aaad-zzzz-bbbb-999999999999'),
     ),
 
     ParticipantHavingTask.create({
@@ -86,14 +89,19 @@ export const dummyParticipantHavingTasks3 = ParticipantHavingTaskCollection.crea
   ],
 });
 export const dummyParticipantHavingTasks1update = ParticipantHavingTaskCollection.create({
+  participantHavingTaskCollection: [
+    ParticipantHavingTask.create({
+      task: dummyTask1,
+      progressStatus: complete,
+    }),
   participantHavingTaskList: [
     ParticipantHavingTask.create(
       {
         task: dummyTask1,
         progressStatus: complete,
       },
-      new UniqueEntityID('99999999-aaad-zzzz-bbbb-999999999999'),
     ),
+
 
     ParticipantHavingTask.create({
       task: dummyTask2,

@@ -50,24 +50,16 @@ export class TaskRepository implements ITaskRepository {
   }
 
   public async create(task: Task): Promise<Task> {
-    try {
-      await this.prismaClient.task.create({
-        data: {
-          taskId: task.id.toValue(),
-          taskNo: task.no,
-          taskName: task.name,
-          description: task.description,
-          taskGroupName: task.group,
-        },
-      });
-    } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === 'P2002') {
-          throw new Error(`${e.meta['target'][0]}が重複していますので作成されませんでした。`);
-        }
-      }
-    }
-    return task;
+    const prismaTask = await this.prismaClient.task.create({
+      data: {
+        taskId: task.id.toValue(),
+        taskNo: task.no,
+        taskName: task.name,
+        description: task.description,
+        taskGroupName: task.group,
+      },
+    });
+    return TaskRepository.convertTo(prismaTask);
   }
 
   public async delete(task: Task): Promise<number> {
@@ -85,29 +77,18 @@ export class TaskRepository implements ITaskRepository {
   }
 
   public async update(task: Task): Promise<Task> {
-    try {
-      await this.prismaClient.task.update({
-        where: {
-          taskId: task.id.toValue(),
-        },
-        data: {
-          taskNo: task.no,
-          taskName: task.name,
-          description: task.description,
-          taskGroupName: task.group,
-        },
-      });
-    } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === 'P2025') {
-          throw new Error(`更新すべきレコードが見つかりませんでした。`);
-        }
-        if (e.code === 'P2002') {
-          throw new Error(`${e.meta['target'][0]}が重複していますので更新されませんでした。`);
-        }
-      }
-      return task;
-    }
+    const prismaTask = await this.prismaClient.task.update({
+      where: {
+        taskId: task.id.toValue(),
+      },
+      data: {
+        taskNo: task.no,
+        taskName: task.name,
+        description: task.description,
+        taskGroupName: task.group,
+      },
+    });
+    return TaskRepository.convertTo(prismaTask);
   }
 
   public async taskMaxNo(): Promise<number> {

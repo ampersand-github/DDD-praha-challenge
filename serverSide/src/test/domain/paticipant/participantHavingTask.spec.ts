@@ -15,7 +15,9 @@ describe('ParticipantHavingTask', () => {
   describe('constructor', () => {
     test('[正常]', () => {
       const participantHavingTask1 = ParticipantHavingTask.create(dummyParticipantHavingTask1);
-      expect(participantHavingTask1.participantHavingTask).toBe(dummyParticipantHavingTask1);
+      expect(participantHavingTask1.participantHavingTask).toStrictEqual(
+        dummyParticipantHavingTask1,
+      );
     });
   });
   describe('changeProgressStatus', () => {
