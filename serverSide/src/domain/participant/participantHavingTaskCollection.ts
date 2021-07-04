@@ -33,10 +33,8 @@ export class ParticipantHavingTaskCollection extends Collection<ParticipantHavin
 
   // タスク(引数)の現在の進捗ステータスを進捗ステータス(引数)へ変更する
   public changeProgressStatus(task: Task, status: string): ParticipantHavingTaskCollection {
-    // todo private メソッドにしてよい
-    const findResult = this.props.participantHavingTaskCollection.find((one) =>
-      one.task.equals(task),
-    );
+    const findResult = this.find(task);
+
     if (findResult === undefined) {
       throw new Error('指定されたタスクが存在しません。');
     }
