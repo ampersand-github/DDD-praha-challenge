@@ -1,5 +1,5 @@
 import { Task } from '../../../domain/task/task';
-import { Prisma, PrismaClient, Task as PrismaTaskProps } from '@prisma/client';
+import { PrismaClient, Task as PrismaTaskProps } from '@prisma/client';
 import { TaskGroup, taskGroupType } from '../../../domain/taskGroup/taskGroup';
 import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 import { ITaskRepository } from '../../../domain/task/repositoryInterface/ITaskRepository';
