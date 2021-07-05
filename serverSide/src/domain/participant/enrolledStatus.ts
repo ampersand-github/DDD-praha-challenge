@@ -28,4 +28,8 @@ export class EnrolledStatus extends ValueObject<EnrolledStatusProps> {
       throw new Error('タスクグループ名が不正です。');
     }
   }
+  public changeEnrolledStatus(enrolledStatus: string): EnrolledStatus {
+    EnrolledStatus.validation_format(enrolledStatus);
+    return EnrolledStatus.create({ enrolledStatus: enrolledStatus });
+  }
 }

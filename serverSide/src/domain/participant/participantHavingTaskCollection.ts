@@ -7,6 +7,7 @@ interface ParticipantHavingTaskCollectionProps {
   participantHavingTaskCollection: ParticipantHavingTask[];
 }
 
+// todo domainObjectにしてもよいかも
 export class ParticipantHavingTaskCollection extends Collection<ParticipantHavingTaskCollectionProps> {
   public get participantHavingTaskCollection(): ParticipantHavingTask[] {
     return this.props.participantHavingTaskCollection;
@@ -47,9 +48,10 @@ export class ParticipantHavingTaskCollection extends Collection<ParticipantHavin
         return ParticipantHavingTask.create({ task: task, progressStatus: newStatus });
       }
     });
-    this.props.participantHavingTaskCollection = ParticipantHavingTaskCollection.sort(updated);
 
-    return this;
+    return ParticipantHavingTaskCollection.create({
+      participantHavingTaskCollection: ParticipantHavingTaskCollection.sort(updated),
+    });
   }
 
   private find(task: Task) {

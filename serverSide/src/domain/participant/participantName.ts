@@ -21,4 +21,8 @@ export class ParticipantName extends ValueObject<ParticipantNameProps> {
       throw new Error('名前を入力してください。');
     }
   }
+  public changeParticipantName(participantName: string): ParticipantName {
+    ParticipantName.validation_format(participantName);
+    return ParticipantName.create({ participantName: participantName });
+  }
 }

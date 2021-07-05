@@ -93,10 +93,10 @@ describe('TaskRepository', (): void => {
     test('[正常]更新できる', async () => {
       // データ作成
       const updatedName = 'update';
-      const updatedTask = dummyTask1.changeName(updatedName);
-      await repo.update(updatedTask);
+      dummyTask1.changeName(updatedName);
+      await repo.update(dummyTask1);
       // 結果確認
-      const actual = await repo.findOne(updatedTask.id.toValue());
+      const actual = await repo.findOne(dummyTask1.id.toValue());
       expect(actual.name).toStrictEqual(updatedName);
     });
   });
@@ -118,8 +118,8 @@ describe('TaskRepository', (): void => {
     test('[正常]', async () => {
       // データ作成
       const reAssignTaskNoTask = clone(dummyTask1);
-      const updatedTask = reAssignTaskNoTask.changeNo(99);
-      await repo.update(updatedTask);
+      reAssignTaskNoTask.changeNo(99);
+      await repo.update(reAssignTaskNoTask);
       // 結果確認
       // noの再割当て 2 -> 1 になって 99 -> 2になっている
       await repo.reAssignTaskNo();
