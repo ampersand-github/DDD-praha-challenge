@@ -3,7 +3,6 @@ import { dummyRecess } from '../../../testUtil/dummy/dummyEnrolledStatus';
 import { EnrolledStatusEnum } from '../../../domain/participant/enrolledStatus';
 import { dummyTask2 } from '../../../testUtil/dummy/dummyTask';
 import { ProgressStatusEnum } from '../../../domain/participant/progressStatus';
-import { Participant } from '../../../domain/participant/participant';
 
 describe('Participant', (): void => {
   describe('changeMailAddress', (): void => {

@@ -1,5 +1,4 @@
 import { MailAddress } from '../../../domain/participant/mailAddress';
-import { ValueObject } from '../../../domain/shared/ValueObject';
 
 describe('MailAddress', (): void => {
   test('クラスが生成できること', () => {
