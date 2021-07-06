@@ -34,6 +34,9 @@ export class DividePairDomainService {
       participants: [moveParticipant, props.addParticipant],
     });
     // update
-    return [await this.pairRepository.update(props.pair), await this.pairRepository.update(newPair)];
+    return [
+      await this.pairRepository.update(props.pair),
+      await this.pairRepository.update(newPair),
+    ];
   }
 }
