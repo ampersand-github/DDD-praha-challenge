@@ -26,7 +26,7 @@ export class DividePairDomainService {
     // todo ペアの誰を別のペアに移籍させるか、参加者保有課題の進捗で判断したい。今後余裕があったらやる
     const moveParticipant = props.pair.participants[0];
 
-    const pair = props.pair.removeParticipant(moveParticipant);
+    props.pair.removeParticipant(moveParticipant);
 
     // 新規ペアの作成
     const factory = new PairFactory(this.pairRepository);
@@ -34,6 +34,6 @@ export class DividePairDomainService {
       participants: [moveParticipant, props.addParticipant],
     });
     // update
-    return [await this.pairRepository.update(pair), await this.pairRepository.update(newPair)];
+    return [await this.pairRepository.update(props.pair), await this.pairRepository.update(newPair)];
   }
 }
