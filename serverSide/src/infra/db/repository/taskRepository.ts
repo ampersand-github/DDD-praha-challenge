@@ -1,11 +1,15 @@
 import { Task } from '../../../domain/task/task';
-import { Prisma, PrismaClient, Task as PrismaTaskProps } from '@prisma/client';
+import { PrismaClient, Task as PrismaTaskProps } from '@prisma/client';
 import { TaskGroup, taskGroupType } from '../../../domain/taskGroup/taskGroup';
 import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 import { ITaskRepository } from '../../../domain/task/repositoryInterface/ITaskRepository';
 
 export class TaskRepository implements ITaskRepository {
-  private prismaClient: PrismaClient = new PrismaClient();
+  private readonly prismaClient: PrismaClient;
+
+  public constructor(prismaClient: PrismaClient) {
+    this.prismaClient = prismaClient;
+  }
 
   private static convertTo(data: PrismaTaskProps): Task {
     const taskId = new UniqueEntityID(data.taskId);
