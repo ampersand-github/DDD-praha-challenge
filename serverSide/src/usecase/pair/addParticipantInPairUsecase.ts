@@ -28,9 +28,9 @@ export class AddParticipantInPairUsecase {
     if (pair.participants.length === 2) {
       // ペアに参加者を追加
       this.addService.do({ participant: props.addParticipant });
-      const addedPair = pair.addParticipant(props.addParticipant);
+      pair.addParticipant(props.addParticipant);
       //
-      const result = await this.pairRepository.update(addedPair);
+      const result = await this.pairRepository.update(pair);
       return [new PairDTO(result)];
     }
     if (pair.participants.length === 3) {

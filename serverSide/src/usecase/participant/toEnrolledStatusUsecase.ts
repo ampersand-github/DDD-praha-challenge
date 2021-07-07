@@ -17,11 +17,11 @@ export class ToEnrolledStatusUsecase {
   public async do(props: ToEnrolledStatusProps): Promise<EnrolledStatusDTO> {
     const currentParticipant = await this.repo.findOne(props.participantId);
     const enrolled = EnrolledStatusEnum.enrolled;
-    const participant: Participant = currentParticipant.changeEnrolledStatus(enrolled);
+    currentParticipant.changeEnrolledStatus(enrolled);
     //
     // 今後の要件によって、ここに条件を書いていく
     //
-    const result = await this.repo.update(participant);
+    const result = await this.repo.update(currentParticipant);
     return new EnrolledStatusDTO(result);
   }
 }
