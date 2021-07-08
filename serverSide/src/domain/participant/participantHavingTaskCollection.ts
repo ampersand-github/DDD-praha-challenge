@@ -54,6 +54,15 @@ export class ParticipantHavingTaskCollection extends Collection<ParticipantHavin
     });
   }
 
+  public deleteHavingTask(task: Task): ParticipantHavingTaskCollection {
+    const newCollection = this.props.participantHavingTaskCollection.filter((one) => {
+      return !one.task.equals(task);
+    });
+    return ParticipantHavingTaskCollection.create({
+      participantHavingTaskCollection: newCollection,
+    });
+  }
+
   private find(task: Task) {
     return this.props.participantHavingTaskCollection.find((one) => one.task.equals(task));
   }

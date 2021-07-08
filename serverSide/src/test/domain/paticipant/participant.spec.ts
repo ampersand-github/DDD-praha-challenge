@@ -1,8 +1,9 @@
 import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
 import { dummyRecess } from '../../../testUtil/dummy/dummyEnrolledStatus';
 import { EnrolledStatusEnum } from '../../../domain/participant/enrolledStatus';
-import { dummyTask2 } from '../../../testUtil/dummy/dummyTask';
+import { dummyTask1, dummyTask2 } from '../../../testUtil/dummy/dummyTask';
 import { ProgressStatusEnum } from '../../../domain/participant/progressStatus';
+import clone from 'clone';
 
 describe('Participant', (): void => {
   describe('changeMailAddress', (): void => {
@@ -31,6 +32,16 @@ describe('Participant', (): void => {
       dummyParticipant1.changeProgressStatus(dummyTask2, complete);
       const result = dummyParticipant1.getStatusFromTask(dummyTask2);
       expect(result).toBe(complete);
+    });
+  });
+
+  describe('deleteHavingTask', (): void => {
+    test('[正常]', () => {
+      const participant = clone(dummyParticipant1);
+      expect(participant.participantHavingTaskCollection.length).toBe(3);
+      participant.deleteHavingTask(dummyTask1);
+      participant.deleteHavingTask(dummyTask2);
+      expect(participant.participantHavingTaskCollection.length).toBe(1);
     });
   });
 });
