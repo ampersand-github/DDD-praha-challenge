@@ -16,13 +16,11 @@ export class ToRecessStatusUsecase {
 
   public async do(props: ToRecessStatusProps): Promise<EnrolledStatusDTO> {
     const currentParticipant: Participant = await this.repo.findOne(props.participantId);
-    const participant: Participant = currentParticipant.changeEnrolledStatus(
-      EnrolledStatusEnum.recess,
-    );
+    currentParticipant.changeEnrolledStatus(EnrolledStatusEnum.recess);
     //
     // todo チーム・ペアの削除のドメインサービスをここにいれる
     //
-    const result = await this.repo.update(participant);
+    const result = await this.repo.update(currentParticipant);
     return new EnrolledStatusDTO(result);
   }
 }
