@@ -48,10 +48,7 @@ export class ParticipantHavingTaskCollection extends Collection<ParticipantHavin
         return ParticipantHavingTask.create({ task: task, progressStatus: newStatus });
       }
     });
-
-    return ParticipantHavingTaskCollection.create({
-      participantHavingTaskCollection: ParticipantHavingTaskCollection.sort(updated),
-    });
+    return ParticipantHavingTaskCollection.create({ participantHavingTaskCollection: updated });
   }
 
   private find(task: Task) {
