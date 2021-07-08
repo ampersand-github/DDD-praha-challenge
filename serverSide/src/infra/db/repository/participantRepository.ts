@@ -17,6 +17,7 @@ import { MailAddress } from '../../../domain/participant/mailAddress';
 import { ParticipantHavingTask } from '../../../domain/participant/participantHavingTask';
 import { ProgressStatus } from '../../../domain/participant/progressStatus';
 import { TaskRepository } from './taskRepository';
+import { TaskGroup } from '../../../domain/taskGroup/taskGroup';
 
 // prismaにおける参加者集約の型
 type PrismaParticipantProps = PrismaParticipant & {
@@ -90,6 +91,42 @@ export class ParticipantRepository implements IParticipantRepository {
       where: { taskId: task.id.toValue() },
     });
     return result.count;
+  }
+
+  // DBにある参加者保有課題からドメインオブジェクトの参加者保有課題を引いて残った参加者保有課題を削除する
+  public async deleteHavingTaskByDifferenceFromDb(participant: Participant): Promise<void> {
+    const id = participant.id.toValue();
+    const allTask = await this.findAllTsk();
+    const fromTable = await ParticipantRepository.getParticipantHavingTaskFromDb(id, allTask);
+    const deleteTargetList = await ParticipantRepository.havingTaskDifferenceList(
+      fromTable,
+      participant.participantHavingTaskCollection,
+    );
+
+    if (deleteTargetList.length === 0) {
+      console.log('削除すべき参加者保有課題が存在しない');
+    }
+    
+    await Promise.all(
+      deleteTargetList.map(async (one: ParticipantHavingTask) => {
+        await prismaClient.participantHavingTask.delete({
+          where: {
+            participantId_taskId: {
+              participantId: participant.id.toValue(),
+              taskId: one.task.id.toValue(),
+            },
+          },
+        });
+      }),
+    );
+  }
+
+  public async deleteTaskGroup(taskGroup: TaskGroup): Promise<void> {
+    await prismaClient.task.deleteMany({
+      where: {
+        taskGroupName: taskGroup.taskGroup,
+      },
+    });
   }
 
   public async findAll(): Promise<Participant[]> {
@@ -171,7 +208,7 @@ export class ParticipantRepository implements IParticipantRepository {
     const id = participant.id.toValue();
     const oldList = await ParticipantRepository.getParticipantHavingTaskFromDb(id, allTask);
     const newList = participant.participantHavingTaskCollection;
-    const shouldUpdateParticipantHavingTaskList = await ParticipantRepository.shouldUpdateParticipantHavingTaskList(
+    const shouldUpdateParticipantHavingTaskList = await ParticipantRepository.havingTaskDifferenceList(
       newList,
       oldList,
     );
@@ -231,7 +268,7 @@ export class ParticipantRepository implements IParticipantRepository {
     });
   }
 
-  private static async shouldUpdateParticipantHavingTaskList(
+  private static async havingTaskDifferenceList(
     newCollection: ParticipantHavingTask[],
     oldCollection: ParticipantHavingTask[],
   ): Promise<ParticipantHavingTask[]> {
