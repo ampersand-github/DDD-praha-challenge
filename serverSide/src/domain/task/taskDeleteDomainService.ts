@@ -20,7 +20,6 @@ export class TaskDeleteDomainService {
   // todo 再度作り込み
   public async do(props: TaskDeleteDomainServiceProps): Promise<void> {
     const shouldDeleteTask = await this.taskRepository.findOne(props.taskId);
-    //  await this.participantRepository.deleteParticipantHavingTaskByTask(shouldDeleteTask);
     await this.taskRepository.delete(shouldDeleteTask);
   }
 }

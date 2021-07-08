@@ -21,7 +21,7 @@ export class MailAddress extends ValueObject<MailAddressProps> {
     return new MailAddress(props);
   }
 
-  public changeMailAddress(mailAddress: string): MailAddress {
+  public recreateMailAddress(mailAddress: string): MailAddress {
     MailAddress.validation_format(mailAddress);
     return MailAddress.create({ mailAddress: mailAddress });
   }

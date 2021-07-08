@@ -33,7 +33,7 @@ export class ParticipantHavingTaskCollection extends Collection<ParticipantHavin
   }
 
   // タスク(引数)の現在の進捗ステータスを進捗ステータス(引数)へ変更する
-  public changeProgressStatus(task: Task, status: string): ParticipantHavingTaskCollection {
+  public recreateProgressStatus(task: Task, status: string): ParticipantHavingTaskCollection {
     const findResult = this.find(task);
 
     if (findResult === undefined) {
