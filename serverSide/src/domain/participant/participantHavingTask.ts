@@ -28,7 +28,7 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
     return new ParticipantHavingTask(props);
   }
 
-  public equals(vo: ParticipantHavingTask): boolean {
-    return this.task.equals(vo.task) && this.progressStatus.equals(vo.progressStatus);
+  public equals(other: ParticipantHavingTask): boolean {
+    return this.task.equals(other.task) && this.progressStatus.equals(other.progressStatus);
   }
 }
