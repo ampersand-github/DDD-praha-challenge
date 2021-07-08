@@ -41,7 +41,6 @@ describe('ParticipantRepository', (): void => {
         const updated = await participantRepository.findOne(dummyParticipant1.id.toValue());
         //　ステータスを完了を変更する
         updated.changeProgressStatus(dummyTask2, ProgressStatusEnum.complete);
-        updated.changeProgressStatus(dummyTask2, ProgressStatusEnum.complete);
         expect(updated.getStatusFromTask(dummyTask2)).toBe(ProgressStatusEnum.complete);
         //
         const result = await participantRepository.update(updated);
