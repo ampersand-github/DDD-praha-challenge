@@ -1,5 +1,6 @@
 import { Task } from '../task';
 import { TaskGroup } from '../../taskGroup/taskGroup';
+import { Participant } from '../../participant/participant';
 
 export interface ITaskRepository {
   findAll(): Promise<Task[]>;
