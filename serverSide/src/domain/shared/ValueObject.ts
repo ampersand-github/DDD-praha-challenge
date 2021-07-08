@@ -1,10 +1,10 @@
-import { shallowEqual } from 'shallow-equal-object';
-
 /*
 参考
 https://khalilstemmler.com/articles/typescript-value-object/
 https://blog.mamansoft.net/2020/02/19/express-value-object-by-typescript/
  */
+
+import deepEqual from 'deep-equal';
 
 interface ValueObjectProps {
   [index: string]: any;
@@ -25,6 +25,6 @@ export abstract class ValueObject<T extends ValueObjectProps> {
     if (vo.props === undefined) {
       return false;
     }
-    return shallowEqual(this.props, vo.props);
+    return deepEqual(this.props, vo.props);
   }
 }
