@@ -8,16 +8,13 @@ interface TaskGroupDeleteDomainServiceProps {
 
 export class TaskGroupDeleteDomainService {
   private readonly taskRepository: ITaskRepository;
-  private readonly taskGroupRepository: ITaskGroupRepository;
   private readonly participantRepository: IParticipantRepository;
 
   public constructor(
     taskRepository: ITaskRepository,
-    taskGroupRepository: ITaskGroupRepository,
     participantRepository: IParticipantRepository,
   ) {
     this.taskRepository = taskRepository;
-    this.taskGroupRepository = taskGroupRepository;
     this.participantRepository = participantRepository;
   }
 
