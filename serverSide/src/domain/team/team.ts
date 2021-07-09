@@ -63,7 +63,6 @@ export class Team extends Entity<TeamProps> {
   }
 
   public static create(props: TeamProps, id?: UniqueEntityID): Team {
-    // todo 重複チェックのドメインサービスをつくる
     const participantCount = this.participantCount(props.pairs);
     this.validation_lowerLimit(participantCount, props.lowerLimit);
     // 仕様に人数上限は存在しないが、今後仕様変更があることを想定して入れる
