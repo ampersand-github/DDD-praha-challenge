@@ -3,6 +3,7 @@ import { Pair } from '../pair/pair';
 import { Entity } from '../shared/Entity';
 import { UniqueEntityID } from '../shared/UniqueEntityID';
 
+// todo チームはDDD簡略化のため削除する
 interface TeamProps {
   teamName: TeamName;
   pairs: Pair[];
