@@ -23,7 +23,7 @@ export class DividePairDomainService {
       throw new Error('引数で与えられたペアが3名ではありません。');
     }
 
-    // todo ペアの誰を別のペアに移籍させるか、参加者保有課題の進捗で判断したい。今後余裕があったらやる
+    // todo [低] ペアの誰を別のペアに移籍させるか、参加者保有課題の進捗で判断したい。いづれ作るかもしれない
     const moveParticipant = props.pair.participants[0];
 
     props.pair.removeParticipant(moveParticipant);

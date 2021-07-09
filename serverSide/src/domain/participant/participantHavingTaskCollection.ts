@@ -7,7 +7,6 @@ interface ParticipantHavingTaskCollectionProps {
   participantHavingTaskCollection: ParticipantHavingTask[];
 }
 
-// todo domainObjectにしてもよいかも
 export class ParticipantHavingTaskCollection extends Collection<ParticipantHavingTaskCollectionProps> {
   public get participantHavingTaskCollection(): ParticipantHavingTask[] {
     return this.props.participantHavingTaskCollection;
