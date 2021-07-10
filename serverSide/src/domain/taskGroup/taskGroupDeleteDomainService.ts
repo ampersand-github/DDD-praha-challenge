@@ -1,6 +1,8 @@
 import { ITaskRepository } from '../task/repositoryInterface/ITaskRepository';
-import { ITaskGroupRepository } from './ITaskGroupRepository';
 import { IParticipantRepository } from '../participant/repositoryInterface/IParticipantRepository';
+import { Participant } from '../participant/participant';
+import { Task } from '../task/task';
+import { TaskGroup } from './taskGroup';
 
 interface TaskGroupDeleteDomainServiceProps {
   taskGroup: string;
@@ -8,31 +10,47 @@ interface TaskGroupDeleteDomainServiceProps {
 
 export class TaskGroupDeleteDomainService {
   private readonly taskRepository: ITaskRepository;
-  private readonly taskGroupRepository: ITaskGroupRepository;
   private readonly participantRepository: IParticipantRepository;
 
   public constructor(
     taskRepository: ITaskRepository,
-    taskGroupRepository: ITaskGroupRepository,
     participantRepository: IParticipantRepository,
   ) {
     this.taskRepository = taskRepository;
-    this.taskGroupRepository = taskGroupRepository;
     this.participantRepository = participantRepository;
   }
 
   public async do(props: TaskGroupDeleteDomainServiceProps): Promise<void> {
-    const shouldDeleteTaskGroup = await this.taskGroupRepository.findOne(props.taskGroup);
+    const shouldDeleteTaskGroup = TaskGroup.create({ taskGroup: props.taskGroup });
     const taskDeleteTargetList = await this.taskRepository.findByTaskGroup(shouldDeleteTaskGroup);
     const allParticipant = await this.participantRepository.findAll();
 
-    // 参加者から参加者保有課題を削除して更新
-    /*
-    allParticipant.map(async (one) => {
-      one.deleteByTask(taskDeleteTargetList);
-      await this.participantRepository.update(one);
+    const updateList: Participant[] = allParticipant.map((one: Participant) => {
+      return this.deleteHavingTaskByTaskList(one, taskDeleteTargetList);
     });
- */
-    await this.taskGroupRepository.delete(shouldDeleteTaskGroup);
+
+    await Promise.all(
+      updateList.map(async (one) => {
+        await this.participantRepository.deleteHavingTaskByDifferenceFromDb(one);
+      }),
+    );
+
+    await Promise.all(
+      taskDeleteTargetList.map(async (task: Task) => {
+        await this.taskRepository.delete(task);
+      }),
+    );
+
+    // タスクグループはEnumを手動削除
+  }
+
+  private deleteHavingTaskByTaskList(
+    participant: Participant,
+    shouldDeleteTaskList: Task[],
+  ): Participant {
+    shouldDeleteTaskList.map((task) => {
+      participant.deleteHavingTask(task);
+    });
+    return participant;
   }
 }
