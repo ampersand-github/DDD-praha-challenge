@@ -40,9 +40,9 @@ export class DistributeOneParticipantForAnotherPairDomainService {
       throw new Error('振り分けられるペアが存在しません。');
     }
     const bestMatchPair: Pair = twoParticipantPair[0];
-    const pair = bestMatchPair.addParticipant(props.shouldBeDistributedParticipant);
+    bestMatchPair.addParticipant(props.shouldBeDistributedParticipant);
     // ペアが確定したので、1名になったペアは削除される
     await this.pairRepository.delete(props.pair);
-    await this.pairRepository.update(pair);
+    await this.pairRepository.update(bestMatchPair);
   }
 }

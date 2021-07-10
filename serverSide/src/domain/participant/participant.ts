@@ -41,25 +41,26 @@ export class Participant extends Entity<ParticipantProps> {
     return new Participant(props, id);
   }
 
-  public changeMailAddress(mailAddress: string): Participant {
-    this.props.personalInfo.changeMailAddress(mailAddress);
-    return this;
-  }
-  public changeParticipantName(participantName: string): Participant {
-    this.props.personalInfo.changeParticipantName(participantName);
-    return this;
+  public changeMailAddress(mailAddress: string): void {
+    this.props.personalInfo = this.personalInfo.changeMailAddress(mailAddress);
   }
 
-  public changeEnrolledStatus(status: string): Participant {
-    this.props.enrolledStatus = this.props.enrolledStatus.changeEnrolledStatus(status);
-    return this;
+  public changeParticipantName(participantName: string): void {
+    this.props.personalInfo = this.personalInfo.changeParticipantName(participantName);
   }
 
-  public changeProgressStatus(task: Task, status: string): Participant {
-    const result = this.props.participantHavingTaskCollection.changeStatus(task, status);
-    this.props.participantHavingTaskCollection = result;
-    return this;
+  public changeEnrolledStatus(status: string): void {
+    this.props.enrolledStatus = this.props.enrolledStatus.recreateEnrolledStatus(status);
   }
+  w;
+
+  public changeProgressStatus(task: Task, status: string): void {
+    this.props.participantHavingTaskCollection = this.props.participantHavingTaskCollection.recreateProgressStatus(
+      task,
+      status,
+    );
+  }
+
   public getStatusFromTask(task: Task): string {
     return this.props.participantHavingTaskCollection.getStatusFromTask(task).progressStatus;
   }

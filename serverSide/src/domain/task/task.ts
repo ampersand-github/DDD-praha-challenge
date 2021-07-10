@@ -28,13 +28,11 @@ export class Task extends Entity<TaskProps> {
   public static create(props: TaskProps, id?: UniqueEntityID): Task {
     return new Task(props, id);
   }
-  public changeName(name: string) {
+  public changeName(name: string): void {
     this.props.name = name;
-    return this;
   }
 
-  public changeNo(no: number) {
+  public changeNo(no: number): void {
     this.props.no = no;
-    return this;
   }
 }

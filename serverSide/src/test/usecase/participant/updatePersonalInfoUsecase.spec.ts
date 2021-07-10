@@ -1,7 +1,6 @@
 import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { UpdatePersonalInfoUsecase } from '../../../usecase/participant/updatePersonalInfoUsecase';
-import { dummyPersonalIfo1 } from '../../../testUtil/dummy/dummyPersonalInfo';
 import { DisallowDuplicateMailAddressService } from '../../../domain/participant/service/disallowDuplicateMailaddressService';
 
 describe('UpdatePersonalInfoUsecase', (): void => {
@@ -33,8 +32,8 @@ describe('UpdatePersonalInfoUsecase', (): void => {
       //
       // 結果確認
       const result = await usecase.do(data);
-      await expect(result.mailAddress).toBe(data.shouldUpdateMailAddress);
-      expect(result.participantName).toBe(dummyPersonalIfo1.participantName);
+      expect(result.mailAddress).toBe(data.shouldUpdateMailAddress);
+      expect(result.participantName).toBe(data.shouldUpdateName);
       expect(spy1).toHaveBeenCalledTimes(1);
       expect(spy2).toHaveBeenCalledTimes(1);
       expect(spy3).toHaveBeenCalledTimes(1);

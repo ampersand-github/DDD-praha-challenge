@@ -23,8 +23,8 @@ export class RemoveParticipantInPairUsecase {
       this.service.do({ pair: pair, shouldBeDistributedParticipant: props.removeParticipant });
     }
     if (pair.participants.length === 3) {
-      const removedPair = pair.removeParticipant(props.removeParticipant);
-      await this.pairRepository.update(removedPair);
+      pair.removeParticipant(props.removeParticipant);
+      await this.pairRepository.update(pair);
     }
   }
 }
