@@ -29,7 +29,7 @@ describe('ParticipantHavingTaskCollection', () => {
   describe('changeStatus', () => {
     test('[正常]', () => {
       const target = dummyParticipantHavingTasks1.participantHavingTaskCollection[1].task;
-      const result = dummyParticipantHavingTasks1.recreateProgressStatus(
+      const result = dummyParticipantHavingTasks1.changeProgressStatus(
         target,
         ProgressStatusEnum.complete,
       );
@@ -37,10 +37,7 @@ describe('ParticipantHavingTaskCollection', () => {
     });
     test('[異常]存在しないタスク', async () => {
       expect(() => {
-        dummyParticipantHavingTasks1.recreateProgressStatus(
-          dummyTask4,
-          ProgressStatusEnum.complete,
-        );
+        dummyParticipantHavingTasks1.changeProgressStatus(dummyTask4, ProgressStatusEnum.complete);
       }).toThrow('指定されたタスクが存在しません');
     });
   });
