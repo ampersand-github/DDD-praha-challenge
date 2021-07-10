@@ -25,4 +25,16 @@ describe('MailAddress', (): void => {
       MailAddress.create(email);
     }).toThrow(`${email.mailAddress}のメールアドレスの書式が間違っています。`);
   });
+  test('等価比較', () => {
+    const email1 = { mailAddress: 'aaa@gmail.com' };
+    const email2 = { mailAddress: 'aaa@gmail.com' };
+    const mailAddress1 = MailAddress.create(email1);
+    const mailAddress2 = MailAddress.create(email2);
+    expect(mailAddress1.equals(mailAddress2)).toBe(true);
+  });
+  test('[異常]等価比較', () => {
+    const email1 = { mailAddress: 'aaa@gmail.com' };
+    const mailAddress1 = MailAddress.create(email1);
+    expect(mailAddress1.equals()).toBe(false);
+  });
 });

@@ -27,15 +27,15 @@ describe('Task', (): void => {
   describe('changeName()', (): void => {
     test('[正常]値を変更できる', () => {
       const expected = 'aaa';
-      const actual = dummyTask1.changeName(expected);
-      expect(actual.name).toBe('aaa');
+      dummyTask1.changeName(expected);
+      expect(dummyTask1.name).toBe('aaa');
     });
   });
   describe('changeNo()', (): void => {
     test('[正常]値を変更できる', () => {
       const expected = 100;
-      const actual = dummyTask1.changeNo(expected);
-      expect(actual.no).toBe(expected);
+      dummyTask1.changeNo(expected);
+      expect(dummyTask1.no).toBe(expected);
     });
   });
 });

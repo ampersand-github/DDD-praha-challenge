@@ -11,9 +11,11 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
   public get participantHavingTask() {
     return this.props;
   }
+
   public get progressStatus() {
     return this.props.progressStatus;
   }
+
   public get task() {
     return this.props.task;
   }
@@ -26,8 +28,7 @@ export class ParticipantHavingTask extends ValueObject<ParticipantHavingTaskProp
     return new ParticipantHavingTask(props);
   }
 
-  public changeProgressStatus(updateStatus: string): ParticipantHavingTask {
-    this.props.progressStatus = this.props.progressStatus.changeStatus(updateStatus);
-    return this;
+  public equals(other: ParticipantHavingTask): boolean {
+    return this.task.equals(other.task) && this.progressStatus.equals(other.progressStatus);
   }
 }

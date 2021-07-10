@@ -64,18 +64,16 @@ export class Pair extends Entity<PairProps> {
     return new Pair(props, id);
   }
 
-  public addParticipant(participant: Participant) {
+  public addParticipant(participant: Participant): void {
     Pair.validation_participantExist(this.props.participants, participant);
     this.props.participants.push(participant);
     Pair.validation_upperLimit(this.props.participants.length);
-    return this;
   }
 
-  public removeParticipant(participant: Participant) {
+  public removeParticipant(participant: Participant): void {
     Pair.validation_participantNotExist(this.props.participants, participant);
     this.props.participants = this.props.participants.filter((one) => !one.equals(participant));
     Pair.validation_lowerLimit(this.props.participants.length);
-    return this;
   }
 
   public participantCount(): number {

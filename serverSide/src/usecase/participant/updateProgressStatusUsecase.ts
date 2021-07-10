@@ -29,7 +29,7 @@ export class UpdateParticipantHavingTasksUsecase {
       this.taskRepository.findOne(props.taskId),
     ]);
     //
-    const result = currentParticipant.changeProgressStatus(task, props.progressStatus);
-    return new ParticipantHavingTaskCollectionDTO(result);
+    currentParticipant.changeProgressStatus(task, props.progressStatus);
+    return new ParticipantHavingTaskCollectionDTO(currentParticipant);
   }
 }
