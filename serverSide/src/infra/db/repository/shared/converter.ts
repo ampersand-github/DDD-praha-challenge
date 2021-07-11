@@ -1,9 +1,10 @@
 import {
+  Pair as PrismaPair,
   Participant as PrismaParticipant,
   ParticipantHavingTask as PrismaParticipantHavingTask,
   PersonalInfo as PrismaPersonalInfo,
   PrismaClient,
-  Task as PrismaTaskProps,
+  Task as PrismaTask,
 } from '@prisma/client';
 import { Task } from '../../../../domain/task/task';
 import { UniqueEntityID } from '../../../../domain/shared/UniqueEntityID';
@@ -16,21 +17,25 @@ import { PersonalInfo } from '../../../../domain/participant/personalInfo';
 import { ParticipantHavingTaskCollection } from '../../../../domain/participant/participantHavingTaskCollection';
 import { ParticipantHavingTask } from '../../../../domain/participant/participantHavingTask';
 import { ProgressStatus } from '../../../../domain/participant/progressStatus';
+import { Pair } from '../../../../domain/pair/pair';
+import { PairName } from '../../../../domain/pair/pairName';
 
 // todo interfaceを別ファイルへ
 export interface IConverter {
-  toTask(data: PrismaTaskProps): Task;
+  toTask(data: PrismaTask): Task;
   toParticipantHavingTaskCollection(
     data: PrismaParticipantHavingTask[],
   ): Promise<ParticipantHavingTaskCollection>;
   toParticipant(data: PrismaParticipantProps): Promise<Participant>;
-  /*
-  convertToPair(data: PrismaTaskProps): Task;
- */
+  toPair(data: PrismaPairProps): Promise<Pair>;
 }
 type PrismaParticipantProps = PrismaParticipant & {
   personalInfo: PrismaPersonalInfo;
   participantHavingTask: PrismaParticipantHavingTask[];
+};
+
+type PrismaPairProps = PrismaPair & {
+  participants: PrismaParticipantProps[];
 };
 
 export class Converter implements IConverter {
@@ -47,7 +52,7 @@ export class Converter implements IConverter {
     });
   }
 
-  public toTask(data: PrismaTaskProps): Task {
+  public toTask(data: PrismaTask): Task {
     const taskId = new UniqueEntityID(data.taskId);
     const taskData = {
       no: data.taskNo,
@@ -100,7 +105,10 @@ export class Converter implements IConverter {
     );
   }
 
-  public convertToPair(data: PrismaTaskProps): Task {
-    return undefined;
+  public async toPair(data: PrismaPairProps): Promise<Pair> {
+    const id = new UniqueEntityID(data.pairId);
+    const pairName = PairName.create({ pairName: data.pairName });
+    const participants = await Promise.all(data.participants.map((one) => this.toParticipant(one)));
+    return Pair.create({ pairName: pairName, participants: participants }, id);
   }
 }
