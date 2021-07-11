@@ -21,11 +21,6 @@ export class MailAddress extends ValueObject<MailAddressProps> {
     return new MailAddress(props);
   }
 
-  public recreateMailAddress(mailAddress: string): MailAddress {
-    MailAddress.validation_format(mailAddress);
-    return MailAddress.create({ mailAddress: mailAddress });
-  }
-
   private static validation_format(mailAddress: string): void {
     if (!this.reg.test(mailAddress)) {
       throw new Error(`${mailAddress}のメールアドレスの書式が間違っています。`);
