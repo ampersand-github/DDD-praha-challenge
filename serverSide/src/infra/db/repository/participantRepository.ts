@@ -121,14 +121,6 @@ export class ParticipantRepository implements IParticipantRepository {
     );
   }
 
-  public async deleteTaskGroup(taskGroup: TaskGroup): Promise<void> {
-    await prismaClient.task.deleteMany({
-      where: {
-        taskGroupName: taskGroup.taskGroup,
-      },
-    });
-  }
-
   public async findAll(): Promise<Participant[]> {
     const findManyParticipant: PrismaParticipantProps[] = await this.prismaClient.participant.findMany(
       {
