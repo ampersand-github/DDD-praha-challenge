@@ -74,7 +74,7 @@ export class ParticipantRepository implements IParticipantRepository {
   }
 
   public async delete(participant: Participant): Promise<number> {
-    const result1 = await prismaClient.personalInfo.deleteMany({
+    const result1 = await this.prismaClient.personalInfo.deleteMany({
       where: { mailAddress: participant.mailAddress },
     });
     const result2 = await prismaClient.participantHavingTask.deleteMany({
