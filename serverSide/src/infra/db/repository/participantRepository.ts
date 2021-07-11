@@ -10,14 +10,13 @@ import {
   PersonalInfo as PrismaPersonalInfo,
   PrismaClient,
 } from '@prisma/client';
-import { ParticipantHavingTaskCollection } from '../../../domain/participant/participantHavingTaskCollection';
 import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 import { ParticipantName } from '../../../domain/participant/participantName';
 import { MailAddress } from '../../../domain/participant/mailAddress';
 import { ParticipantHavingTask } from '../../../domain/participant/participantHavingTask';
 import { ProgressStatus } from '../../../domain/participant/progressStatus';
 import { TaskRepository } from './taskRepository';
-import { TaskGroup } from '../../../domain/taskGroup/taskGroup';
+import { Converter } from './shared/converter';
 
 // prismaにおける参加者集約の型
 type PrismaParticipantProps = PrismaParticipant & {
@@ -28,10 +27,12 @@ type PrismaParticipantProps = PrismaParticipant & {
 export class ParticipantRepository implements IParticipantRepository {
   private taskRepository: TaskRepository;
   private readonly prismaClient: PrismaClient;
+  private readonly converter: Converter;
 
-  public constructor(prismaClient: PrismaClient) {
+  public constructor(prismaClient: PrismaClient, converter: Converter) {
     this.prismaClient = prismaClient;
-    this.taskRepository = new TaskRepository(prismaClient);
+    this.taskRepository = new TaskRepository(prismaClient, converter);
+    this.converter = converter;
   }
 
   public async create(participant: Participant): Promise<Participant> {
@@ -68,7 +69,7 @@ export class ParticipantRepository implements IParticipantRepository {
     });
     // 参加者保有課題を別途でupdate
     const allTask = await this.findAllTsk();
-    await this.updateParticipantHavingTaskCollection(participant, allTask);
+    await this.updateParticipantHavingTaskCollection(participant, allTask, this.converter);
 
     return await this.findOne(participant.id.toValue());
   }
@@ -97,7 +98,11 @@ export class ParticipantRepository implements IParticipantRepository {
   public async deleteHavingTaskByDifferenceFromDb(participant: Participant): Promise<void> {
     const id = participant.id.toValue();
     const allTask = await this.findAllTsk();
-    const fromTable = await ParticipantRepository.getParticipantHavingTaskFromDb(id, allTask);
+    const fromTable = await ParticipantRepository.getParticipantHavingTaskFromDb(
+      id,
+      allTask,
+      this.converter,
+    );
     const deleteTargetList = await ParticipantRepository.havingTaskDifferenceList(
       fromTable,
       participant.participantHavingTaskCollection,
@@ -131,7 +136,9 @@ export class ParticipantRepository implements IParticipantRepository {
       },
     );
     return await Promise.all(
-      findManyParticipant.map((one: PrismaParticipantProps) => this.convertToParticipant(one)),
+      findManyParticipant.map((one: PrismaParticipantProps) =>
+        this.converter.convertToParticipant(one),
+      ),
     );
   }
 
@@ -140,7 +147,7 @@ export class ParticipantRepository implements IParticipantRepository {
       where: { participantId: participantId },
       include: { personalInfo: true, participantHavingTask: true },
     });
-    return await this.convertToParticipant(result);
+    return await this.converter.convertToParticipant(result);
   }
 
   public async isExistMailAddress(mailAddress: string): Promise<boolean> {
@@ -171,34 +178,17 @@ export class ParticipantRepository implements IParticipantRepository {
     });
   }
 
-  private async convertToParticipant(data: PrismaParticipantProps): Promise<Participant> {
-    const id = new UniqueEntityID(data.participantId);
-    const enrolledStatus = EnrolledStatus.create({ enrolledStatus: data.enrolledParticipant });
-    const participantName = ParticipantName.create({ participantName: data.personalInfo.name });
-    const mailAddress = MailAddress.create({ mailAddress: data.personalInfo.mailAddress });
-    const personalInfo = PersonalInfo.create({
-      participantName: participantName,
-      mailAddress: mailAddress,
-    });
-    const allTask = await this.findAllTsk();
-    const participantHavingTaskCollection = await ParticipantRepository.convertToParticipantHavingTaskCollection(
-      data.participantHavingTask,
-      allTask,
-    );
-
-    return Participant.create(
-      {
-        personalInfo: personalInfo,
-        enrolledStatus: enrolledStatus,
-        participantHavingTaskCollection: participantHavingTaskCollection,
-      },
-      id,
-    );
-  }
-
-  private async updateParticipantHavingTaskCollection(participant: Participant, allTask: Task[]) {
+  private async updateParticipantHavingTaskCollection(
+    participant: Participant,
+    allTask: Task[],
+    converter: Converter,
+  ) {
     const id = participant.id.toValue();
-    const oldList = await ParticipantRepository.getParticipantHavingTaskFromDb(id, allTask);
+    const oldList = await ParticipantRepository.getParticipantHavingTaskFromDb(
+      id,
+      allTask,
+      converter,
+    );
     const newList = participant.participantHavingTaskCollection;
     const shouldUpdateParticipantHavingTaskList = await ParticipantRepository.havingTaskDifferenceList(
       newList,
@@ -229,35 +219,17 @@ export class ParticipantRepository implements IParticipantRepository {
   private static async getParticipantHavingTaskFromDb(
     participantId: string,
     allTask: Task[],
+    converter: Converter,
   ): Promise<ParticipantHavingTask[]> {
     const findManyParticipantHavingTask = await prismaClient.participantHavingTask.findMany({
       where: {
         participantId: participantId,
       },
     });
-    const participantHavingTaskCollection = await ParticipantRepository.convertToParticipantHavingTaskCollection(
+    const participantHavingTaskCollection = await converter.convertToParticipantHavingTaskCollection(
       findManyParticipantHavingTask,
-      allTask,
     );
     return participantHavingTaskCollection.participantHavingTaskCollection;
-  }
-
-  private static async convertToParticipantHavingTaskCollection(
-    data: PrismaParticipantHavingTask[],
-    allTask: Task[],
-  ): Promise<ParticipantHavingTaskCollection> {
-    const participantHavingTaskCollectionData: ParticipantHavingTask[] = await Promise.all(
-      data.map(async (one: PrismaParticipantHavingTask) => {
-        const progressStatus = ProgressStatus.create({ progressStatus: one.taskProgress });
-        const taskId = new UniqueEntityID(one.taskId);
-        const task = allTask.find((one: Task) => one.id.equals(taskId));
-        return ParticipantHavingTask.create({ task: task, progressStatus: progressStatus });
-      }),
-    );
-    // ドメインオブジェクト作成
-    return ParticipantHavingTaskCollection.create({
-      participantHavingTaskCollection: participantHavingTaskCollectionData,
-    });
   }
 
   private static async havingTaskDifferenceList(

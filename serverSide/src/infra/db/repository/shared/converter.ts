@@ -19,11 +19,11 @@ import { prismaClient } from '../../../../util/prisma/prismaClient';
 
 export interface IConverter {
   convertToTask(data: PrismaTaskProps): Task;
-  /*
-  convertToParticipant(data: PrismaParticipantProps): Promise<Participant>;
   convertToParticipantHavingTaskCollection(
     data: PrismaParticipantHavingTask[],
   ): Promise<ParticipantHavingTaskCollection>;
+  /*
+  convertToParticipant(data: PrismaParticipantProps): Promise<Participant>;
   convertToPair(data: PrismaTaskProps): Task;
 
  */
@@ -56,8 +56,7 @@ export class Converter implements IConverter {
     return Task.create(taskData, taskId);
   }
 
-  /*
-  private async convertToParticipantHavingTaskCollection(
+  public async convertToParticipantHavingTaskCollection(
     data: PrismaParticipantHavingTask[],
   ): Promise<ParticipantHavingTaskCollection> {
     // todo あとでチョスエイ
@@ -76,7 +75,7 @@ export class Converter implements IConverter {
     });
   }
 
-  private async convertToParticipant(data: PrismaParticipantProps): Promise<Participant> {
+  public async convertToParticipant(data: PrismaParticipantProps): Promise<Participant> {
     const id = new UniqueEntityID(data.participantId);
     const enrolledStatus = EnrolledStatus.create({ enrolledStatus: data.enrolledParticipant });
     const participantName = ParticipantName.create({ participantName: data.personalInfo.name });
@@ -102,5 +101,4 @@ export class Converter implements IConverter {
   public convertToPair(data: PrismaTaskProps): Task {
     return undefined;
   }
- */
 }
