@@ -1,7 +1,5 @@
 import { IParticipantRepository } from '../../../domain/participant/repositoryInterface/IParticipantRepository';
 import { Participant } from '../../../domain/participant/participant';
-import { PersonalInfo } from '../../../domain/participant/personalInfo';
-import { EnrolledStatus } from '../../../domain/participant/enrolledStatus';
 import { Task } from '../../../domain/task/task';
 import { prismaClient } from '../../../util/prisma/prismaClient';
 import {
@@ -10,11 +8,7 @@ import {
   PersonalInfo as PrismaPersonalInfo,
   PrismaClient,
 } from '@prisma/client';
-import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
-import { ParticipantName } from '../../../domain/participant/participantName';
-import { MailAddress } from '../../../domain/participant/mailAddress';
 import { ParticipantHavingTask } from '../../../domain/participant/participantHavingTask';
-import { ProgressStatus } from '../../../domain/participant/progressStatus';
 import { TaskRepository } from './taskRepository';
 import { Converter } from './shared/converter';
 

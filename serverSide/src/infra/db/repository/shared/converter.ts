@@ -2,6 +2,7 @@ import {
   Participant as PrismaParticipant,
   ParticipantHavingTask as PrismaParticipantHavingTask,
   PersonalInfo as PrismaPersonalInfo,
+  PrismaClient,
   Task as PrismaTaskProps,
 } from '@prisma/client';
 import { Task } from '../../../../domain/task/task';
@@ -15,17 +16,15 @@ import { PersonalInfo } from '../../../../domain/participant/personalInfo';
 import { ParticipantHavingTaskCollection } from '../../../../domain/participant/participantHavingTaskCollection';
 import { ParticipantHavingTask } from '../../../../domain/participant/participantHavingTask';
 import { ProgressStatus } from '../../../../domain/participant/progressStatus';
-import { prismaClient } from '../../../../util/prisma/prismaClient';
 
 export interface IConverter {
   convertToTask(data: PrismaTaskProps): Task;
   convertToParticipantHavingTaskCollection(
     data: PrismaParticipantHavingTask[],
   ): Promise<ParticipantHavingTaskCollection>;
-  /*
   convertToParticipant(data: PrismaParticipantProps): Promise<Participant>;
+  /*
   convertToPair(data: PrismaTaskProps): Task;
-
  */
 }
 type PrismaParticipantProps = PrismaParticipant & {
@@ -34,13 +33,17 @@ type PrismaParticipantProps = PrismaParticipant & {
 };
 
 export class Converter implements IConverter {
-  // todo これあとで考える
+  private readonly prismaClient: PrismaClient;
+
+  public constructor(prismaClient: PrismaClient) {
+    this.prismaClient = prismaClient;
+  }
+
   private async getAllTaskList(): Promise<Task[]> {
-    const aaa = await prismaClient.task.findMany();
-    const aaaaaa = await aaa.map((one) => {
+    const manyTask = await this.prismaClient.task.findMany();
+    return await manyTask.map((one) => {
       return this.convertToTask(one);
     });
-    return aaaaaa;
   }
 
   public convertToTask(data: PrismaTaskProps): Task {
@@ -59,14 +62,12 @@ export class Converter implements IConverter {
   public async convertToParticipantHavingTaskCollection(
     data: PrismaParticipantHavingTask[],
   ): Promise<ParticipantHavingTaskCollection> {
-    // todo あとでチョスエイ
-    const aaa: Task[] = await this.getAllTaskList();
-
+    const allTask = await this.getAllTaskList();
     const participantHavingTaskCollectionData: ParticipantHavingTask[] = await Promise.all(
       data.map(async (one: PrismaParticipantHavingTask) => {
         const progressStatus = ProgressStatus.create({ progressStatus: one.taskProgress });
         const taskId = new UniqueEntityID(one.taskId);
-        const task = aaa.find((one: Task) => one.id.equals(taskId));
+        const task = allTask.find((one: Task) => one.id.equals(taskId));
         return ParticipantHavingTask.create({ task: task, progressStatus: progressStatus });
       }),
     );
