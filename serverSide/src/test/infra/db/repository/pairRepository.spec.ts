@@ -12,6 +12,7 @@ import {
 import { ParticipantRepository } from '../../../../infra/db/repository/participantRepository';
 import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/dummyTask';
 import { TaskRepository } from '../../../../infra/db/repository/taskRepository';
+import { dummyPair1 } from '../../../../testUtil/dummy/dummyPair';
 
 describe('PairRepository', (): void => {
   const prisma = prismaClient;
@@ -37,10 +38,18 @@ describe('PairRepository', (): void => {
     await participantRepository.create(dummyParticipant5);
     await participantRepository.create(dummyParticipant6);
     await participantRepository.create(dummyParticipant7);
+    await pairRepository.create(dummyPair1);
   });
 
   afterAll(async () => {
-    //  await prismaClient.$disconnect();
+    await prismaClient.$disconnect();
+  });
+
+  describe('create()', () => {
+    test('[正常]作成できる', async () => {
+      // データ作成
+      // 結果確認
+    });
   });
 
   describe('findAll()', () => {
@@ -55,12 +64,7 @@ describe('PairRepository', (): void => {
       // 結果確認
     });
   });
-  describe('create()', () => {
-    test('[正常]作成できる', async () => {
-      // データ作成
-      // 結果確認
-    });
-  });
+
   describe('update()', () => {
     test('[正常]更新できる', async () => {
       // データ作成
