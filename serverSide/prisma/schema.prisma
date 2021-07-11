@@ -49,6 +49,7 @@ model Participant {
 // -- ペア集約
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 model Pair {
+  pairId String @id
   pairName String @unique
   participants Participant[]
   createdAt DateTime @default(now())
