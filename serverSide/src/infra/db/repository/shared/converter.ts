@@ -17,6 +17,7 @@ import { ParticipantHavingTaskCollection } from '../../../../domain/participant/
 import { ParticipantHavingTask } from '../../../../domain/participant/participantHavingTask';
 import { ProgressStatus } from '../../../../domain/participant/progressStatus';
 
+// todo interfaceを別ファイルへ
 export interface IConverter {
   toTask(data: PrismaTaskProps): Task;
   toParticipantHavingTaskCollection(
