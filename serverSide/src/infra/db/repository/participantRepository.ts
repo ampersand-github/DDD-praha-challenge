@@ -10,7 +10,7 @@ import {
 } from '@prisma/client';
 import { ParticipantHavingTask } from '../../../domain/participant/participantHavingTask';
 import { TaskRepository } from './taskRepository';
-import { Converter, IConverter } from './shared/converter';
+import { IConverter } from './shared/converter';
 
 // prismaにおける参加者集約の型
 type PrismaParticipantProps = PrismaParticipant & {
@@ -88,6 +88,7 @@ export class ParticipantRepository implements IParticipantRepository {
     return result.count;
   }
 
+  // ★
   // DBにある参加者保有課題からドメインオブジェクトの参加者保有課題を引いて残った参加者保有課題を削除する
   public async deleteHavingTaskByDifferenceFromDb(participant: Participant): Promise<void> {
     const id = participant.id.toValue();
@@ -97,6 +98,7 @@ export class ParticipantRepository implements IParticipantRepository {
       allTask,
       this.converter,
     );
+
     const deleteTargetList = await ParticipantRepository.havingTaskDifferenceList(
       fromTable,
       participant.participantHavingTaskCollection,
@@ -105,19 +107,7 @@ export class ParticipantRepository implements IParticipantRepository {
     if (deleteTargetList.length === 0) {
       console.log('削除すべき参加者保有課題が存在しない');
     }
-
-    await Promise.all(
-      deleteTargetList.map(async (one: ParticipantHavingTask) => {
-        await prismaClient.participantHavingTask.delete({
-          where: {
-            participantId_taskId: {
-              participantId: participant.id.toValue(),
-              taskId: one.task.id.toValue(),
-            },
-          },
-        });
-      }),
-    );
+    await this.deleteParticipantHavingTask(deleteTargetList, id);
   }
 
   public async findAll(): Promise<Participant[]> {
@@ -170,21 +160,23 @@ export class ParticipantRepository implements IParticipantRepository {
     });
   }
 
+  // ★
   private async updateParticipantHavingTaskCollection(
     participant: Participant,
     allTask: Task[],
     converter: IConverter,
   ) {
     const id = participant.id.toValue();
-    const oldList = await ParticipantRepository.getParticipantHavingTaskFromDb(
+    const fromTable = await ParticipantRepository.getParticipantHavingTaskFromDb(
       id,
       allTask,
       converter,
     );
+
     const newList = participant.participantHavingTaskCollection;
     const shouldUpdateParticipantHavingTaskList = await ParticipantRepository.havingTaskDifferenceList(
       newList,
-      oldList,
+      fromTable,
     );
     await this.updateParticipantHavingTask(shouldUpdateParticipantHavingTaskList, id);
   }
@@ -192,7 +184,7 @@ export class ParticipantRepository implements IParticipantRepository {
   private async updateParticipantHavingTask(
     shouldUpdateParticipantHavingTaskList: ParticipantHavingTask[],
     participantId: string,
-  ) {
+  ): Promise<void> {
     shouldUpdateParticipantHavingTaskList.map(async (one) => {
       await prismaClient.participantHavingTask.update({
         where: {
@@ -206,6 +198,24 @@ export class ParticipantRepository implements IParticipantRepository {
         },
       });
     });
+  }
+
+  private async deleteParticipantHavingTask(
+    shouldDeleteParticipantHavingTaskList: ParticipantHavingTask[],
+    participantId: string,
+  ): Promise<void> {
+    await Promise.all(
+      shouldDeleteParticipantHavingTaskList.map(async (one: ParticipantHavingTask) => {
+        await prismaClient.participantHavingTask.delete({
+          where: {
+            participantId_taskId: {
+              participantId: participantId,
+              taskId: one.task.id.toValue(),
+            },
+          },
+        });
+      }),
+    );
   }
 
   private static async getParticipantHavingTaskFromDb(
