@@ -2,13 +2,13 @@ import { Task } from '../../../domain/task/task';
 import { PrismaClient } from '@prisma/client';
 import { TaskGroup } from '../../../domain/taskGroup/taskGroup';
 import { ITaskRepository } from '../../../domain/task/repositoryInterface/ITaskRepository';
-import { Converter } from './shared/converter';
+import { IConverter } from './shared/converter';
 
 export class TaskRepository implements ITaskRepository {
   private readonly prismaClient: PrismaClient;
-  private readonly converter: Converter;
+  private readonly converter: IConverter;
 
-  public constructor(prismaClient: PrismaClient, converter: Converter) {
+  public constructor(prismaClient: PrismaClient, converter: IConverter) {
     this.prismaClient = prismaClient;
     this.converter = converter;
   }

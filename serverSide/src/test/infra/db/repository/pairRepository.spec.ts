@@ -12,13 +12,15 @@ import {
 import { ParticipantRepository } from '../../../../infra/db/repository/participantRepository';
 import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/dummyTask';
 import { TaskRepository } from '../../../../infra/db/repository/taskRepository';
-import { dummyPair1 } from '../../../../testUtil/dummy/dummyPair';
+import { dummyPair2, dummyPair3 } from '../../../../testUtil/dummy/dummyPair';
+import { Converter } from '../../../../infra/db/repository/shared/converter';
 
 describe('PairRepository', (): void => {
   const prisma = prismaClient;
-  const taskRepository = new TaskRepository(prisma);
-  const participantRepository = new ParticipantRepository(prisma);
-  const pairRepository = new PairRepository(prisma);
+  const converter: Converter = new Converter(prisma);
+  const taskRepository = new TaskRepository(prisma, converter);
+  const participantRepository = new ParticipantRepository(prisma, converter);
+  const pairRepository = new PairRepository(prisma, converter);
 
   beforeAll(() => {
     truncateAllTable();

@@ -10,7 +10,7 @@ import {
 } from '@prisma/client';
 import { ParticipantHavingTask } from '../../../domain/participant/participantHavingTask';
 import { TaskRepository } from './taskRepository';
-import { Converter } from './shared/converter';
+import { Converter, IConverter } from './shared/converter';
 
 // prismaにおける参加者集約の型
 type PrismaParticipantProps = PrismaParticipant & {
@@ -21,9 +21,9 @@ type PrismaParticipantProps = PrismaParticipant & {
 export class ParticipantRepository implements IParticipantRepository {
   private taskRepository: TaskRepository;
   private readonly prismaClient: PrismaClient;
-  private readonly converter: Converter;
+  private readonly converter: IConverter;
 
-  public constructor(prismaClient: PrismaClient, converter: Converter) {
+  public constructor(prismaClient: PrismaClient, converter: IConverter) {
     this.prismaClient = prismaClient;
     this.taskRepository = new TaskRepository(prismaClient, converter);
     this.converter = converter;
@@ -173,7 +173,7 @@ export class ParticipantRepository implements IParticipantRepository {
   private async updateParticipantHavingTaskCollection(
     participant: Participant,
     allTask: Task[],
-    converter: Converter,
+    converter: IConverter,
   ) {
     const id = participant.id.toValue();
     const oldList = await ParticipantRepository.getParticipantHavingTaskFromDb(
@@ -211,7 +211,7 @@ export class ParticipantRepository implements IParticipantRepository {
   private static async getParticipantHavingTaskFromDb(
     participantId: string,
     allTask: Task[],
-    converter: Converter,
+    converter: IConverter,
   ): Promise<ParticipantHavingTask[]> {
     const findManyParticipantHavingTask = await prismaClient.participantHavingTask.findMany({
       where: {
