@@ -20,7 +20,7 @@ export class TaskRepository implements ITaskRepository {
       },
     });
 
-    return findMany.map((one) => this.converter.convertToTask(one));
+    return findMany.map((one) => this.converter.toTask(one));
   }
 
   public async findOne(id: string): Promise<Task> {
@@ -29,7 +29,7 @@ export class TaskRepository implements ITaskRepository {
         taskId: id,
       },
     });
-    return this.converter.convertToTask(taskData);
+    return this.converter.toTask(taskData);
   }
 
   public async findByTaskGroup(taskGroup: TaskGroup): Promise<Task[]> {
@@ -39,7 +39,7 @@ export class TaskRepository implements ITaskRepository {
       },
     });
     return taskData.map((one) => {
-      return this.converter.convertToTask(one);
+      return this.converter.toTask(one);
     });
   }
 
@@ -53,7 +53,7 @@ export class TaskRepository implements ITaskRepository {
         taskGroupName: task.group,
       },
     });
-    return this.converter.convertToTask(prismaTask);
+    return this.converter.toTask(prismaTask);
   }
 
   public async delete(task: Task): Promise<number> {
@@ -82,7 +82,7 @@ export class TaskRepository implements ITaskRepository {
         taskGroupName: task.group,
       },
     });
-    return this.converter.convertToTask(prismaTask);
+    return this.converter.toTask(prismaTask);
   }
 
   public async taskMaxNo(): Promise<number> {

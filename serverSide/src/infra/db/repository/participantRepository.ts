@@ -130,9 +130,7 @@ export class ParticipantRepository implements IParticipantRepository {
       },
     );
     return await Promise.all(
-      findManyParticipant.map((one: PrismaParticipantProps) =>
-        this.converter.convertToParticipant(one),
-      ),
+      findManyParticipant.map((one: PrismaParticipantProps) => this.converter.toParticipant(one)),
     );
   }
 
@@ -141,7 +139,7 @@ export class ParticipantRepository implements IParticipantRepository {
       where: { participantId: participantId },
       include: { personalInfo: true, participantHavingTask: true },
     });
-    return await this.converter.convertToParticipant(result);
+    return await this.converter.toParticipant(result);
   }
 
   public async isExistMailAddress(mailAddress: string): Promise<boolean> {
@@ -220,7 +218,7 @@ export class ParticipantRepository implements IParticipantRepository {
         participantId: participantId,
       },
     });
-    const participantHavingTaskCollection = await converter.convertToParticipantHavingTaskCollection(
+    const participantHavingTaskCollection = await converter.toParticipantHavingTaskCollection(
       findManyParticipantHavingTask,
     );
     return participantHavingTaskCollection.participantHavingTaskCollection;

@@ -18,11 +18,11 @@ import { ParticipantHavingTask } from '../../../../domain/participant/participan
 import { ProgressStatus } from '../../../../domain/participant/progressStatus';
 
 export interface IConverter {
-  convertToTask(data: PrismaTaskProps): Task;
-  convertToParticipantHavingTaskCollection(
+  toTask(data: PrismaTaskProps): Task;
+  toParticipantHavingTaskCollection(
     data: PrismaParticipantHavingTask[],
   ): Promise<ParticipantHavingTaskCollection>;
-  convertToParticipant(data: PrismaParticipantProps): Promise<Participant>;
+  toParticipant(data: PrismaParticipantProps): Promise<Participant>;
   /*
   convertToPair(data: PrismaTaskProps): Task;
  */
@@ -42,11 +42,11 @@ export class Converter implements IConverter {
   private async getAllTaskList(): Promise<Task[]> {
     const manyTask = await this.prismaClient.task.findMany();
     return await manyTask.map((one) => {
-      return this.convertToTask(one);
+      return this.toTask(one);
     });
   }
 
-  public convertToTask(data: PrismaTaskProps): Task {
+  public toTask(data: PrismaTaskProps): Task {
     const taskId = new UniqueEntityID(data.taskId);
     const taskData = {
       no: data.taskNo,
@@ -59,7 +59,7 @@ export class Converter implements IConverter {
     return Task.create(taskData, taskId);
   }
 
-  public async convertToParticipantHavingTaskCollection(
+  public async toParticipantHavingTaskCollection(
     data: PrismaParticipantHavingTask[],
   ): Promise<ParticipantHavingTaskCollection> {
     const allTask = await this.getAllTaskList();
@@ -76,7 +76,7 @@ export class Converter implements IConverter {
     });
   }
 
-  public async convertToParticipant(data: PrismaParticipantProps): Promise<Participant> {
+  public async toParticipant(data: PrismaParticipantProps): Promise<Participant> {
     const id = new UniqueEntityID(data.participantId);
     const enrolledStatus = EnrolledStatus.create({ enrolledStatus: data.enrolledParticipant });
     const participantName = ParticipantName.create({ participantName: data.personalInfo.name });
@@ -85,7 +85,7 @@ export class Converter implements IConverter {
       participantName: participantName,
       mailAddress: mailAddress,
     });
-    const participantHavingTaskCollection = await this.convertToParticipantHavingTaskCollection(
+    const participantHavingTaskCollection = await this.toParticipantHavingTaskCollection(
       data.participantHavingTask,
     );
 
