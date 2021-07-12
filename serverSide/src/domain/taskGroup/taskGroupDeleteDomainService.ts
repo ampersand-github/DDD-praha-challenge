@@ -31,7 +31,7 @@ export class TaskGroupDeleteDomainService {
 
     await Promise.all(
       updateList.map(async (one) => {
-        await this.participantRepository.deleteHavingTaskByDifferenceFromDb(one);
+        await this.participantRepository.update(one);
       }),
     );
 
