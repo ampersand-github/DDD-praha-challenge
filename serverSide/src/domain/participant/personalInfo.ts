@@ -25,14 +25,14 @@ export class PersonalInfo extends ValueObject<PersonalInfoProps> {
 
   public changeMailAddress(mailAddress: string): PersonalInfo {
     return PersonalInfo.create({
-      mailAddress: this.props.mailAddress.recreateMailAddress(mailAddress),
+      mailAddress: MailAddress.create({ mailAddress: mailAddress }),
       participantName: this.props.participantName,
     });
   }
   public changeParticipantName(name: string): PersonalInfo {
     return PersonalInfo.create({
       mailAddress: this.props.mailAddress,
-      participantName: this.props.participantName.recreateParticipantName(name),
+      participantName: ParticipantName.create({ participantName: name }),
     });
   }
 }

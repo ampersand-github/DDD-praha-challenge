@@ -86,7 +86,7 @@ export class ParticipantRepository implements IParticipantRepository {
     });
     return result.count;
   }
-
+  
   public async findAll(): Promise<Participant[]> {
     const findManyParticipant: PrismaParticipantProps[] = await this.prismaClient.participant.findMany(
       {
