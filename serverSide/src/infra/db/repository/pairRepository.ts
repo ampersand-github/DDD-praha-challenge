@@ -83,7 +83,9 @@ export class PairRepository implements IPairRepository {
     return await this.findOne(pair.id.toValue());
   }
 
-  public async delete(pair: Pair): Promise<number> {
-    return Promise.resolve(0);
+  public async delete(pair: Pair): Promise<void> {
+    await this.prismaClient.pair.delete({
+      where: { pairId: pair.id.toValue() },
+    });
   }
 }

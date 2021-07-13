@@ -124,8 +124,14 @@ describe('PairRepository', (): void => {
 
   describe('delete()', () => {
     test('[正常]削除できる', async () => {
-      // データ作成
-      // 結果確認
+      expect(await prisma.pair.count()).toBe(1);
+      const beforeParticipantCount = await prisma.participant.count({ where: { pairName: 'b' } });
+      expect(beforeParticipantCount).toBe(2);
+      //
+      await pairRepository.delete(dummyPair2);
+      expect(await prisma.pair.count()).toBe(0);
+      const afterParticipantCount = await prisma.participant.count({ where: { pairName: 'b' } });
+      expect(afterParticipantCount).toBe(0);
     });
   });
 });
