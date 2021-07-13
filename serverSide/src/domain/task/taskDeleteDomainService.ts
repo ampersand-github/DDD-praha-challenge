@@ -1,5 +1,6 @@
 import { IParticipantRepository } from '../participant/repositoryInterface/IParticipantRepository';
 import { ITaskRepository } from './repositoryInterface/ITaskRepository';
+import { Participant } from '../participant/participant';
 
 interface TaskDeleteDomainServiceProps {
   taskId: string;
@@ -17,9 +18,20 @@ export class TaskDeleteDomainService {
     this.participantRepository = participantRepository;
   }
 
-  // todo 再度作り込み
   public async do(props: TaskDeleteDomainServiceProps): Promise<void> {
-    const shouldDeleteTask = await this.taskRepository.findOne(props.taskId);
-    await this.taskRepository.delete(shouldDeleteTask);
+    const allParticipant = await this.participantRepository.findAll();
+    const deleteTargetTask = await this.taskRepository.findOne(props.taskId);
+    const updateList: Participant[] = allParticipant.map((one: Participant) => {
+      one.deleteHavingTask(deleteTargetTask);
+      return one;
+    });
+
+    await Promise.all(
+      updateList.map(async (one) => {
+        await this.participantRepository.update(one);
+      }),
+    );
+
+    await this.taskRepository.delete(deleteTargetTask);
   }
 }

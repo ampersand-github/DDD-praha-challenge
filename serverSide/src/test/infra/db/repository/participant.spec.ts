@@ -5,6 +5,8 @@ import { ParticipantRepository } from '../../../../infra/db/repository/participa
 import { dummyParticipant1, dummyParticipant3 } from '../../../../testUtil/dummy/dummyPerticipant';
 import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/dummyTask';
 import { ProgressStatusEnum } from '../../../../domain/participant/progressStatus';
+import clone from 'clone';
+import { PrismaClient } from '@prisma/client';
 
 describe('ParticipantRepository', (): void => {
   const participantRepository = new ParticipantRepository(prismaClient);
@@ -88,10 +90,30 @@ describe('ParticipantRepository', (): void => {
           const deleteTargetTask = dummyParticipant1.participantHavingTaskCollection[0].task;
           await participantRepository.deleteParticipantHavingTaskByTask(deleteTargetTask);
           const afterCount = await prismaClient.participantHavingTask.count();
-          await expect(afterCount).toBe(afterCount);
+          await expect(afterCount).toBe(beforeCount - 1);
         });
       });
+      describe('deleteHavingTaskBetweenDOtoTable()', () => {
+        test('[正常]削除できる', async () => {
+          const client = new PrismaClient();
 
+          // 現在の参加者保有課題件数
+          const beforeCount = await client.participantHavingTask.count();
+          expect(beforeCount).toBe(3);
+          //
+          const participant = clone(dummyParticipant1);
+          participant.deleteHavingTask(dummyTask1);
+          participant.deleteHavingTask(dummyTask2);
+          participant.deleteHavingTask(dummyTask3);
+
+          expect(participant.participantHavingTaskCollection.length).toBe(0);
+
+          await participantRepository.update(participant);
+          const afterCount = await client.participantHavingTask.count();
+
+          await expect(await afterCount).toBe(participant.participantHavingTaskCollection.length);
+        });
+      });
       describe('isExistMailAddress()', () => {
         test('[正常]存在する', async () => {
           // 結果確認
