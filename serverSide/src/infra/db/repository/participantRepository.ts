@@ -61,8 +61,7 @@ export class ParticipantRepository implements IParticipantRepository {
       },
     });
     // 参加者保有課題を別途でupdate
-    const allTask = await this.findAllTsk();
-    await this.updateParticipantHavingTaskCollection(participant, allTask, this.converter);
+    await this.updateParticipantHavingTaskCollection(participant);
 
     return await this.findOne(participant.id.toValue());
   }
@@ -91,8 +90,7 @@ export class ParticipantRepository implements IParticipantRepository {
   // DBにある参加者保有課題からドメインオブジェクトの参加者保有課題を引いて残った参加者保有課題を削除する
   public async deleteHavingTaskByDifferenceFromDb(participant: Participant): Promise<void> {
     const id = participant.id.toValue();
-    const allTask = await this.findAllTsk();
-    const fromTable = await this.getParticipantHavingTaskFromDb(id, this.converter);
+    const fromTable = await this.getParticipantHavingTaskFromDb(id);
 
     const deleteTargetList = await ParticipantRepository.havingTaskDifferenceList(
       fromTable,
@@ -158,13 +156,9 @@ export class ParticipantRepository implements IParticipantRepository {
   }
 
   // ★
-  private async updateParticipantHavingTaskCollection(
-    participant: Participant,
-    allTask: Task[],
-    converter: IConverter,
-  ) {
+  private async updateParticipantHavingTaskCollection(participant: Participant) {
     const id = participant.id.toValue();
-    const fromTable = await this.getParticipantHavingTaskFromDb(id, converter);
+    const fromTable = await this.getParticipantHavingTaskFromDb(id);
 
     const newList = participant.participantHavingTaskCollection;
     const shouldUpdateParticipantHavingTaskList = await ParticipantRepository.havingTaskDifferenceList(
@@ -213,14 +207,13 @@ export class ParticipantRepository implements IParticipantRepository {
 
   private async getParticipantHavingTaskFromDb(
     participantId: string,
-    converter: IConverter,
   ): Promise<ParticipantHavingTask[]> {
     const findManyParticipantHavingTask = await this.prismaClient.participantHavingTask.findMany({
       where: {
         participantId: participantId,
       },
     });
-    const participantHavingTaskCollection = await converter.toParticipantHavingTaskCollection(
+    const participantHavingTaskCollection = await this.converter.toParticipantHavingTaskCollection(
       findManyParticipantHavingTask,
     );
     return participantHavingTaskCollection.participantHavingTaskCollection;
