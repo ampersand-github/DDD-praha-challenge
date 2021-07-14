@@ -7,11 +7,13 @@ import { dummyTask1, dummyTask2, dummyTask3 } from '../../../testUtil/dummy/dumm
 import { dummyParticipant1, dummyParticipant3 } from '../../../testUtil/dummy/dummyPerticipant';
 import clone from 'clone';
 import { TaskGroupEnum } from '../../../domain/taskGroup/taskGroup';
+import { Converter } from '../../../infra/db/repository/shared/converter';
 
 describe('TaskGroupDeleteDomainService', () => {
   const prisma = prismaClient;
-  const participantRepository = new ParticipantRepository(prisma);
-  const taskRepository = new TaskRepository(prisma);
+  const converter = new Converter(prisma);
+  const participantRepository = new ParticipantRepository(prisma, converter);
+  const taskRepository = new TaskRepository(prisma, converter);
   const taskGroupDeleteDomainService = new TaskGroupDeleteDomainService(
     taskRepository,
     participantRepository,

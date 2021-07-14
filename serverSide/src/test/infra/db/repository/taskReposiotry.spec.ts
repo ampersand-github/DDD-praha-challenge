@@ -4,9 +4,11 @@ import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/d
 import { prismaClient } from '../../../../util/prisma/prismaClient';
 import { TaskGroup } from '../../../../domain/taskGroup/taskGroup';
 import clone from 'clone';
+import { Converter } from '../../../../infra/db/repository/shared/converter';
 
 describe('TaskRepository', (): void => {
-  const repo = new TaskRepository(prismaClient);
+  const converter = new Converter();
+  const repo = new TaskRepository(prismaClient, converter);
 
   beforeAll(() => {
     truncateAllTable();

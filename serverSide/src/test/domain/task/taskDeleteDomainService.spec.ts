@@ -6,11 +6,13 @@ import { truncateAllTable } from '../../../testUtil/reposiotry/truncateAllTable'
 import { dummyTask1, dummyTask2, dummyTask3 } from '../../../testUtil/dummy/dummyTask';
 import { dummyParticipant1, dummyParticipant3 } from '../../../testUtil/dummy/dummyPerticipant';
 import { TaskDeleteDomainService } from '../../../domain/task/taskDeleteDomainService';
+import { Converter } from '../../../infra/db/repository/shared/converter';
 
 describe('TaskGroupDeleteDomainService', () => {
   const prisma = prismaClient;
-  const participantRepository = new ParticipantRepository(prisma);
-  const taskRepository = new TaskRepository(prisma);
+  const converter = new Converter(prisma);
+  const participantRepository = new ParticipantRepository(prisma, converter);
+  const taskRepository = new TaskRepository(prisma, converter);
   const taskDeleteDomainService = new TaskDeleteDomainService(
     taskRepository,
     participantRepository,

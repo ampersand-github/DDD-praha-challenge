@@ -7,7 +7,6 @@ interface ParticipantHavingTaskCollectionProps {
   participantHavingTaskCollection: ParticipantHavingTask[];
 }
 
-// todo domainObjectにしてもよいかも
 export class ParticipantHavingTaskCollection extends Collection<ParticipantHavingTaskCollectionProps> {
   public get participantHavingTaskCollection(): ParticipantHavingTask[] {
     return this.props.participantHavingTaskCollection;
@@ -33,7 +32,7 @@ export class ParticipantHavingTaskCollection extends Collection<ParticipantHavin
   }
 
   // タスク(引数)の現在の進捗ステータスを進捗ステータス(引数)へ変更する
-  public recreateProgressStatus(task: Task, status: string): ParticipantHavingTaskCollection {
+  public changeProgressStatus(task: Task, status: string): ParticipantHavingTaskCollection {
     const findResult = this.find(task);
 
     if (findResult === undefined) {

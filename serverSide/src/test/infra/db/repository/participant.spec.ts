@@ -7,10 +7,12 @@ import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/d
 import { ProgressStatusEnum } from '../../../../domain/participant/progressStatus';
 import clone from 'clone';
 import { PrismaClient } from '@prisma/client';
+import { Converter } from '../../../../infra/db/repository/shared/converter';
 
 describe('ParticipantRepository', (): void => {
-  const participantRepository = new ParticipantRepository(prismaClient);
-  const taskRepository = new TaskRepository(prismaClient);
+  const converter = new Converter();
+  const participantRepository = new ParticipantRepository(prismaClient, converter);
+  const taskRepository = new TaskRepository(prismaClient, converter);
 
   beforeAll(() => {
     truncateAllTable();
@@ -108,7 +110,7 @@ describe('ParticipantRepository', (): void => {
 
           expect(participant.participantHavingTaskCollection.length).toBe(0);
 
-          await participantRepository.deleteHavingTaskByDifferenceFromDb(participant);
+          await participantRepository.update(participant);
           const afterCount = await client.participantHavingTask.count();
 
           await expect(await afterCount).toBe(participant.participantHavingTaskCollection.length);
