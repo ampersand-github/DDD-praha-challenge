@@ -29,6 +29,7 @@ export interface IConverter {
   toParticipant(data: PrismaParticipantProps, prismaAllTask: PrismaTask[]): Participant;
   toPair(data: PrismaPairProps, prismaAllTask: PrismaTask[]): Pair;
 }
+
 type PrismaParticipantProps = PrismaParticipant & {
   personalInfo: PrismaPersonalInfo;
   participantHavingTask: PrismaParticipantHavingTask[];
@@ -39,12 +40,6 @@ type PrismaPairProps = PrismaPair & {
 };
 
 export class Converter implements IConverter {
-  private readonly prismaClient: PrismaClient;
-
-  public constructor(prismaClient: PrismaClient) {
-    this.prismaClient = prismaClient;
-  }
-
   public toTask(data: PrismaTask): Task {
     const taskId = new UniqueEntityID(data.taskId);
     const taskData = {

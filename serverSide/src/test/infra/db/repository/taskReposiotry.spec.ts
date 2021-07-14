@@ -7,7 +7,7 @@ import clone from 'clone';
 import { Converter } from '../../../../infra/db/repository/shared/converter';
 
 describe('TaskRepository', (): void => {
-  const converter = new Converter(prismaClient);
+  const converter = new Converter();
   const repo = new TaskRepository(prismaClient, converter);
 
   beforeAll(() => {

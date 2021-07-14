@@ -10,7 +10,7 @@ import { PrismaClient } from '@prisma/client';
 import { Converter } from '../../../../infra/db/repository/shared/converter';
 
 describe('ParticipantRepository', (): void => {
-  const converter = new Converter(prismaClient);
+  const converter = new Converter();
   const participantRepository = new ParticipantRepository(prismaClient, converter);
   const taskRepository = new TaskRepository(prismaClient, converter);
 
