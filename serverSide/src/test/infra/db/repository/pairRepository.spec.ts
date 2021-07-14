@@ -21,6 +21,7 @@ describe('PairRepository', (): void => {
   const converter: Converter = new Converter();
   const taskRepository = new TaskRepository(prisma);
   const participantRepository = new ParticipantRepository(prisma);
+
   const pairRepository = new PairRepository(prisma, converter);
 
   beforeAll(async () => {

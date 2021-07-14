@@ -8,12 +8,7 @@ import { TaskGroupDeleteDomainService } from '../../../domain/taskGroup/taskGrou
 describe('DeleteTaskGroupUsecase', (): void => {
   const participantRepository = new InMemoryParticipantRepository();
   const taskRepository = new InMemoryTaskRepository();
-  const taskGroupRepository = new InMemoryTaskGroupRepository();
-  const usecase = new DeleteTaskGroupUsecase(
-    taskRepository,
-    taskGroupRepository,
-    participantRepository,
-  );
+  const usecase = new DeleteTaskGroupUsecase(taskRepository, participantRepository);
 
   beforeEach(() => {
     jest.clearAllMocks();
