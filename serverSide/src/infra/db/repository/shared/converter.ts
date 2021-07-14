@@ -20,14 +20,14 @@ import { ProgressStatus } from '../../../../domain/participant/progressStatus';
 import { Pair } from '../../../../domain/pair/pair';
 import { PairName } from '../../../../domain/pair/pairName';
 
-// todo interfaceを別ファイルへ
 export interface IConverter {
   toTask(data: PrismaTask): Task;
-  toParticipantHavingTaskCollection(
+  toHavingTaskCollection(
     data: PrismaParticipantHavingTask[],
-  ): Promise<ParticipantHavingTaskCollection>;
-  toParticipant(data: PrismaParticipantProps): Promise<Participant>;
-  toPair(data: PrismaPairProps): Promise<Pair>;
+    prismaAllTask: PrismaTask[],
+  ): ParticipantHavingTaskCollection;
+  toParticipant(data: PrismaParticipantProps, prismaAllTask: PrismaTask[]): Participant;
+  toPair(data: PrismaPairProps, prismaAllTask: PrismaTask[]): Pair;
 }
 type PrismaParticipantProps = PrismaParticipant & {
   personalInfo: PrismaPersonalInfo;
@@ -45,13 +45,6 @@ export class Converter implements IConverter {
     this.prismaClient = prismaClient;
   }
 
-  private async getAllTaskList(): Promise<Task[]> {
-    const manyTask = await this.prismaClient.task.findMany();
-    return await manyTask.map((one) => {
-      return this.toTask(one);
-    });
-  }
-
   public toTask(data: PrismaTask): Task {
     const taskId = new UniqueEntityID(data.taskId);
     const taskData = {
@@ -65,24 +58,25 @@ export class Converter implements IConverter {
     return Task.create(taskData, taskId);
   }
 
-  public async toParticipantHavingTaskCollection(
+  public toHavingTaskCollection(
     data: PrismaParticipantHavingTask[],
-  ): Promise<ParticipantHavingTaskCollection> {
-    const allTask = await this.getAllTaskList();
-    const participantHavingTaskCollectionData: ParticipantHavingTask[] = await Promise.all(
-      data.map(async (one: PrismaParticipantHavingTask) => {
+    prismaAllTask: PrismaTask[],
+  ): ParticipantHavingTaskCollection {
+    const allTask = prismaAllTask.map((one) => this.toTask(one));
+    const participantHavingTaskCollectionData: ParticipantHavingTask[] = data.map(
+      (one: PrismaParticipantHavingTask) => {
         const progressStatus = ProgressStatus.create({ progressStatus: one.taskProgress });
         const taskId = new UniqueEntityID(one.taskId);
         const task = allTask.find((one: Task) => one.id.equals(taskId));
         return ParticipantHavingTask.create({ task: task, progressStatus: progressStatus });
-      }),
+      },
     );
     return ParticipantHavingTaskCollection.create({
       participantHavingTaskCollection: participantHavingTaskCollectionData,
     });
   }
 
-  public async toParticipant(data: PrismaParticipantProps): Promise<Participant> {
+  public toParticipant(data: PrismaParticipantProps, prismaAllTask: PrismaTask[]): Participant {
     const id = new UniqueEntityID(data.participantId);
     const enrolledStatus = EnrolledStatus.create({ enrolledStatus: data.enrolledParticipant });
     const participantName = ParticipantName.create({ participantName: data.personalInfo.name });
@@ -91,8 +85,9 @@ export class Converter implements IConverter {
       participantName: participantName,
       mailAddress: mailAddress,
     });
-    const participantHavingTaskCollection = await this.toParticipantHavingTaskCollection(
+    const participantHavingTaskCollection = this.toHavingTaskCollection(
       data.participantHavingTask,
+      prismaAllTask,
     );
 
     return Participant.create(
@@ -105,10 +100,10 @@ export class Converter implements IConverter {
     );
   }
 
-  public async toPair(data: PrismaPairProps): Promise<Pair> {
+  public toPair(data: PrismaPairProps, prismaAllTask: PrismaTask[]): Pair {
     const id = new UniqueEntityID(data.pairId);
     const pairName = PairName.create({ pairName: data.pairName });
-    const participants = await Promise.all(data.participants.map((one) => this.toParticipant(one)));
+    const participants = data.participants.map((one) => this.toParticipant(one, prismaAllTask));
     return Pair.create({ pairName: pairName, participants: participants }, id);
   }
 }

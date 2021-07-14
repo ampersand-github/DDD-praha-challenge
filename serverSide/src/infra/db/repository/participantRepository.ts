@@ -6,6 +6,7 @@ import {
   ParticipantHavingTask as PrismaParticipantHavingTask,
   PersonalInfo as PrismaPersonalInfo,
   PrismaClient,
+  Task as PrismaTask,
 } from '@prisma/client';
 import { ParticipantHavingTask } from '../../../domain/participant/participantHavingTask';
 import { TaskRepository } from './taskRepository';
@@ -112,8 +113,11 @@ export class ParticipantRepository implements IParticipantRepository {
         },
       },
     );
+    const allPrismaTask = await this.getAllPrismaTask();
     return await Promise.all(
-      findManyParticipant.map((one: PrismaParticipantProps) => this.converter.toParticipant(one)),
+      findManyParticipant.map((one: PrismaParticipantProps) =>
+        this.converter.toParticipant(one, allPrismaTask),
+      ),
     );
   }
 
@@ -122,7 +126,8 @@ export class ParticipantRepository implements IParticipantRepository {
       where: { participantId: participantId },
       include: { personalInfo: true, participantHavingTask: true },
     });
-    return await this.converter.toParticipant(result);
+    const allPrismaTask = await this.getAllPrismaTask();
+    return this.converter.toParticipant(result, allPrismaTask);
   }
 
   public async isExistMailAddress(mailAddress: string): Promise<boolean> {
@@ -135,8 +140,8 @@ export class ParticipantRepository implements IParticipantRepository {
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // private
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  private async findAllTsk(): Promise<Task[]> {
-    return this.taskRepository.findAll();
+  private async getAllPrismaTask() {
+    return await this.prismaClient.task.findMany();
   }
 
   private static MakePersonalInfoData(participant: Participant) {
@@ -213,8 +218,10 @@ export class ParticipantRepository implements IParticipantRepository {
         participantId: participantId,
       },
     });
-    const participantHavingTaskCollection = await this.converter.toParticipantHavingTaskCollection(
+    const allPrismaTask = await this.prismaClient.task.findMany();
+    const participantHavingTaskCollection = await this.converter.toHavingTaskCollection(
       findManyParticipantHavingTask,
+      allPrismaTask,
     );
     return participantHavingTaskCollection.participantHavingTaskCollection;
   }
