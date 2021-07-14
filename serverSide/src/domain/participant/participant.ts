@@ -50,11 +50,11 @@ export class Participant extends Entity<ParticipantProps> {
   }
 
   public changeEnrolledStatus(status: string): void {
-    this.props.enrolledStatus = this.props.enrolledStatus.recreateEnrolledStatus(status);
+    this.props.enrolledStatus = EnrolledStatus.create({ enrolledStatus: status });
   }
 
   public changeProgressStatus(task: Task, status: string): void {
-    this.props.participantHavingTaskCollection = this.props.participantHavingTaskCollection.recreateProgressStatus(
+    this.props.participantHavingTaskCollection = this.props.participantHavingTaskCollection.changeProgressStatus(
       task,
       status,
     );

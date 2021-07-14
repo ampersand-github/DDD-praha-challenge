@@ -1,5 +1,7 @@
 import { IParticipantRepository } from '../../../domain/participant/repositoryInterface/IParticipantRepository';
 import { Participant } from '../../../domain/participant/participant';
+import { PersonalInfo } from '../../../domain/participant/personalInfo';
+import { EnrolledStatus } from '../../../domain/participant/enrolledStatus';
 import { Task } from '../../../domain/task/task';
 import { prismaClient } from '../../../util/prisma/prismaClient';
 import {
@@ -8,7 +10,12 @@ import {
   PersonalInfo as PrismaPersonalInfo,
   PrismaClient,
 } from '@prisma/client';
+import { ParticipantHavingTaskCollection } from '../../../domain/participant/participantHavingTaskCollection';
+import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
+import { ParticipantName } from '../../../domain/participant/participantName';
+import { MailAddress } from '../../../domain/participant/mailAddress';
 import { ParticipantHavingTask } from '../../../domain/participant/participantHavingTask';
+import { ProgressStatus } from '../../../domain/participant/progressStatus';
 import { TaskRepository } from './taskRepository';
 import { TaskGroup } from '../../../domain/taskGroup/taskGroup';
 
@@ -61,9 +68,8 @@ export class ParticipantRepository implements IParticipantRepository {
     });
     // 参加者保有課題を別途でupdate
     const allTask = await this.findAllTsk();
-    // 差分がある場合、更新もしくは削除する
-    await this.diffUpdateParticipantHavingTaskCollection(participant, allTask, this.converter);
-    await this.diffDeleteParticipantHavingTaskCollection(participant, allTask, this.converter);
+    await this.updateParticipantHavingTaskCollection(participant, allTask);
+
     return await this.findOne(participant.id.toValue());
   }
 
@@ -85,6 +91,34 @@ export class ParticipantRepository implements IParticipantRepository {
       where: { taskId: task.id.toValue() },
     });
     return result.count;
+  }
+
+  // DBにある参加者保有課題からドメインオブジェクトの参加者保有課題を引いて残った参加者保有課題を削除する
+  public async deleteHavingTaskByDifferenceFromDb(participant: Participant): Promise<void> {
+    const id = participant.id.toValue();
+    const allTask = await this.findAllTsk();
+    const fromTable = await ParticipantRepository.getParticipantHavingTaskFromDb(id, allTask);
+    const deleteTargetList = await ParticipantRepository.havingTaskDifferenceList(
+      fromTable,
+      participant.participantHavingTaskCollection,
+    );
+
+    if (deleteTargetList.length === 0) {
+      console.log('削除すべき参加者保有課題が存在しない');
+    }
+
+    await Promise.all(
+      deleteTargetList.map(async (one: ParticipantHavingTask) => {
+        await prismaClient.participantHavingTask.delete({
+          where: {
+            participantId_taskId: {
+              participantId: participant.id.toValue(),
+              taskId: one.task.id.toValue(),
+            },
+          },
+        });
+      }),
+    );
   }
 
   public async findAll(): Promise<Participant[]> {
@@ -137,51 +171,46 @@ export class ParticipantRepository implements IParticipantRepository {
     });
   }
 
-  // ★
-  private async diffUpdateParticipantHavingTaskCollection(
-    participant: Participant,
-    allTask: Task[],
-    converter: IConverter,
-  ) {
-    const id = participant.id.toValue();
-    const fromTable = await ParticipantRepository.getParticipantHavingTaskFromDb(
-      id,
+  private async convertToParticipant(data: PrismaParticipantProps): Promise<Participant> {
+    const id = new UniqueEntityID(data.participantId);
+    const enrolledStatus = EnrolledStatus.create({ enrolledStatus: data.enrolledParticipant });
+    const participantName = ParticipantName.create({ participantName: data.personalInfo.name });
+    const mailAddress = MailAddress.create({ mailAddress: data.personalInfo.mailAddress });
+    const personalInfo = PersonalInfo.create({
+      participantName: participantName,
+      mailAddress: mailAddress,
+    });
+    const allTask = await this.findAllTsk();
+    const participantHavingTaskCollection = await ParticipantRepository.convertToParticipantHavingTaskCollection(
+      data.participantHavingTask,
       allTask,
     );
-    const shouldUpdateList = await ParticipantRepository.havingTaskDifferenceList(
-      participant.participantHavingTaskCollection,
-      fromTable,
+
+    return Participant.create(
+      {
+        personalInfo: personalInfo,
+        enrolledStatus: enrolledStatus,
+        participantHavingTaskCollection: participantHavingTaskCollection,
+      },
+      id,
     );
-    if (shouldUpdateList.length > 0) {
-      await this.updateParticipantHavingTask(shouldUpdateList, id);
-    }
   }
-  private async diffDeleteParticipantHavingTaskCollection(
-    participant: Participant,
-    allTask: Task[],
-    converter: IConverter,
-  ) {
+
+  private async updateParticipantHavingTaskCollection(participant: Participant, allTask: Task[]) {
     const id = participant.id.toValue();
-    const fromTable = await ParticipantRepository.getParticipantHavingTaskFromDb(
-      id,
-      allTask,
-      converter,
+    const oldList = await ParticipantRepository.getParticipantHavingTaskFromDb(id, allTask);
+    const newList = participant.participantHavingTaskCollection;
+    const shouldUpdateParticipantHavingTaskList = await ParticipantRepository.havingTaskDifferenceList(
+      newList,
+      oldList,
     );
-
-    const deleteTargetList = await ParticipantRepository.havingTaskDifferenceList(
-      fromTable,
-      participant.participantHavingTaskCollection,
-    );
-
-    if (deleteTargetList.length > 0) {
-      await this.deleteParticipantHavingTask(deleteTargetList, id);
-    }
+    await this.updateParticipantHavingTask(shouldUpdateParticipantHavingTaskList, id);
   }
 
   private async updateParticipantHavingTask(
     shouldUpdateParticipantHavingTaskList: ParticipantHavingTask[],
     participantId: string,
-  ): Promise<void> {
+  ) {
     shouldUpdateParticipantHavingTaskList.map(async (one) => {
       await prismaClient.participantHavingTask.update({
         where: {
@@ -195,24 +224,6 @@ export class ParticipantRepository implements IParticipantRepository {
         },
       });
     });
-  }
-
-  private async deleteParticipantHavingTask(
-    shouldDeleteParticipantHavingTaskList: ParticipantHavingTask[],
-    participantId: string,
-  ): Promise<void> {
-    await Promise.all(
-      shouldDeleteParticipantHavingTaskList.map(async (one: ParticipantHavingTask) => {
-        await prismaClient.participantHavingTask.delete({
-          where: {
-            participantId_taskId: {
-              participantId: participantId,
-              taskId: one.task.id.toValue(),
-            },
-          },
-        });
-      }),
-    );
   }
 
   private static async getParticipantHavingTaskFromDb(
@@ -229,6 +240,24 @@ export class ParticipantRepository implements IParticipantRepository {
       allTask,
     );
     return participantHavingTaskCollection.participantHavingTaskCollection;
+  }
+
+  private static async convertToParticipantHavingTaskCollection(
+    data: PrismaParticipantHavingTask[],
+    allTask: Task[],
+  ): Promise<ParticipantHavingTaskCollection> {
+    const participantHavingTaskCollectionData: ParticipantHavingTask[] = await Promise.all(
+      data.map(async (one: PrismaParticipantHavingTask) => {
+        const progressStatus = ProgressStatus.create({ progressStatus: one.taskProgress });
+        const taskId = new UniqueEntityID(one.taskId);
+        const task = allTask.find((one: Task) => one.id.equals(taskId));
+        return ParticipantHavingTask.create({ task: task, progressStatus: progressStatus });
+      }),
+    );
+    // ドメインオブジェクト作成
+    return ParticipantHavingTaskCollection.create({
+      participantHavingTaskCollection: participantHavingTaskCollectionData,
+    });
   }
 
   private static async havingTaskDifferenceList(
