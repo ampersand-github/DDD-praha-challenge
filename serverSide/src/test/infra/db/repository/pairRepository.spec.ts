@@ -19,8 +19,8 @@ import clone from 'clone';
 describe('PairRepository', (): void => {
   const prisma = prismaClient;
   const converter: Converter = new Converter();
-  const taskRepository = new TaskRepository(prisma);
-  const participantRepository = new ParticipantRepository(prisma);
+  const taskRepository = new TaskRepository(prisma, converter);
+  const participantRepository = new ParticipantRepository(prisma, converter);
 
   const pairRepository = new PairRepository(prisma, converter);
 
