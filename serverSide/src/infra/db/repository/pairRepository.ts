@@ -2,8 +2,6 @@ import { PrismaClient } from '@prisma/client';
 import { IPairRepository } from '../../../domain/pair/repositoryInterface/IPairRepository';
 import { Pair } from '../../../domain/pair/pair';
 import { IConverter } from './shared/converter';
-import { prismaClient } from '../../../util/prisma/prismaClient';
-import { dummyWithdrawal } from '../../../testUtil/dummy/dummyEnrolledStatus';
 
 export class PairRepository implements IPairRepository {
   private readonly prismaClient: PrismaClient;
@@ -25,11 +23,12 @@ export class PairRepository implements IPairRepository {
         },
       },
     });
-    return Promise.all(findManyPair.map((one) => this.converter.toPair(one)));
+    const allPrismaTask = await this.prismaClient.task.findMany();
+    return Promise.all(findManyPair.map((one) => this.converter.toPair(one, allPrismaTask)));
   }
 
   public async findOne(pairId: string): Promise<Pair> {
-    const result = await prismaClient.pair.findUnique({
+    const result = await this.prismaClient.pair.findUnique({
       where: { pairId: pairId },
       include: {
         participants: {
@@ -37,7 +36,8 @@ export class PairRepository implements IPairRepository {
         },
       },
     });
-    return this.converter.toPair(result);
+    const allPrismaTask = await this.prismaClient.task.findMany();
+    return this.converter.toPair(result, allPrismaTask);
   }
 
   public async create(pair: Pair): Promise<Pair> {
@@ -60,7 +60,7 @@ export class PairRepository implements IPairRepository {
   }
 
   public async update(pair: Pair): Promise<Pair> {
-    await prismaClient.participant.updateMany({
+    await this.prismaClient.participant.updateMany({
       where: { pairName: pair.pairName },
       data: {
         pairName: null,
@@ -69,7 +69,7 @@ export class PairRepository implements IPairRepository {
 
     await Promise.all(
       pair.participants.map(async (one) => {
-        await prismaClient.participant.update({
+        await this.prismaClient.participant.update({
           where: { participantId: one.id.toValue() },
           data: {
             pair: {
