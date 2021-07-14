@@ -61,7 +61,6 @@ export class Pair extends Entity<PairProps> {
   public static create(props: PairProps, id?: UniqueEntityID): Pair {
     Pair.validation_lowerLimit(props.participants.length);
     Pair.validation_upperLimit(props.participants.length);
-    props.participants = this.sort(props.participants); // sortはテストのために実装した。
     return new Pair(props, id);
   }
 
@@ -79,8 +78,5 @@ export class Pair extends Entity<PairProps> {
 
   public participantCount(): number {
     return this.props.participants.length;
-  }
-  private static sort(list: Participant[]): Participant[] {
-    return list.sort((a, b) => (a.id.toValue() > b.id.toValue() ? 1 : -1));
   }
 }

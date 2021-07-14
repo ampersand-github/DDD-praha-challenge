@@ -5,5 +5,5 @@ export interface IPairRepository {
   findOne(pairName: string): Promise<Pair>;
   create(pair: Pair): Promise<Pair>;
   update(pair: Pair): Promise<Pair>;
-  delete(pair: Pair): Promise<void>;
+  delete(pair: Pair): Promise<number>; // numberは削除件数
 }
