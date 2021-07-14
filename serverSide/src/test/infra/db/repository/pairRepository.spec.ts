@@ -33,18 +33,15 @@ describe('PairRepository', (): void => {
     await prismaClient.task.deleteMany();
     await prismaClient.participant.deleteMany();
     await prismaClient.pair.deleteMany();
-    console.log(10);
     await taskRepository.create(dummyTask1);
     await taskRepository.create(dummyTask2);
     await taskRepository.create(dummyTask3);
-    console.log(20);
     await participantRepository.create(dummyParticipant1);
     await participantRepository.create(dummyParticipant3);
     await participantRepository.create(dummyParticipant4);
     await participantRepository.create(dummyParticipant5);
     await participantRepository.create(dummyParticipant6);
     await participantRepository.create(dummyParticipant7);
-    console.log(30);
     await pairRepository.create(dummyPair2);
   });
 
