@@ -110,7 +110,7 @@ describe('ParticipantRepository', (): void => {
 
           expect(participant.participantHavingTaskCollection.length).toBe(0);
 
-          await participantRepository.deleteHavingTaskByDifferenceFromDb(participant);
+          await participantRepository.update(participant);
           const afterCount = await client.participantHavingTask.count();
 
           await expect(await afterCount).toBe(participant.participantHavingTaskCollection.length);
