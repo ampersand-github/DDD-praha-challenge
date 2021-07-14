@@ -78,18 +78,20 @@ describe('PairRepository', (): void => {
   });
 
   describe('update()', () => {
+    const getParticipant = (id, participants) => {
+      return participants.find((one) => id === one.participantId);
+    };
+
     test('[正常]更新できる', async () => {
       await pairRepository.create(dummyPair3);
 
-      // createしたペアに所属する参加者のペア名がdummyPair3のペア名
-      const beforeParticipants = await prisma.participant.findMany({
-        where: { pairName: dummyPair3.pairName },
-      });
-      await Promise.all(
-        beforeParticipants.map((one) => expect(one.pairName).toEqual(dummyPair3.pairName)),
-      );
+      const beforeParticipants = await prisma.participant.findMany();
+      const beforeParticipant1 = getParticipant(dummyParticipant1.id.toValue(), beforeParticipants);
+      const beforeParticipant5 = getParticipant(dummyParticipant5.id.toValue(), beforeParticipants);
+      expect(beforeParticipant1.pairName).toBe(null); // どのペアにもまだ所属していない
+      expect(beforeParticipant5.pairName).toBe('c'); // dummyPair3(ペアc)に所属している
 
-      // 更新できているか確かめるために参加者の削除と更新をする
+      // ペアから参加者の更新と削除を行ってそのデータを更新する
       const pair = clone(dummyPair3);
       pair.removeParticipant(dummyParticipant5);
       pair.addParticipant(dummyParticipant1);
@@ -98,22 +100,15 @@ describe('PairRepository', (): void => {
       const result = await pairRepository.update(pair);
       expect(result.equals(pair)).toBe(true);
 
-      // 更新後テーブルの参加者のペアの確認
+      // 更新後のデータと比べて、ペアから参加者を削除した場合、ペア名がｎullになる
+      // ペアを追加した場合、Cになる
       const afterParticipants = await prisma.participant.findMany();
-      const p5 = await afterParticipants.find(
-        (one) => dummyParticipant5.id.toValue() === one.participantId,
-      );
-      const p1 = await afterParticipants.find(
-        (one) => dummyParticipant1.id.toValue() === one.participantId,
-      );
-      const p6 = await afterParticipants.find(
-        (one) => dummyParticipant6.id.toValue() === one.participantId,
-      );
-      const p7 = await afterParticipants.find(
-        (one) => dummyParticipant7.id.toValue() === one.participantId,
-      );
-      expect(p5.pairName).toBe(null);
-      expect(p1.pairName).toBe('c');
+      const p5 = getParticipant(dummyParticipant5.id.toValue(), afterParticipants);
+      const p1 = getParticipant(dummyParticipant1.id.toValue(), afterParticipants);
+      const p6 = getParticipant(dummyParticipant6.id.toValue(), afterParticipants);
+      const p7 = getParticipant(dummyParticipant7.id.toValue(), afterParticipants);
+      expect(p5.pairName).toBe(null); // ペアから削除したのでnullに更新される
+      expect(p1.pairName).toBe('c'); // ペアに追加したのでCに更新される
       expect(p6.pairName).toBe('c');
       expect(p7.pairName).toBe('c');
     });
