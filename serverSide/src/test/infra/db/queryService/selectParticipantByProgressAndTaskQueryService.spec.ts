@@ -77,5 +77,9 @@ describe('SelectParticipantByProgressAndTaskQueryService', (): void => {
       expect(all[4]).toEqual(page3[0]);
       expect(all[5]).toEqual(page3[1]);
     });
+    test('[正常]0件の場合', async () => {
+      const result = await qs.do([dummyTask3], complete, 10, 1);
+      expect(result).toEqual([]);
+    });
   });
 });
