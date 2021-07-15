@@ -1,13 +1,14 @@
 import { IConverter } from '../repository/shared/converter';
 import { PrismaClient } from '@prisma/client';
 import { ProgressStatus } from '../../../domain/participant/progressStatus';
-import { Task } from '../../../domain/task/task';
 import { Participant } from '../../../domain/participant/participant';
+import {
+  AtLeast1Task,
+  IGetParticipantByProgressAndTaskQueryService,
+} from '../../../usecase/queryService/GetParticipantByProgressAndTaskQueryService';
 
-// 最低１つ以上のTaskが必要
-type AtLeast1Task = [Task, ...Task[]];
-
-export class GetParticipantByProgressAndTaskQueryService {
+export class GetParticipantByProgressAndTaskQueryService
+  implements IGetParticipantByProgressAndTaskQueryService {
   private readonly prismaClient: PrismaClient;
   private readonly converter: IConverter;
 
@@ -16,7 +17,6 @@ export class GetParticipantByProgressAndTaskQueryService {
     this.converter = converter;
   }
 
-  // todo 返り値に専用DTO用意する
   public async do(
     taskList: AtLeast1Task,
     progressStatus: ProgressStatus,
