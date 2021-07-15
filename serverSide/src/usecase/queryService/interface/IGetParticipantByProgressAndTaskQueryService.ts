@@ -1,6 +1,6 @@
-import { ProgressStatus } from '../../domain/participant/progressStatus';
-import { Task } from '../../domain/task/task';
-import { Participant } from '../../domain/participant/participant';
+import { ProgressStatus } from '../../../domain/participant/progressStatus';
+import { Task } from '../../../domain/task/task';
+import { Participant } from '../../../domain/participant/participant';
 
 // 最低１つ以上のTaskが必要
 export type AtLeast1Task = [Task, ...Task[]];

@@ -4,7 +4,7 @@ import { ITaskRepository } from '../../domain/task/repositoryInterface/ITaskRepo
 import {
   AtLeast1Task,
   IGetParticipantByProgressAndTaskQueryService,
-} from './GetParticipantByProgressAndTaskQueryService';
+} from './interface/IGetParticipantByProgressAndTaskQueryService';
 
 export class GetParticipantByProgressAndTaskUsecase {
   private readonly queryService: IGetParticipantByProgressAndTaskQueryService;
