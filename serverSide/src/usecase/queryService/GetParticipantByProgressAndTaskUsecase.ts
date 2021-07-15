@@ -1,17 +1,21 @@
-import { GetParticipantByProgressAndTaskQueryService } from '../../infra/db/queryService/getParticipantByProgressAndTaskQueryService';
 import { ProgressStatus, ProgressStatusEnum } from '../../domain/participant/progressStatus';
 import { ParticipantDTO } from '../participant/DTO/participantDTO';
-import { TaskRepository } from '../../infra/db/repository/taskRepository';
-import { Task } from '../../domain/task/task';
-
-type AtLeast1Task = [Task, ...Task[]];
+import { ITaskRepository } from '../../domain/task/repositoryInterface/ITaskRepository';
+import {
+  AtLeast1Task,
+  IGetParticipantByProgressAndTaskQueryService,
+} from './GetParticipantByProgressAndTaskQueryService';
 
 export class GetParticipantByProgressAndTaskUsecase {
-  private readonly queryService: GetParticipantByProgressAndTaskQueryService;
-  private readonly taskRepository: TaskRepository;
+  private readonly queryService: IGetParticipantByProgressAndTaskQueryService;
+  private readonly taskRepository: ITaskRepository;
 
-  public constructor(queryService: GetParticipantByProgressAndTaskQueryService) {
+  public constructor(
+    queryService: IGetParticipantByProgressAndTaskQueryService,
+    taskRepository: ITaskRepository,
+  ) {
     this.queryService = queryService;
+    this.taskRepository = taskRepository;
   }
 
   public async do(
