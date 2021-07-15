@@ -29,7 +29,7 @@ export class InMemoryParticipantRepository implements IParticipantRepository {
   }
 
   public updateParticipantHavingTasks(
-      participant: Participant,
+    participant: Participant,
   ): Promise<ParticipantHavingTaskCollectionDTO> {
     return Promise.resolve(undefined);
   }

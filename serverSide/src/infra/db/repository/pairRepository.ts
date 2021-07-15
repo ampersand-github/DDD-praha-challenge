@@ -3,7 +3,6 @@ import { IPairRepository } from '../../../domain/pair/repositoryInterface/IPairR
 import { Pair } from '../../../domain/pair/pair';
 import { IConverter } from './shared/converter';
 
-
 export class PairRepository implements IPairRepository {
   private readonly prismaClient: PrismaClient;
   private readonly converter: IConverter;

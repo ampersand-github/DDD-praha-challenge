@@ -7,8 +7,8 @@ export class InMemoryPairRepository implements IPairRepository {
     return Promise.resolve(undefined);
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public delete(pair: Pair): Promise<number> {
-    return Promise.resolve(0);
+  public delete(pair: Pair): Promise<void> {
+    return Promise.resolve(undefined);
   }
 
   public findAll(): Promise<Pair[]> {
