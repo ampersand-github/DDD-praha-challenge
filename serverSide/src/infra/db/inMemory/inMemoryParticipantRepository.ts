@@ -29,7 +29,7 @@ export class InMemoryParticipantRepository implements IParticipantRepository {
   }
 
   public updateParticipantHavingTasks(
-    participant: Participant,
+      participant: Participant,
   ): Promise<ParticipantHavingTaskCollectionDTO> {
     return Promise.resolve(undefined);
   }
@@ -50,11 +50,4 @@ export class InMemoryParticipantRepository implements IParticipantRepository {
     return Promise.resolve(undefined);
   }
 
-  deleteParticipantHavingTaskByTask(task: Task): Promise<number> {
-    return Promise.resolve(0);
-  }
-
-  deleteHavingTaskByDifferenceFromDb(participant: Participant): Promise<void> {
-    return Promise.resolve(undefined);
-  }
 }
