@@ -29,7 +29,7 @@ describe('TaskRepository', (): void => {
     test('[正常]取得できる', async () => {
       // 結果確認
       const actual = await repo.findAll();
-      expect(actual).toEqual([dummyTask1, dummyTask2]);
+      expect(actual.length).toEqual(2);
     });
   });
 

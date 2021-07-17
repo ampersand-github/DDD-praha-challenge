@@ -1,4 +1,3 @@
-import { InMemoryTaskGroupRepository } from '../../../infra/db/inMemory/inMemoryTaskGroupRepository';
 import { DeleteTaskGroupUsecase } from '../../../usecase/taskGroup/DeleteTaskGroupUsecase';
 import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
 import { InMemoryTaskRepository } from '../../../infra/db/inMemory/inMemoryTaskRepository';
