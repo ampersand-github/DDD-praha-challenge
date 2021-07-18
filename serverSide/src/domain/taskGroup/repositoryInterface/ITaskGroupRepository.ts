@@ -1,4 +1,4 @@
-import { TaskGroup } from './taskGroup';
+import { TaskGroup } from '../taskGroup';
 
 export interface ITaskGroupRepository {
   findAll(): Promise<TaskGroup[]>;
