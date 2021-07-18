@@ -1,6 +1,6 @@
 import { TaskGroup } from '../../domain/taskGroup/taskGroup';
 import { TaskGroupDTO } from './DTO/taskGroupDTO';
-import { ITaskGroupRepository } from '../../domain/taskGroup/ITaskGroupRepository';
+import { ITaskGroupRepository } from '../../domain/taskGroup/repositoryInterface/ITaskGroupRepository';
 
 export class FindAllTaskGroupUsecase {
   private readonly repo: ITaskGroupRepository;

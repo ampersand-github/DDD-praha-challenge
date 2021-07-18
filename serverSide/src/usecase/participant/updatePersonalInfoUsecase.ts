@@ -1,5 +1,5 @@
 import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
-import { DisallowDuplicateMailAddressService } from '../../domain/participant/service/disallowDuplicateMailaddressService';
+import { DisallowDuplicateMailAddressService } from '../../domain/participant/domainService/disallowDuplicateMailaddressService';
 import { Participant } from '../../domain/participant/participant';
 
 interface UpdatePersonalInfoUsecaseProps {

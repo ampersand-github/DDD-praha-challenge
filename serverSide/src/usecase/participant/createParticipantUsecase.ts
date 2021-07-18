@@ -1,6 +1,6 @@
 import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
 import { ParticipantDTO } from './DTO/participantDTO';
-import { ParticipantFactory } from '../../domain/participant/service/participantFactory';
+import { ParticipantFactory } from '../../domain/participant/domainService/participantFactory';
 import { Participant } from '../../domain/participant/participant';
 
 interface FactoryProps {

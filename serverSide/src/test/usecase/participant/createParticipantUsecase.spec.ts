@@ -3,7 +3,7 @@ import { CreateParticipantUsecase } from '../../../usecase/participant/createPar
 import { InMemoryTaskRepository } from '../../../infra/db/inMemory/inMemoryTaskRepository';
 import { dummyParticipant1 } from '../../../testUtil/dummy/dummyPerticipant';
 import { ParticipantDTO } from '../../../usecase/participant/DTO/participantDTO';
-import { ParticipantFactory } from '../../../domain/participant/service/participantFactory';
+import { ParticipantFactory } from '../../../domain/participant/domainService/participantFactory';
 
 describe('CreateParticipantUsecase', (): void => {
   const participantRepository = new InMemoryParticipantRepository();
