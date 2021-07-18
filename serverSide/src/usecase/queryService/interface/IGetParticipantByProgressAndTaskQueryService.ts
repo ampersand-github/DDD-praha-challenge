@@ -6,7 +6,7 @@ import { Participant } from '../../../domain/participant/participant';
 export type AtLeastOneTask = [Task, ...Task[]];
 export interface IGetParticipantByProgressAndTaskQueryService {
   do(
-    taskList: AtLeast1Task,
+    taskList: AtLeastOneTask,
     progressStatus: ProgressStatus,
     take: number,
     page: number,

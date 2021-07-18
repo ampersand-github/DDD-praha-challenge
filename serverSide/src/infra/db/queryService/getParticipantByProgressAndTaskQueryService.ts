@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { ProgressStatus } from '../../../domain/participant/progressStatus';
 import { Participant } from '../../../domain/participant/participant';
 import {
-  AtLeast1Task,
+  AtLeastOneTask,
   IGetParticipantByProgressAndTaskQueryService,
 } from '../../../usecase/queryService/interface/IGetParticipantByProgressAndTaskQueryService';
 
@@ -18,7 +18,7 @@ export class GetParticipantByProgressAndTaskQueryService
   }
 
   public async do(
-    taskList: AtLeast1Task,
+    taskList: AtLeastOneTask,
     progressStatus: ProgressStatus,
     take,
     page,
