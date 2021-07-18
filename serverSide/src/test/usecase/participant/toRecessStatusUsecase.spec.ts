@@ -24,7 +24,6 @@ describe('ToRecessStatusUsecase', (): void => {
         .spyOn(InMemoryParticipantRepository.prototype, 'update')
         .mockResolvedValueOnce(dummyParticipant1);
       // 結果確認
-      // todo チーム・ペアの削除
       expect(await usecase.do(data)).toBeInstanceOf(EnrolledStatusDTO);
       expect(spy1).toHaveBeenCalledTimes(1);
       expect(spy2).toHaveBeenCalledTimes(1);

@@ -29,7 +29,7 @@ describe('TaskRepository', (): void => {
     test('[正常]取得できる', async () => {
       // 結果確認
       const actual = await repo.findAll();
-      expect(actual).toEqual([dummyTask1, dummyTask2]);
+      expect(actual.length).toEqual(2);
     });
   });
 
@@ -82,8 +82,6 @@ describe('TaskRepository', (): void => {
       expect(actual).toStrictEqual(1);
     });
     test('[正常]削除できる(複数テーブルのみ)', async () => {
-      // データ作成
-      // todo participantHavingTasks
       // 結果確認
       const actual = await repo.delete(dummyTask1);
       // 削除したデータが取得できないので1件のみ取得できる

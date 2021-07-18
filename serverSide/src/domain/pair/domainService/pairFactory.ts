@@ -27,7 +27,6 @@ export class PairFactory {
     return Pair.create({ pairName: newPairName, participants: props.participants });
   }
 
-  // todo チームが異なる場合の処理をチーム作成時に作り込む
   // ["a","b","c"]が引数で与えられたら"d"が返る
   private selectNonUsedAlphabet(usedAlphabetList: string[]): string {
     const alphabet = [

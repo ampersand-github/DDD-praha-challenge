@@ -18,7 +18,7 @@ export class ToRecessStatusUsecase {
     const currentParticipant: Participant = await this.repo.findOne(props.participantId);
     currentParticipant.changeEnrolledStatus(EnrolledStatusEnum.recess);
     //
-    // todo チーム・ペアの削除のドメインサービスをここにいれる
+    // todo [高] ペアの削除のドメインサービスをここにいれる
     //
     const result = await this.repo.update(currentParticipant);
     return new EnrolledStatusDTO(result);

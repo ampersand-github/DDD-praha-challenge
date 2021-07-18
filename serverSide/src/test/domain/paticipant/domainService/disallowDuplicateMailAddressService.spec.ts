@@ -1,5 +1,5 @@
 import { InMemoryParticipantRepository } from '../../../../infra/db/inMemory/inMemoryParticipantRepository';
-import { DisallowDuplicateMailAddressService } from '../../../../domain/participant/service/disallowDuplicateMailaddressService';
+import { DisallowDuplicateMailAddressService } from '../../../../domain/participant/domainService/disallowDuplicateMailaddressService';
 
 describe('DisallowDuplicateMailAddressService', () => {
   const participantRepository = new InMemoryParticipantRepository();

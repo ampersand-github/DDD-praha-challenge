@@ -1,4 +1,3 @@
-import { TaskGroupDeleteDomainService } from '../../../domain/taskGroup/taskGroupDeleteDomainService';
 import { prismaClient } from '../../../util/prisma/prismaClient';
 import { ParticipantRepository } from '../../../infra/db/repository/participantRepository';
 import { TaskRepository } from '../../../infra/db/repository/taskRepository';
@@ -10,7 +9,7 @@ import { Converter } from '../../../infra/db/repository/shared/converter';
 
 describe('TaskGroupDeleteDomainService', () => {
   const prisma = prismaClient;
-  const converter = new Converter(prisma);
+  const converter = new Converter();
   const participantRepository = new ParticipantRepository(prisma, converter);
   const taskRepository = new TaskRepository(prisma, converter);
   const taskDeleteDomainService = new TaskDeleteDomainService(
@@ -18,8 +17,8 @@ describe('TaskGroupDeleteDomainService', () => {
     participantRepository,
   );
 
-  beforeAll(() => {
-    truncateAllTable();
+  beforeAll(async () => {
+    await truncateAllTable();
   });
 
   beforeEach(async () => {

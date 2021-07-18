@@ -98,3 +98,52 @@ export const dummyParticipantHavingTasks1update = ParticipantHavingTaskCollectio
     }),
   ],
 });
+
+export const qsDummyParticipantHavingTasks1 = ParticipantHavingTaskCollection.create({
+  participantHavingTaskCollection: [
+    ParticipantHavingTask.create({
+      task: dummyTask1,
+      progressStatus: complete,
+    }),
+    ParticipantHavingTask.create({
+      task: dummyTask2,
+      progressStatus: readyForReview,
+    }),
+    ParticipantHavingTask.create({
+      task: dummyTask3,
+      progressStatus: readyForReview,
+    }),
+  ],
+});
+export const qsDummyParticipantHavingTasks2 = ParticipantHavingTaskCollection.create({
+  participantHavingTaskCollection: [
+    ParticipantHavingTask.create({
+      task: dummyTask1,
+      progressStatus: readyForReview,
+    }),
+    ParticipantHavingTask.create({
+      task: dummyTask2,
+      progressStatus: complete,
+    }),
+    ParticipantHavingTask.create({
+      task: dummyTask3,
+      progressStatus: readyForReview,
+    }),
+  ],
+});
+export const qsDummyParticipantHavingTasks3 = ParticipantHavingTaskCollection.create({
+  participantHavingTaskCollection: [
+    ParticipantHavingTask.create({
+      task: dummyTask1,
+      progressStatus: complete,
+    }),
+    ParticipantHavingTask.create({
+      task: dummyTask2,
+      progressStatus: complete,
+    }),
+    ParticipantHavingTask.create({
+      task: dummyTask3,
+      progressStatus: notStarted,
+    }),
+  ],
+});

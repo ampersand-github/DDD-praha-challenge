@@ -11,7 +11,7 @@ import { Converter } from '../../../infra/db/repository/shared/converter';
 
 describe('TaskGroupDeleteDomainService', () => {
   const prisma = prismaClient;
-  const converter = new Converter(prisma);
+  const converter = new Converter();
   const participantRepository = new ParticipantRepository(prisma, converter);
   const taskRepository = new TaskRepository(prisma, converter);
   const taskGroupDeleteDomainService = new TaskGroupDeleteDomainService(

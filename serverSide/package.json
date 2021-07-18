@@ -20,8 +20,6 @@
     "test:debug": "jest --verbose - --forceExit --detectOpenHandles --runInBand",
     "test:e2e": "jest --config src/test/jest-e2e.json",
     "db:migration:model": "prisma migrate dev",
-    "db:migration:seed": "prisma db seed",
-    "db:reset:withData": "echo y | prisma migrate reset",
     "db:reset:withoutData": "echo y | prisma migrate reset --skip-seed"
   },
   "dependencies": {

@@ -1,5 +1,5 @@
 import { TaskGroup } from '../../domain/taskGroup/taskGroup';
-import { ITaskGroupRepository } from '../../domain/taskGroup/ITaskGroupRepository';
+import { ITaskGroupRepository } from '../../domain/taskGroup/repositoryInterface/ITaskGroupRepository';
 import { TaskGroupDTO } from './DTO/taskGroupDTO';
 
 interface UpdateTaskGroupUsecaseProps {

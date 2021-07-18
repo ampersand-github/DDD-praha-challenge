@@ -50,11 +50,4 @@ export class InMemoryParticipantRepository implements IParticipantRepository {
     return Promise.resolve(undefined);
   }
 
-  deleteParticipantHavingTaskByTask(task: Task): Promise<number> {
-    return Promise.resolve(0);
-  }
-
-  deleteHavingTaskByDifferenceFromDb(participant: Participant): Promise<void> {
-    return Promise.resolve(undefined);
-  }
 }

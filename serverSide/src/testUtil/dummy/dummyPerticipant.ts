@@ -15,6 +15,9 @@ import {
   dummyParticipantHavingTasks1update,
   dummyParticipantHavingTasks2,
   dummyParticipantHavingTasks3,
+  qsDummyParticipantHavingTasks1,
+  qsDummyParticipantHavingTasks2,
+  qsDummyParticipantHavingTasks3,
 } from './dummyParticipantHavingTasks';
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -65,6 +68,22 @@ const dummyParticipantData1update = {
   participantHavingTaskCollection: dummyParticipantHavingTasks1update,
 };
 //
+const qsDummyParticipantData1 = {
+  personalInfo: dummyPersonalIfo1,
+  enrolledStatus: dummyEnrolled,
+  participantHavingTaskCollection: qsDummyParticipantHavingTasks1,
+};
+const qsDummyParticipantData2 = {
+  personalInfo: dummyPersonalIfo2,
+  enrolledStatus: dummyEnrolled,
+  participantHavingTaskCollection: qsDummyParticipantHavingTasks2,
+};
+const qsDummyParticipantData3 = {
+  personalInfo: dummyPersonalIfo3,
+  enrolledStatus: dummyEnrolled,
+  participantHavingTaskCollection: qsDummyParticipantHavingTasks3,
+};
+//
 export const dummyParticipantId = new UniqueEntityID('99999999-9999-part-4444-99999999999s');
 export const dummyParticipant1 = Participant.create(dummyParticipantData1, dummyParticipantId);
 export const dummyParticipant2 = Participant.create(dummyParticipantData2, dummyParticipantId);
@@ -77,3 +96,11 @@ export const dummyParticipant1Update = Participant.create(
   dummyParticipantData1update,
   dummyParticipantId,
 );
+// queryService用
+export const qsDummyParticipant1 = Participant.create(qsDummyParticipantData1);
+export const qsDummyParticipant2 = Participant.create(qsDummyParticipantData2);
+export const qsDummyParticipant3 = Participant.create(qsDummyParticipantData3);
+export const qsDummyParticipant4 = Participant.create(dummyParticipantData4);
+export const qsDummyParticipant5 = Participant.create(dummyParticipantData5);
+export const qsDummyParticipant6 = Participant.create(dummyParticipantData6);
+export const qsDummyParticipant7 = Participant.create(dummyParticipantData7);

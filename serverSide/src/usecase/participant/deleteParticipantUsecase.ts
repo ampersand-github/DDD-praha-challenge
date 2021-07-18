@@ -13,11 +13,6 @@ export class DeleteParticipantUsecase {
 
   public async do(props: DeleteParticipantUsecaseProps): Promise<ParticipantDTO> {
     const currentParticipant = await this.repo.findOne(props.participantId);
-    /*
-        todo
-          チーム・ペアの削除
-          退会済みでないと削除できない仕様にする？
-         */
     await this.repo.delete(currentParticipant);
     return new ParticipantDTO(currentParticipant);
   }

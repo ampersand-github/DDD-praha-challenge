@@ -1,7 +1,6 @@
 import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
 import { EnrolledStatusDTO } from './DTO/enrolledStatusDTO';
 import { EnrolledStatusEnum } from '../../domain/participant/enrolledStatus';
-import { Participant } from '../../domain/participant/participant';
 
 interface ToEnrolledStatusProps {
   participantId: string;

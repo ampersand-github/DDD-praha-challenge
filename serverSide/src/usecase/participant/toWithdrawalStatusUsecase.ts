@@ -1,7 +1,6 @@
 import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
 import { EnrolledStatusDTO } from './DTO/enrolledStatusDTO';
 import { EnrolledStatusEnum } from '../../domain/participant/enrolledStatus';
-import { Participant } from '../../domain/participant/participant';
 
 interface ToWithdrawalStatusProps {
   participantId: string;
@@ -19,7 +18,7 @@ export class ToWithdrawalStatusUsecase {
     const withdrawalData = EnrolledStatusEnum.withdrawal;
     currentParticipant.changeEnrolledStatus(withdrawalData);
     //
-    // todo チーム・ペアの削除のドメインサービスをここにいれる
+    // todo [高] ペアの削除のドメインサービスをここにいれる
     //
     const result = await this.repo.update(currentParticipant);
     return new EnrolledStatusDTO(result);
