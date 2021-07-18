@@ -35,7 +35,7 @@ export class DistributeOneParticipantForAnotherPairDomainService {
     const twoParticipantPair = allPair.filter((one) => {
       return one !== props.pair && one.participants.length === 2;
     });
-    // todo 参加者保有課題の完了数が近いペアに振り分けたい。いづれ作るかもしれない
+    // todo [低]  参加者保有課題の完了数が近いペアに振り分けたい。いづれ作るかもしれない
     if (twoParticipantPair.length === 0) {
       throw new Error('振り分けられるペアが存在しません。');
     }

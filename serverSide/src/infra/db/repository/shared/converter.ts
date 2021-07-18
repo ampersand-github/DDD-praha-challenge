@@ -38,7 +38,7 @@ type PrismaPairProps = PrismaPair & {
   participants: PrismaParticipantProps[];
 };
 
-// todo 分割するか考える
+// todo [高] 分割するか考える
 export class Converter implements IConverter {
   public toTask(data: PrismaTask): Task {
     const taskId = new UniqueEntityID(data.taskId);

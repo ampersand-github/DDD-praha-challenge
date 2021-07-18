@@ -18,7 +18,7 @@ export class ToWithdrawalStatusUsecase {
     const withdrawalData = EnrolledStatusEnum.withdrawal;
     currentParticipant.changeEnrolledStatus(withdrawalData);
     //
-    // todo チーム・ペアの削除のドメインサービスをここにいれる
+    // todo [高] ペアの削除のドメインサービスをここにいれる
     //
     const result = await this.repo.update(currentParticipant);
     return new EnrolledStatusDTO(result);
