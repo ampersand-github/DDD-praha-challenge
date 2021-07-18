@@ -20,7 +20,7 @@ describe('DistributeOneParticipantForAnotherPairDomainService', () => {
       const spy2 = jest
         .spyOn(InMemoryPairRepository.prototype, 'update')
         .mockResolvedValueOnce(dummyPair1);
-      const spy3 = jest.spyOn(InMemoryPairRepository.prototype, 'delete').mockResolvedValueOnce(1);
+      const spy3 = jest.spyOn(InMemoryPairRepository.prototype, 'delete').mockResolvedValueOnce();
       const data = {
         pair: dummyPair1,
         shouldBeDistributedParticipant: dummyParticipant1,

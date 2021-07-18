@@ -3,7 +3,6 @@ import {
   Participant as PrismaParticipant,
   ParticipantHavingTask as PrismaParticipantHavingTask,
   PersonalInfo as PrismaPersonalInfo,
-  PrismaClient,
   Task as PrismaTask,
 } from '@prisma/client';
 import { Task } from '../../../../domain/task/task';
