@@ -40,7 +40,7 @@ export class DistributeOneParticipantForAnotherPairDomainService {
     }
     // todo [低]  参加者保有課題の完了数が近いペアに振り分けたい。いづれ作るかもしれない
     const bestMatchPair: Pair = twoParticipantPair[0];
-    bestMatchPair.addParticipant(props.shouldBeDistributedParticipant);
+    await bestMatchPair.addParticipant(props.shouldBeDistributedParticipant);
     // ペアが確定したので、1名になったペアは削除される
     await this.pairRepository.delete(props.pair);
     await this.pairRepository.update(bestMatchPair);
