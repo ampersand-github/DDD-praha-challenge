@@ -14,8 +14,8 @@ describe('ParticipantRepository', (): void => {
   const participantRepository = new ParticipantRepository(prismaClient, converter);
   const taskRepository = new TaskRepository(prismaClient, converter);
 
-  beforeAll(() => {
-    truncateAllTable();
+  beforeAll(async () => {
+    await truncateAllTable();
   });
 
   beforeEach(async () => {

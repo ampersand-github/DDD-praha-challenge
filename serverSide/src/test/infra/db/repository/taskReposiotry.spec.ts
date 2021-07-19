@@ -10,8 +10,8 @@ describe('TaskRepository', (): void => {
   const converter = new Converter();
   const repo = new TaskRepository(prismaClient, converter);
 
-  beforeAll(() => {
-    truncateAllTable();
+  beforeAll(async () => {
+    await truncateAllTable();
   });
 
   beforeEach(async () => {
