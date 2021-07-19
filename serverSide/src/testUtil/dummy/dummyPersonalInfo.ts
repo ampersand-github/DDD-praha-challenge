@@ -30,3 +30,11 @@ export const dummyPersonalIfo7 = PersonalInfo.create({
   participantName: ParticipantName.create({ participantName: '小野寺雅士' }),
   mailAddress: MailAddress.create({ mailAddress: 'onodera@gmail.com' }),
 });
+export const dummyPersonalIfo8 = PersonalInfo.create({
+  participantName: ParticipantName.create({ participantName: '88888' }),
+  mailAddress: MailAddress.create({ mailAddress: '88888a@gmail.com' }),
+});
+export const dummyPersonalIfo9 = PersonalInfo.create({
+  participantName: ParticipantName.create({ participantName: '99999' }),
+  mailAddress: MailAddress.create({ mailAddress: '99999@gmail.com' }),
+});

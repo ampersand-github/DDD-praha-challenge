@@ -7,6 +7,8 @@ import {
   dummyParticipant5,
   dummyParticipant6,
   dummyParticipant7,
+  dummyParticipant8,
+  dummyParticipant9,
 } from './dummyPerticipant';
 import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
 import { Pair } from '../../domain/pair/pair';
@@ -40,7 +42,14 @@ const dummyPairData3 = {
   participants: [dummyParticipant5, dummyParticipant6, dummyParticipant7],
 };
 
+const dummyPairData4 = {
+  ...dummyPairDataBase,
+  pairName: DummyPairA,
+  participants: [dummyParticipant8, dummyParticipant9],
+};
+
 export const dummyPairId = new UniqueEntityID('99999999-9999-pair-4444-99999999999s');
 export const dummyPair1 = Pair.create(dummyPairData1, dummyPairId);
 export const dummyPair2 = Pair.create(dummyPairData2, dummyPairId);
 export const dummyPair3 = Pair.create(dummyPairData3); // idはランダムで割り振られる
+export const dummyPair4 = Pair.create(dummyPairData4);

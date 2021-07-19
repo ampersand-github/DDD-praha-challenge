@@ -8,6 +8,8 @@ import {
   dummyPersonalIfo5,
   dummyPersonalIfo6,
   dummyPersonalIfo7,
+  dummyPersonalIfo8,
+  dummyPersonalIfo9,
 } from './dummyPersonalInfo';
 import { dummyEnrolled } from './dummyEnrolledStatus';
 import {
@@ -62,6 +64,18 @@ const dummyParticipantData7 = {
   enrolledStatus: dummyEnrolled,
   participantHavingTaskCollection: dummyParticipantHavingTasks1,
 };
+
+const dummyParticipantData8 = {
+  personalInfo: dummyPersonalIfo8,
+  enrolledStatus: dummyEnrolled,
+  participantHavingTaskCollection: dummyParticipantHavingTasks1,
+};
+const dummyParticipantData9 = {
+  personalInfo: dummyPersonalIfo9,
+  enrolledStatus: dummyEnrolled,
+  participantHavingTaskCollection: dummyParticipantHavingTasks1,
+};
+
 const dummyParticipantData1update = {
   personalInfo: dummyPersonalIfo1,
   enrolledStatus: dummyEnrolled,
@@ -92,6 +106,9 @@ export const dummyParticipant4 = Participant.create(dummyParticipantData4);
 export const dummyParticipant5 = Participant.create(dummyParticipantData5);
 export const dummyParticipant6 = Participant.create(dummyParticipantData6);
 export const dummyParticipant7 = Participant.create(dummyParticipantData7);
+export const dummyParticipant8 = Participant.create(dummyParticipantData8);
+export const dummyParticipant9 = Participant.create(dummyParticipantData9);
+
 export const dummyParticipant1Update = Participant.create(
   dummyParticipantData1update,
   dummyParticipantId,
