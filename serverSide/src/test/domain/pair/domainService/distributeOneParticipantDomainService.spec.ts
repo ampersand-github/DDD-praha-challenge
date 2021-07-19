@@ -55,7 +55,7 @@ describe('DistributeOneParticipantForAnotherPairDomainService', () => {
         shouldBeDistributedParticipant: dummyParticipant1,
       };
       // 結果確認
-      await expect(service.do(data)).rejects.toThrowError('振り分けられるペアが存在しません。');
+      await expect(service.do(data)).rejects.toThrowError('振り分け先のペアが存在しません。');
       expect(spy1).toHaveBeenCalledTimes(1);
     });
   });
