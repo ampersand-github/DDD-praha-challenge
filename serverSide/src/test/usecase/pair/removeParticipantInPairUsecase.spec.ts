@@ -21,7 +21,10 @@ describe('RemoveParticipantInPairUsecase', (): void => {
       const spy2 = jest
         .spyOn(DistributeOneParticipantForAnotherPairDomainService.prototype, 'do')
         .mockResolvedValueOnce(undefined);
-      const data = { pairName: dummyPair3.pairName, removeParticipant: dummyPair3.participants[0] };
+      const data = {
+        pairId: dummyPair3.id.toValue(),
+        removeParticipant: dummyPair3.participants[0],
+      };
       // 結果確認
       await expect(usecase.do(data)).resolves.toStrictEqual(undefined);
       expect(spy).toHaveBeenCalledTimes(1);
@@ -32,23 +35,13 @@ describe('RemoveParticipantInPairUsecase', (): void => {
       const spy = jest
         .spyOn(InMemoryPairRepository.prototype, 'findOne')
         .mockResolvedValueOnce(dummyPair3);
-      const data = { pairName: dummyPair3.pairName, removeParticipant: dummyPair3.participants[0] };
+      const data = {
+        pairId: dummyPair3.id.toValue(),
+        removeParticipant: dummyPair3.participants[0],
+      };
       // 結果確認
       expect(await usecase.do(data)).toStrictEqual(undefined);
       expect(spy).toHaveBeenCalledTimes(1);
     });
   });
 });
-
-/*
-    test('[正常]全件のデータが取得できる', async () => {
-      // データ作成
-      const spy = jest
-        .spyOn(InMemoryTaskRepository.prototype, 'findAll')
-        .mockResolvedValueOnce([task1, task2]);
-
-      // 結果確認
-      expect(await usecase.do()).toStrictEqual([taskDTO1, taskDTO2]);
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
- */

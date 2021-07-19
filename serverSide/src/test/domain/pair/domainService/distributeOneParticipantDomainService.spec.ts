@@ -1,6 +1,11 @@
 import { InMemoryPairRepository } from '../../../../infra/db/inMemory/inMemoryPairRepository';
 import { DistributeOneParticipantForAnotherPairDomainService } from '../../../../domain/pair/domainService/distributeOneParticipantDomainService';
-import { dummyPair1, dummyPair2, dummyPair3 } from '../../../../testUtil/dummy/dummyPair';
+import {
+  dummyPair1,
+  dummyPair2,
+  dummyPair3,
+  dummyPair4,
+} from '../../../../testUtil/dummy/dummyPair';
 import { dummyParticipant1, dummyParticipant5 } from '../../../../testUtil/dummy/dummyPerticipant';
 
 describe('DistributeOneParticipantForAnotherPairDomainService', () => {
@@ -16,7 +21,7 @@ describe('DistributeOneParticipantForAnotherPairDomainService', () => {
       // データ作成
       const spy1 = jest
         .spyOn(InMemoryPairRepository.prototype, 'findAll')
-        .mockResolvedValueOnce([dummyPair3, dummyPair2]);
+        .mockResolvedValueOnce([dummyPair4, dummyPair3, dummyPair2]);
       const spy2 = jest
         .spyOn(InMemoryPairRepository.prototype, 'update')
         .mockResolvedValueOnce(dummyPair1);
@@ -55,7 +60,7 @@ describe('DistributeOneParticipantForAnotherPairDomainService', () => {
         shouldBeDistributedParticipant: dummyParticipant1,
       };
       // 結果確認
-      await expect(service.do(data)).rejects.toThrowError('振り分けられるペアが存在しません。');
+      await expect(service.do(data)).rejects.toThrowError('振り分け先のペアが存在しません。');
       expect(spy1).toHaveBeenCalledTimes(1);
     });
   });

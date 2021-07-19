@@ -2,6 +2,7 @@ import { PrismaClient } from '@prisma/client';
 import { IPairRepository } from '../../../domain/pair/repositoryInterface/IPairRepository';
 import { Pair } from '../../../domain/pair/pair';
 import { IConverter } from './shared/converter';
+import { Participant } from '../../../domain/participant/participant';
 
 export class PairRepository implements IPairRepository {
   private readonly prismaClient: PrismaClient;
@@ -87,5 +88,14 @@ export class PairRepository implements IPairRepository {
     await this.prismaClient.pair.delete({
       where: { pairId: pair.id.toValue() },
     });
+  }
+  public async findOneByParticipant(participant: Participant): Promise<Pair> {
+    const prismaParticipant = await this.prismaClient.participant.findUnique({
+      where: { participantId: participant.id.toValue() },
+    });
+    const prismaPair = await this.prismaClient.pair.findUnique({
+      where: { pairName: prismaParticipant.pairName },
+    });
+    return this.findOne(prismaPair.pairId);
   }
 }
