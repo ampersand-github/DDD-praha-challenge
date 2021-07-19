@@ -1,6 +1,11 @@
 import { InMemoryPairRepository } from '../../../../infra/db/inMemory/inMemoryPairRepository';
 import { DistributeOneParticipantForAnotherPairDomainService } from '../../../../domain/pair/domainService/distributeOneParticipantDomainService';
-import { dummyPair1, dummyPair2, dummyPair3 } from '../../../../testUtil/dummy/dummyPair';
+import {
+  dummyPair1,
+  dummyPair2,
+  dummyPair3,
+  dummyPair4,
+} from '../../../../testUtil/dummy/dummyPair';
 import { dummyParticipant1, dummyParticipant5 } from '../../../../testUtil/dummy/dummyPerticipant';
 
 describe('DistributeOneParticipantForAnotherPairDomainService', () => {
@@ -16,7 +21,7 @@ describe('DistributeOneParticipantForAnotherPairDomainService', () => {
       // データ作成
       const spy1 = jest
         .spyOn(InMemoryPairRepository.prototype, 'findAll')
-        .mockResolvedValueOnce([dummyPair3, dummyPair2]);
+        .mockResolvedValueOnce([dummyPair4, dummyPair3, dummyPair2]);
       const spy2 = jest
         .spyOn(InMemoryPairRepository.prototype, 'update')
         .mockResolvedValueOnce(dummyPair1);
