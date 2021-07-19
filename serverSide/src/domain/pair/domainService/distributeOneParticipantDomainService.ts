@@ -32,8 +32,8 @@ export class DistributeOneParticipantForAnotherPairDomainService {
     // 参加者が追加されるペアを選定
     const allPair = await this.pairRepository.findAll();
     // 2名のペアでかつ、自分自身以外のペア一覧
-    const twoParticipantPair = allPair.filter((one) => {
-      return one !== props.pair && one.participants.length === 2;
+    const twoParticipantPair = await allPair.filter((one) => {
+      return !one.equals(props.pair) && one.participants.length === 2;
     });
     if (twoParticipantPair.length === 0) {
       throw new Error('振り分け先のペアが存在しません。');
