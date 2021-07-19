@@ -3,7 +3,7 @@ import { Participant } from '../../domain/participant/participant';
 import { DistributeOneParticipantForAnotherPairDomainService } from '../../domain/pair/domainService/distributeOneParticipantDomainService';
 
 interface RemoveParticipantInPairUsecaseProps {
-  pairName: string;
+  pairId: string;
   removeParticipant: Participant;
 }
 export class RemoveParticipantInPairUsecase {
@@ -18,10 +18,16 @@ export class RemoveParticipantInPairUsecase {
   }
 
   public async do(props: RemoveParticipantInPairUsecaseProps): Promise<void> {
-    const pair = await this.pairRepository.findOne(props.pairName);
+    const pair = await this.pairRepository.findOne(props.pairId);
     if (pair.participants.length === 2) {
-      this.service.do({ pair: pair, shouldBeDistributedParticipant: props.removeParticipant });
+      // 削除対象でないほうの参加者を別のペアに移籍する
+      const target = pair.participants.find((one) => !one.equals(props.removeParticipant));
+      await this.service.do({
+        pair: pair,
+        shouldBeDistributedParticipant: target,
+      });
     }
+
     if (pair.participants.length === 3) {
       pair.removeParticipant(props.removeParticipant);
       await this.pairRepository.update(pair);
