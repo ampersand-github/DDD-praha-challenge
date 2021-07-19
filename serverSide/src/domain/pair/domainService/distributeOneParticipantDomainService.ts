@@ -37,7 +37,7 @@ export class DistributeOneParticipantForAnotherPairDomainService {
     });
     // todo [低]  参加者保有課題の完了数が近いペアに振り分けたい。いづれ作るかもしれない
     if (twoParticipantPair.length === 0) {
-      throw new Error('振り分けられるペアが存在しません。');
+      throw new Error('振り分け先のペアが存在しません。');
     }
     const bestMatchPair: Pair = twoParticipantPair[0];
     bestMatchPair.addParticipant(props.shouldBeDistributedParticipant);
