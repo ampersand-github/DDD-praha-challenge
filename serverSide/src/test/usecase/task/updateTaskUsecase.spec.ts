@@ -1,5 +1,5 @@
 import { InMemoryTaskRepository } from '../../../infra/db/inMemory/inMemoryTaskRepository';
-import { UpdateTaskUsecase } from '../../../usecase/task/updateTaskUsecase';
+import { UpdateTaskUsecase, UpdateTaskUsecaseProps } from '../../../usecase/task/updateTaskUsecase';
 import { UniqueEntityID } from '../../../domain/shared/UniqueEntityID';
 import { TaskGroup } from '../../../domain/taskGroup/taskGroup';
 import { Task } from '../../../domain/task/task';
@@ -9,18 +9,18 @@ describe('UpdateTaskUsecase', (): void => {
   const repo = new InMemoryTaskRepository();
   const usecase = new UpdateTaskUsecase(repo);
 
-  const data = {
+  const data: UpdateTaskUsecaseProps = {
     taskId: new UniqueEntityID().toValue(),
-    newNo: 1,
-    newName: 'newName',
-    newDescription: 'newDescription',
-    newGroup: 'DB',
+    updateNo: 1,
+    updateName: 'newName',
+    updateDescription: 'newDescription',
+    updateGroup: 'DB',
   };
   const task = Task.create({
-    no: data.newNo,
-    name: data.newName,
-    description: data.newDescription,
-    group: TaskGroup.create({ taskGroup: data.newGroup }),
+    no: data.updateNo,
+    name: data.updateName,
+    description: data.updateDescription,
+    group: TaskGroup.create({ taskGroup: data.updateGroup }),
   });
 
   beforeEach(() => {

@@ -4,12 +4,12 @@ import { UniqueEntityID } from '../../domain/shared/UniqueEntityID';
 import { ITaskRepository } from '../../domain/task/repositoryInterface/ITaskRepository';
 import { TaskDTO } from './DTO/taskDTO';
 
-interface UpdateTaskUsecaseProps {
+export interface UpdateTaskUsecaseProps {
   taskId: string;
-  newNo: number;
-  newName: string;
-  newDescription: string;
-  newGroup: string;
+  updateNo?: number;
+  updateName: string;
+  updateDescription: string;
+  updateGroup: string;
 }
 
 export class UpdateTaskUsecase {
@@ -21,11 +21,11 @@ export class UpdateTaskUsecase {
 
   public async do(props: UpdateTaskUsecaseProps): Promise<TaskDTO> {
     const data = {
-      no: props.newNo,
-      name: props.newName,
-      description: props.newDescription,
+      no: props.updateNo,
+      name: props.updateName,
+      description: props.updateDescription,
       group: TaskGroup.create({
-        taskGroup: props.newGroup as taskGroupType,
+        taskGroup: props.updateGroup as taskGroupType,
       }),
     };
     const id = new UniqueEntityID(props.taskId);
