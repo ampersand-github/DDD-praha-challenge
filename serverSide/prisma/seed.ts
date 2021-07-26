@@ -4,18 +4,12 @@
 
 import { PrismaClient } from '@prisma/client';
 import * as faker from 'faker';
-import { participantDataSource } from './seeds/participant/participant';
-import { pairDataSource } from './seeds/participant/pair';
-import { teamDataSource } from './seeds/participant/team';
-import { enrolledParticipantDataSource } from './seeds/participant/enrolledParticipant';
-import { taskDataSource } from './seeds/task/task';
-import { participantHavingTaskDataSource } from './seeds/task/participantHavingTask';
-import { taskProgressDataSource } from './seeds/task/taskProgress';
 
 const prisma = new PrismaClient();
 faker.setLocale('ja');
 
 async function main() {
+  /*
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   // 設定系データ
   // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -70,8 +64,8 @@ async function main() {
     data: taskProgressData,
   });
   console.log(task, participantHavingTask, taskProgress);
+ */
 }
-
 main()
   .catch((e) => {
     console.error(e);
