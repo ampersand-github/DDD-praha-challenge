@@ -30,7 +30,7 @@ export class ParticipantFactory {
 
   private async disallowDuplicatePersonalInfo(personalInfo: PersonalInfo): Promise<void> {
     const result = await this.participantRepo.isExistMailAddress(personalInfo.mailAddress);
-    if (!result) {
+    if (result) {
       throw new Error('このメールアドレスは既に存在していますので登録できません。');
     }
   }
@@ -40,7 +40,6 @@ export class ParticipantFactory {
     ユーザーの個人情報を受け取って参加者ドメインオブジェクトを生成する
     ドメインオブジェクトをDBへ登録するのはユースケースであることに注意
      */
-
     // 個人情報を作成
     const participantNameData = { participantName: props.participantName };
     const participantName = ParticipantName.create(participantNameData);
