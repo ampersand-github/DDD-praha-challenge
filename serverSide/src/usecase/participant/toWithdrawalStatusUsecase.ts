@@ -33,7 +33,7 @@ export class ToWithdrawalStatusUsecase {
     if (targetPair !== null) {
       await this.removeParticipantInPairUsecase.do({
         pairId: targetPair.id.toValue(),
-        removeParticipant: currentParticipant,
+        removeParticipantId: currentParticipant.id.toValue(),
       });
     }
     const result = await this.participantRepository.update(currentParticipant);

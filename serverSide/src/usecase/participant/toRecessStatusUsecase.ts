@@ -36,7 +36,7 @@ export class ToRecessStatusUsecase {
     if (targetPair !== null) {
       await this.removeParticipantInPairUsecase.do({
         pairId: targetPair.id.toValue(),
-        removeParticipant: currentParticipant,
+        removeParticipantId: currentParticipant.id.toValue(),
       });
     }
     return new EnrolledStatusDTO(result);
