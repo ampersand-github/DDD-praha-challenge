@@ -1,11 +1,11 @@
 import { InMemoryPairRepository } from '../../../infra/db/inMemory/inMemoryPairRepository';
-import { FindAllUsecase } from '../../../usecase/pair/findAllPairUsecase';
+import { FindAllPairUsecase } from '../../../usecase/pair/findAllPairUsecase';
 import { dummyPair1, dummyPair2 } from '../../../testUtil/dummy/dummyPair';
 import { PairDTO } from '../../../usecase/pair/DTO/pairDTO';
 
-describe('FindAllUsecase', (): void => {
+describe('FindAllPairUsecase', (): void => {
   const repo = new InMemoryPairRepository();
-  const usecase = new FindAllUsecase(repo);
+  const usecase = new FindAllPairUsecase(repo);
 
   beforeEach(async () => {
     jest.clearAllMocks();
