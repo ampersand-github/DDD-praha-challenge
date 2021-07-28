@@ -1,6 +1,4 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { TaskDTO } from '../usecase/task/DTO/taskDTO';
-import { UpdateTaskUsecaseProps } from '../usecase/task/updateTaskUsecase';
 import { PrismaClient } from '@prisma/client';
 import { prismaClient } from '../util/prisma/prismaClient';
 import { Converter, IConverter } from '../infra/db/repository/shared/converter';
@@ -13,8 +11,6 @@ import {
 import { FindAllParticipantUsecase } from '../usecase/participant/findAllUsecase';
 import { DeleteParticipantUsecase } from '../usecase/participant/deleteParticipantUsecase';
 import { ParticipantFactory } from '../domain/participant/domainService/participantFactory';
-import { UpdatePersonalInfoUsecase } from '../usecase/participant/updatePersonalInfoUsecase';
-import { UpdateParticipantHavingTasksUsecase } from '../usecase/participant/updateProgressStatusUsecase';
 import { DisallowDuplicateMailAddressService } from '../domain/participant/domainService/disallowDuplicateMailaddressService';
 import { ToEnrolledStatusUsecase } from '../usecase/participant/toEnrolledStatusUsecase';
 import { ToRecessStatusUsecase } from '../usecase/participant/toRecessStatusUsecase';
@@ -24,7 +20,7 @@ import { DistributeOneParticipantForAnotherPairDomainService } from '../domain/p
 import { RemoveParticipantInPairUsecase } from '../usecase/pair/removeParticipantInPairUsecase';
 import { ParticipantDTO } from '../usecase/participant/DTO/participantDTO';
 import { PersonalInfoDTO } from '../usecase/participant/DTO/personalInfoDTO';
-import { EnrolledStatus, EnrolledStatusEnum } from '../domain/participant/enrolledStatus';
+import { EnrolledStatusEnum } from '../domain/participant/enrolledStatus';
 
 @Controller('participant')
 export class ParticipantController {
@@ -56,14 +52,6 @@ export class ParticipantController {
   );
   private findAllParticipantUsecase = new FindAllParticipantUsecase(this.participantRepository);
   private deleteParticipantUsecase = new DeleteParticipantUsecase(this.participantRepository);
-  private updatePersonalInfoUsecase = new UpdatePersonalInfoUsecase(
-    this.participantRepository,
-    this.disallowDuplicateMailAddressService,
-  );
-  private updateParticipantHavingTasksUsecase = new UpdateParticipantHavingTasksUsecase(
-    this.participantRepository,
-    this.taskRepository,
-  );
   private toEnrolledStatusUsecase = new ToEnrolledStatusUsecase(this.participantRepository);
   private toRecessStatusUsecase = new ToRecessStatusUsecase(
     this.participantRepository,
@@ -94,9 +82,7 @@ export class ParticipantController {
 
   @Patch('/:id')
   public async update(@Param('id') participantId: string, @Body('status') enrolledStatus: string) {
-    console.log('aaaaa');
     if (enrolledStatus === EnrolledStatusEnum.enrolled) {
-      console.log('aaasssssssaa');
       return await this.toEnrolledStatusUsecase.do({ participantId: participantId });
     } else if (enrolledStatus === EnrolledStatusEnum.recess) {
       return await this.toRecessStatusUsecase.do({ participantId: participantId });
