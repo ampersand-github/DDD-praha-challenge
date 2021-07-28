@@ -7,5 +7,5 @@ export interface IPairRepository {
   create(pair: Pair): Promise<Pair>;
   update(pair: Pair): Promise<Pair>;
   delete(pair: Pair): Promise<void>;
-  findOneByParticipant(participant: Participant): Promise<Pair>;
+  findOneByParticipant(participant: Participant): Promise<Pair> | null;
 }
