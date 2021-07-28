@@ -1,22 +1,22 @@
 import axios from 'axios';
-import { ITask } from '../../controller/taskController';
 import { Converter } from '../../infra/db/repository/shared/converter';
 import { TaskRepository } from '../../infra/db/repository/taskRepository';
 import { prismaClient } from '../../util/prisma/prismaClient';
 import { truncateAllTable } from '../../testUtil/reposiotry/truncateAllTable';
 import { dummyTask1, dummyTask2, dummyTask3 } from '../../testUtil/dummy/dummyTask';
-import { UpdateTaskUsecaseProps } from '../../usecase/task/updateTaskUsecase';
 import {
-  dummyParticipant1,
   dummyParticipant3,
   dummyParticipant4,
   dummyParticipant5,
   dummyParticipant6,
   dummyParticipant7,
+  dummyParticipant8,
+  dummyParticipant9,
 } from '../../testUtil/dummy/dummyPerticipant';
-import { dummyPair2 } from '../../testUtil/dummy/dummyPair';
+import { dummyPair2, dummyPair4 } from '../../testUtil/dummy/dummyPair';
 import { ParticipantRepository } from '../../infra/db/repository/participantRepository';
 import { PairRepository } from '../../infra/db/repository/pairRepository';
+import { CreatePairUsecaseProps } from '../../usecase/pair/createPairUsecase';
 
 // コントローラのテストはhttpステータスの確認のみ。実質ユースケースを実行しているだけなので。
 describe('PairController', () => {
@@ -41,87 +41,82 @@ describe('PairController', () => {
     await taskRepository.create(dummyTask1);
     await taskRepository.create(dummyTask2);
     await taskRepository.create(dummyTask3);
-    await participantRepository.create(dummyParticipant1);
     await participantRepository.create(dummyParticipant3);
     await participantRepository.create(dummyParticipant4);
     await participantRepository.create(dummyParticipant5);
     await participantRepository.create(dummyParticipant6);
     await participantRepository.create(dummyParticipant7);
+    await participantRepository.create(dummyParticipant8);
+    await participantRepository.create(dummyParticipant9);
     await pairRepository.create(dummyPair2);
+    await pairRepository.create(dummyPair4);
   });
 
   afterAll(async () => {
     await prismaClient.$disconnect();
   });
+
+  const findPairName = async (id: string): Promise<string | null> => {
+    const result = await prismaClient.participant.findUnique({ where: { participantId: id } });
+    return result.pairName;
+  };
+
   describe('create', () => {
     it('[正常]作成できる', async () => {
-      expect(1).toEqual(1);
-    });
-  });
-  /*
-  describe('create', () => {
-    it('[正常]作成できる', async () => {
-      const data: ITask = {
-        name: 'ダミータスク',
-        description: 'ダミーの説明2',
-        group: '設計',
+      const data: CreatePairUsecaseProps = {
+        participantIds: [dummyParticipant5.id.toValue(), dummyParticipant6.id.toValue()],
       };
+      expect(await findPairName(data.participantIds[0])).toEqual(null);
+      expect(await findPairName(data.participantIds[1])).toEqual(null);
+      expect(await prismaClient.pair.count()).toEqual(2);
       const res = await axios.post(url, data);
       expect(res.status).toEqual(201);
+      expect(await findPairName(data.participantIds[0])).toEqual('c');
+      expect(await findPairName(data.participantIds[1])).toEqual('c');
+      expect(await prismaClient.pair.count()).toEqual(3);
     });
   });
- */
-  /*
+
   describe('findAll', () => {
     it('[正常]全件取得できる', async () => {
       const res = await axios.get(url);
       expect(res.status).toEqual(200);
-      expect(res.data.length).toEqual(1);
+      expect(res.data.length).toEqual(2);
     });
   });
- */
-  /*
+
   describe('findOne', () => {
     it('[正常]検索できる', async () => {
-      const id = dummyTask1.id.toValue();
-      const res = await axios.get(`${url}/${id}`);
+      const pairId = dummyPair2.id.toValue();
+      const res = await axios.get(`${url}/${pairId}`);
       expect(res.status).toEqual(200);
-      expect(res.data.id).toEqual(dummyTask1.id.toValue());
-      expect(res.data.no).toEqual(dummyTask1.no.toString());
-      expect(res.data.name).toEqual(dummyTask1.name);
-      expect(res.data.description).toEqual(dummyTask1.description);
-      expect(res.data.group).toEqual(dummyTask1.group);
+      expect(res.data.pairName).toEqual('b');
+      expect(res.data.participants.length).toEqual(2);
     });
   });
- */
-  /*
+
   describe('delete', () => {
     it('[正常]削除できる', async () => {
-      expect(await prismaClient.task.count()).toEqual(1);
-      const id = dummyTask1.id.toValue();
-      const res = await axios.delete(`${url}/${id}`);
+      expect(await prismaClient.pair.count()).toEqual(2);
+      const data = {
+        participantId: dummyPair2.participants[0].id.toValue(),
+      };
+      const pairId = dummyPair2.id.toValue();
+      const res = await axios.patch(`${url}/remove/${pairId}`, data);
       expect(res.status).toEqual(200);
-      expect(await prismaClient.task.count()).toEqual(0);
+      expect(await prismaClient.pair.count()).toEqual(1);
     });
   });
- */
-  /*
+
   describe('update', () => {
     it('[正常]更新できる', async () => {
-      const id = dummyTask1.id.toValue();
-      const data: UpdateTaskUsecaseProps = {
-        taskId: id,
-        updateName: 'updateName',
-        updateDescription: 'updateDescription',
-        updateGroup: 'DB',
-      };
-      const res = await axios.patch(`${url}/${id}`, data);
+      const pairId = dummyPair2.id.toValue();
+      const participantId = dummyParticipant5.id.toValue();
+      expect(await findPairName(participantId)).toEqual(null);
+      const data = { participantId: participantId };
+      const res = await axios.patch(`${url}/add/${pairId}`, data);
       expect(res.status).toEqual(200);
-      expect(res.data.id).toEqual(id);
-      expect(res.data.name).toEqual(data.updateName);
-      expect(res.data.description).toEqual(data.updateDescription);
-      expect(res.data.group).toEqual(data.updateGroup);
+      expect(await findPairName(participantId)).toEqual(dummyPair2.pairName);
     });
   });
- */
 });
