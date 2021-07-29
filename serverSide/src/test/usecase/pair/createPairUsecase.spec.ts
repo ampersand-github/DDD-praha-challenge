@@ -24,6 +24,10 @@ describe('CreatePairUsecase', (): void => {
         .mockResolvedValueOnce(dummyParticipant1)
         .mockResolvedValueOnce(dummyParticipant2);
       const spy2 = jest.spyOn(PairFactory.prototype, 'do').mockResolvedValueOnce(dummyPair1);
+      const spy3 = jest
+        .spyOn(InMemoryPairRepository.prototype, 'create')
+        .mockResolvedValueOnce(dummyPair1);
+
       const data = {
         participantIds: [dummyParticipant1.id.toValue(), dummyParticipant2.id.toValue()],
       };
@@ -31,6 +35,7 @@ describe('CreatePairUsecase', (): void => {
       expect(await usecase.do(data)).toBeInstanceOf(PairDTO);
       expect(spy).toHaveBeenCalledTimes(2);
       expect(spy2).toHaveBeenCalledTimes(1);
+      expect(spy3).toHaveBeenCalledTimes(1);
     });
     test('[異常]引数で渡されたidから参加者が取得できない', async () => {
       // データ作成

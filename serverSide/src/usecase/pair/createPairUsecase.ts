@@ -4,7 +4,7 @@ import { PairFactory } from '../../domain/pair/domainService/pairFactory';
 import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
 import { Participant } from '../../domain/participant/participant';
 
-interface CreatePairUsecaseProps {
+export interface CreatePairUsecaseProps {
   participantIds: string[];
 }
 
@@ -35,7 +35,8 @@ export class CreatePairUsecase {
       }),
     );
 
-    const result = await this.factory.do({ participants: participants });
+    const newPair = await this.factory.do({ participants: participants });
+    const result = await this.pairRepository.create(newPair);
     return new PairDTO(result);
   }
 }

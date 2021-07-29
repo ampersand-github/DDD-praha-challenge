@@ -35,6 +35,7 @@ export class ParticipantController {
     this.pairRepository,
   );
   private removeParticipantInPairUsecase = new RemoveParticipantInPairUsecase(
+    this.participantRepository,
     this.pairRepository,
     this.distributeOneParticipantForAnotherPairDomainService,
   );

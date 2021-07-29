@@ -2,7 +2,7 @@ import { IPairRepository } from '../../domain/pair/repositoryInterface/IPairRepo
 import { Pair } from '../../domain/pair/pair';
 import { PairDTO } from './DTO/pairDTO';
 
-export class FindAllUsecase {
+export class FindAllPairUsecase {
   private readonly pairRepository: IPairRepository;
 
   public constructor(repository: IPairRepository) {
