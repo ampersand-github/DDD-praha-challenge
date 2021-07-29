@@ -28,17 +28,17 @@ export class ToRecessStatusUsecase {
     const currentParticipant: Participant = await this.participantRepository.findOne(
       props.participantId,
     );
-
     currentParticipant.changeEnrolledStatus(EnrolledStatusEnum.recess);
     const result = await this.participantRepository.update(currentParticipant);
 
-    // ペアの削除のドメインサービス
+    // ペアから参加者削除のドメインサービス
     const targetPair = await this.pairRepository.findOneByParticipant(currentParticipant);
-    await this.removeParticipantInPairUsecase.do({
-      pairId: targetPair.id.toValue(),
-      removeParticipant: currentParticipant,
-    });
-
+    if (targetPair !== null) {
+      await this.removeParticipantInPairUsecase.do({
+        pairId: targetPair.id.toValue(),
+        removeParticipantId: currentParticipant.id.toValue(),
+      });
+    }
     return new EnrolledStatusDTO(result);
   }
 }

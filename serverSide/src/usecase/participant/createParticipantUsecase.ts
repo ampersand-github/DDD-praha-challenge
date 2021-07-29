@@ -3,7 +3,7 @@ import { ParticipantDTO } from './DTO/participantDTO';
 import { ParticipantFactory } from '../../domain/participant/domainService/participantFactory';
 import { Participant } from '../../domain/participant/participant';
 
-interface FactoryProps {
+export interface FactoryProps {
   participantName: string;
   mailAddress: string;
 }

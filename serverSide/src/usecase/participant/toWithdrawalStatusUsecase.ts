@@ -28,13 +28,14 @@ export class ToWithdrawalStatusUsecase {
     const withdrawalData = EnrolledStatusEnum.withdrawal;
     currentParticipant.changeEnrolledStatus(withdrawalData);
 
-    // ペアの削除のドメインサービス
+    // ペアから参加者削除のドメインサービス
     const targetPair = await this.pairRepository.findOneByParticipant(currentParticipant);
-    await this.removeParticipantInPairUsecase.do({
-      pairId: targetPair.id.toValue(),
-      removeParticipant: currentParticipant,
-    });
-
+    if (targetPair !== null) {
+      await this.removeParticipantInPairUsecase.do({
+        pairId: targetPair.id.toValue(),
+        removeParticipantId: currentParticipant.id.toValue(),
+      });
+    }
     const result = await this.participantRepository.update(currentParticipant);
     return new EnrolledStatusDTO(result);
   }

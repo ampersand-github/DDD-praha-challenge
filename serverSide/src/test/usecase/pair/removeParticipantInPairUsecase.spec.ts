@@ -2,11 +2,18 @@ import { InMemoryPairRepository } from '../../../infra/db/inMemory/inMemoryPairR
 import { RemoveParticipantInPairUsecase } from '../../../usecase/pair/removeParticipantInPairUsecase';
 import { DistributeOneParticipantForAnotherPairDomainService } from '../../../domain/pair/domainService/distributeOneParticipantDomainService';
 import { dummyPair1, dummyPair3 } from '../../../testUtil/dummy/dummyPair';
+import { InMemoryParticipantRepository } from '../../../infra/db/inMemory/inMemoryParticipantRepository';
+import { dummyParticipant5 } from '../../../testUtil/dummy/dummyPerticipant';
 
 describe('RemoveParticipantInPairUsecase', (): void => {
-  const repo = new InMemoryPairRepository();
-  const service = new DistributeOneParticipantForAnotherPairDomainService(repo);
-  const usecase = new RemoveParticipantInPairUsecase(repo, service);
+  const participantRepository = new InMemoryParticipantRepository();
+  const pairRepository = new InMemoryPairRepository();
+  const service = new DistributeOneParticipantForAnotherPairDomainService(pairRepository);
+  const usecase = new RemoveParticipantInPairUsecase(
+    participantRepository,
+    pairRepository,
+    service,
+  );
 
   beforeEach(async () => {
     jest.clearAllMocks();
@@ -23,7 +30,7 @@ describe('RemoveParticipantInPairUsecase', (): void => {
         .mockResolvedValueOnce(undefined);
       const data = {
         pairId: dummyPair3.id.toValue(),
-        removeParticipant: dummyPair3.participants[0],
+        removeParticipantId: dummyPair3.participants[0].id.toValue(),
       };
       // 結果確認
       await expect(usecase.do(data)).resolves.toStrictEqual(undefined);
@@ -35,13 +42,17 @@ describe('RemoveParticipantInPairUsecase', (): void => {
       const spy = jest
         .spyOn(InMemoryPairRepository.prototype, 'findOne')
         .mockResolvedValueOnce(dummyPair3);
+      const spy2 = jest
+        .spyOn(InMemoryParticipantRepository.prototype, 'findOne')
+        .mockResolvedValueOnce(dummyParticipant5);
       const data = {
         pairId: dummyPair3.id.toValue(),
-        removeParticipant: dummyPair3.participants[0],
+        removeParticipantId: dummyPair3.participants[0].id.toValue(),
       };
       // 結果確認
       expect(await usecase.do(data)).toStrictEqual(undefined);
       expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy2).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -1,9 +1,8 @@
 import { IPairRepository } from '../../domain/pair/repositoryInterface/IPairRepository';
 import { PairDTO } from './DTO/pairDTO';
-import { PairName } from '../../domain/pair/pairName';
 
 interface FindOnePairUsecaseProps {
-  pairName: string;
+  pairId: string;
 }
 export class FindOnePairUsecase {
   private readonly pairRepository: IPairRepository;
@@ -13,8 +12,7 @@ export class FindOnePairUsecase {
   }
 
   public async do(props: FindOnePairUsecaseProps): Promise<PairDTO> {
-    const pairName = PairName.create({ pairName: props.pairName });
-    const result = await this.pairRepository.findOne(pairName.pairName);
+    const result = await this.pairRepository.findOne(props.pairId);
     return new PairDTO(result);
   }
 }

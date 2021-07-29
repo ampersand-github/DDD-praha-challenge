@@ -30,7 +30,11 @@ describe('ToRecessStatusUsecase', (): void => {
   const pairRepository = new PairRepository(prisma, converter);
 
   const service = new DistributeOneParticipantForAnotherPairDomainService(pairRepository);
-  const removeUsecase = new RemoveParticipantInPairUsecase(pairRepository, service);
+  const removeUsecase = new RemoveParticipantInPairUsecase(
+    participantRepository,
+    pairRepository,
+    service,
+  );
   const toRecessStatusUsecase = new ToRecessStatusUsecase(
     participantRepository,
     pairRepository,

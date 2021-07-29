@@ -22,7 +22,7 @@ describe('participantFactory', (): void => {
       // データ作成
       jest
         .spyOn(InMemoryParticipantRepository.prototype, 'isExistMailAddress')
-        .mockResolvedValueOnce(true);
+        .mockResolvedValueOnce(false);
       const spy = jest
         .spyOn(InMemoryTaskRepository.prototype, 'findAll')
         .mockResolvedValueOnce([dummyTask1, dummyTask2, dummyTask3]);
@@ -38,7 +38,7 @@ describe('participantFactory', (): void => {
       // データ作成
       jest
         .spyOn(InMemoryParticipantRepository.prototype, 'isExistMailAddress')
-        .mockResolvedValueOnce(false);
+        .mockResolvedValueOnce(true);
       const spy = jest
         .spyOn(InMemoryTaskRepository.prototype, 'findAll')
         .mockResolvedValueOnce([dummyTask1, dummyTask2, dummyTask3]);
