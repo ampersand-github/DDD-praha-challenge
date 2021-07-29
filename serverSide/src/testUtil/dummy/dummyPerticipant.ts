@@ -11,7 +11,7 @@ import {
   dummyPersonalIfo8,
   dummyPersonalIfo9,
 } from './dummyPersonalInfo';
-import { dummyEnrolled } from './dummyEnrolledStatus';
+import { dummyEnrolled, dummyWithdrawal } from './dummyEnrolledStatus';
 import {
   dummyParticipantHavingTasks1,
   dummyParticipantHavingTasks1update,
@@ -75,6 +75,11 @@ const dummyParticipantData9 = {
   enrolledStatus: dummyEnrolled,
   participantHavingTaskCollection: dummyParticipantHavingTasks1,
 };
+const dummyParticipantData10 = {
+  personalInfo: dummyPersonalIfo9,
+  enrolledStatus: dummyWithdrawal,
+  participantHavingTaskCollection: dummyParticipantHavingTasks1,
+};
 
 const dummyParticipantData1update = {
   personalInfo: dummyPersonalIfo1,
@@ -108,6 +113,7 @@ export const dummyParticipant6 = Participant.create(dummyParticipantData6);
 export const dummyParticipant7 = Participant.create(dummyParticipantData7);
 export const dummyParticipant8 = Participant.create(dummyParticipantData8);
 export const dummyParticipant9 = Participant.create(dummyParticipantData9);
+export const dummyParticipant10 = Participant.create(dummyParticipantData10);
 
 export const dummyParticipant1Update = Participant.create(
   dummyParticipantData1update,

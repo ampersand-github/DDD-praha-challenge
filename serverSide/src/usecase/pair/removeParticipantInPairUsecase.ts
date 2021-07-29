@@ -1,27 +1,31 @@
 import { IPairRepository } from '../../domain/pair/repositoryInterface/IPairRepository';
-import { Participant } from '../../domain/participant/participant';
 import { DistributeOneParticipantForAnotherPairDomainService } from '../../domain/pair/domainService/distributeOneParticipantDomainService';
+import { IParticipantRepository } from '../../domain/participant/repositoryInterface/IParticipantRepository';
 
-interface RemoveParticipantInPairUsecaseProps {
+export interface RemoveParticipantInPairUsecaseProps {
   pairId: string;
-  removeParticipant: Participant;
+  removeParticipantId: string;
 }
 export class RemoveParticipantInPairUsecase {
+  private readonly participantRepository: IParticipantRepository;
   private readonly pairRepository: IPairRepository;
   private readonly service;
   public constructor(
-    repository: IPairRepository,
+    participantRepository: IParticipantRepository,
+    pairRepository: IPairRepository,
     service: DistributeOneParticipantForAnotherPairDomainService,
   ) {
-    this.pairRepository = repository;
+    this.participantRepository = participantRepository;
+    this.pairRepository = pairRepository;
     this.service = service;
   }
 
   public async do(props: RemoveParticipantInPairUsecaseProps): Promise<void> {
+    const participant = await this.participantRepository.findOne(props.removeParticipantId);
     const pair = await this.pairRepository.findOne(props.pairId);
     if (pair.participants.length === 2) {
       // 削除対象でないほうの参加者を別のペアに移籍する
-      const target = pair.participants.find((one) => !one.equals(props.removeParticipant));
+      const target = pair.participants.find((one) => !one.equals(participant));
       await this.service.do({
         pair: pair,
         shouldBeDistributedParticipant: target,
@@ -29,7 +33,7 @@ export class RemoveParticipantInPairUsecase {
     }
 
     if (pair.participants.length === 3) {
-      pair.removeParticipant(props.removeParticipant);
+      pair.removeParticipant(participant);
       await this.pairRepository.update(pair);
     }
   }

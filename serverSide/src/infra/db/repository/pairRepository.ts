@@ -89,10 +89,13 @@ export class PairRepository implements IPairRepository {
       where: { pairId: pair.id.toValue() },
     });
   }
-  public async findOneByParticipant(participant: Participant): Promise<Pair> {
+  public async findOneByParticipant(participant: Participant): Promise<Pair> | null {
     const prismaParticipant = await this.prismaClient.participant.findUnique({
       where: { participantId: participant.id.toValue() },
     });
+    if (prismaParticipant.pairName === null) {
+      return null;
+    }
     const prismaPair = await this.prismaClient.pair.findUnique({
       where: { pairName: prismaParticipant.pairName },
     });
