@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { prismaClient } from '../util/prisma/prismaClient';
-import { Converter, IConverter } from '../infra/db/repository/shared/converter';
 import { ParticipantRepository } from '../infra/db/repository/participantRepository';
 import { CreatePairUsecase, CreatePairUsecaseProps } from '../usecase/pair/createPairUsecase';
 import { FindOnePairUsecase } from '../usecase/pair/findOnePairUsecase';
@@ -14,14 +13,35 @@ import { DistributeOneParticipantForAnotherPairDomainService } from '../domain/p
 import { DisallowDuplicateParticipantInTPairDomainService } from '../domain/pair/domainService/disallowDuplicateParticipantDomainService';
 import { DividePairDomainService } from '../domain/pair/domainService/dividePairDomainService';
 import { PairDTO } from '../usecase/pair/DTO/pairDTO';
+import { ToTaskConverter } from '../infra/db/repository/shared/converter/ToTaskConverter';
+import { ToHavingTaskCollectionConverter } from '../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
+import { ToParticipantConverter } from '../infra/db/repository/shared/converter/ToParticipantConverter';
+import { ToPairConverter } from '../infra/db/repository/shared/converter/ToPairConverter';
 
 @Controller('pair')
 export class PairController {
   private prisma: PrismaClient = prismaClient;
-  private converter: IConverter = new Converter();
   //
-  private participantRepository = new ParticipantRepository(this.prisma, this.converter);
-  private pairRepository = new PairRepository(this.prisma, this.converter);
+  private toTaskConverter = new ToTaskConverter();
+  private toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(
+    this.toTaskConverter,
+  );
+  private toParticipantConverter = new ToParticipantConverter(
+    this.toTaskConverter,
+    this.toHavingTaskCollectionConverter,
+  );
+  private toPairConverter = new ToPairConverter(
+    this.toHavingTaskCollectionConverter,
+    this.toParticipantConverter,
+  );
+  //
+  private participantRepository = new ParticipantRepository(
+    this.prisma,
+    this.toTaskConverter,
+    this.toParticipantConverter,
+    this.toHavingTaskCollectionConverter,
+  );
+  private pairRepository = new PairRepository(this.prisma, this.toPairConverter);
   //
   private pairFactory = new PairFactory(this.pairRepository);
   //

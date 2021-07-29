@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Converter } from '../../infra/db/repository/shared/converter';
 import { TaskRepository } from '../../infra/db/repository/taskRepository';
 import { prismaClient } from '../../util/prisma/prismaClient';
 import { truncateAllTable } from '../../testUtil/reposiotry/truncateAllTable';
@@ -17,14 +16,33 @@ import { dummyPair2, dummyPair4 } from '../../testUtil/dummy/dummyPair';
 import { ParticipantRepository } from '../../infra/db/repository/participantRepository';
 import { PairRepository } from '../../infra/db/repository/pairRepository';
 import { CreatePairUsecaseProps } from '../../usecase/pair/createPairUsecase';
+import { ToTaskConverter } from '../../infra/db/repository/shared/converter/ToTaskConverter';
+import { ToHavingTaskCollectionConverter } from '../../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
+import { ToParticipantConverter } from '../../infra/db/repository/shared/converter/ToParticipantConverter';
+import { ToPairConverter } from '../../infra/db/repository/shared/converter/ToPairConverter';
 
 // コントローラのテストはhttpステータスの確認のみ。実質ユースケースを実行しているだけなので。
 describe('PairController', () => {
   const url = 'http://localhost:3000/pair';
-  const converter = new Converter();
-  const taskRepository = new TaskRepository(prismaClient, converter);
-  const participantRepository = new ParticipantRepository(prismaClient, converter);
-  const pairRepository = new PairRepository(prismaClient, converter);
+  const toTaskConverter = new ToTaskConverter();
+  const toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(toTaskConverter);
+  const toParticipantConverter = new ToParticipantConverter(
+    toTaskConverter,
+    toHavingTaskCollectionConverter,
+  );
+  const toPairConverter = new ToPairConverter(
+    toHavingTaskCollectionConverter,
+    toParticipantConverter,
+  );
+  const taskRepository = new TaskRepository(prismaClient, toTaskConverter);
+  const participantRepository = new ParticipantRepository(
+    prismaClient,
+    toTaskConverter,
+    toParticipantConverter,
+    toHavingTaskCollectionConverter,
+  );
+
+  const pairRepository = new PairRepository(prismaClient, toPairConverter);
 
   beforeAll(async () => {
     await truncateAllTable();

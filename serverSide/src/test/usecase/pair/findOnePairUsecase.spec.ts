@@ -18,7 +18,7 @@ describe('FindOnePairUsecase', (): void => {
         .spyOn(InMemoryPairRepository.prototype, 'findOne')
         .mockResolvedValueOnce(dummyPair1);
       const expected = new PairDTO(dummyPair1);
-      const data = { pairName: 'a' };
+      const data = { pairId: dummyPair1.id.toValue() };
       // 結果確認
       expect(await usecase.do(data)).toStrictEqual(expected);
       expect(spy).toHaveBeenCalledTimes(1);
