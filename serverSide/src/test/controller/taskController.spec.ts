@@ -1,17 +1,17 @@
 import axios from 'axios';
 import { ITask } from '../../controller/taskController';
-import { Converter } from '../../infra/db/repository/shared/converter';
 import { TaskRepository } from '../../infra/db/repository/taskRepository';
 import { prismaClient } from '../../util/prisma/prismaClient';
 import { truncateAllTable } from '../../testUtil/reposiotry/truncateAllTable';
 import { dummyTask1 } from '../../testUtil/dummy/dummyTask';
 import { UpdateTaskUsecaseProps } from '../../usecase/task/updateTaskUsecase';
+import { ToTaskConverter } from '../../infra/db/repository/shared/converter/ToTaskConverter';
 
 // コントローラのテストはhttpステータスの確認のみ。実質ユースケースを実行しているだけなので。
 describe('TaskController', () => {
   const url = 'http://localhost:3000/task';
-  const converter = new Converter();
-  const repo = new TaskRepository(prismaClient, converter);
+  const toTaskConverter = new ToTaskConverter();
+  const repo = new TaskRepository(prismaClient, toTaskConverter);
 
   beforeAll(async () => {
     await truncateAllTable();

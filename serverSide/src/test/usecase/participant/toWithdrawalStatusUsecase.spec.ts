@@ -11,7 +11,6 @@ import {
 } from '../../../testUtil/dummy/dummyPerticipant';
 import { ToWithdrawalStatusUsecase } from '../../../usecase/participant/toWithdrawalStatusUsecase';
 import { prismaClient } from '../../../util/prisma/prismaClient';
-import { Converter } from '../../../infra/db/repository/shared/converter';
 import { TaskRepository } from '../../../infra/db/repository/taskRepository';
 import { ParticipantRepository } from '../../../infra/db/repository/participantRepository';
 import { PairRepository } from '../../../infra/db/repository/pairRepository';
@@ -21,13 +20,33 @@ import { truncateAllTable } from '../../../testUtil/reposiotry/truncateAllTable'
 import { dummyTask1, dummyTask2, dummyTask3 } from '../../../testUtil/dummy/dummyTask';
 import { dummyPair2, dummyPair3, dummyPair4 } from '../../../testUtil/dummy/dummyPair';
 import { EnrolledStatusEnum } from '../../../domain/participant/enrolledStatus';
+import { ToTaskConverter } from '../../../infra/db/repository/shared/converter/ToTaskConverter';
+import { ToHavingTaskCollectionConverter } from '../../../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
+import { ToParticipantConverter } from '../../../infra/db/repository/shared/converter/ToParticipantConverter';
+import { ToPairConverter } from '../../../infra/db/repository/shared/converter/ToPairConverter';
 
 describe('ToWithdrawalStatusUsecase', (): void => {
   const prisma = prismaClient;
-  const converter: Converter = new Converter();
-  const taskRepository = new TaskRepository(prisma, converter);
-  const participantRepository = new ParticipantRepository(prisma, converter);
-  const pairRepository = new PairRepository(prisma, converter);
+
+  const toTaskConverter = new ToTaskConverter();
+  const toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(toTaskConverter);
+  const toParticipantConverter = new ToParticipantConverter(
+    toTaskConverter,
+    toHavingTaskCollectionConverter,
+  );
+  const toPairConverter = new ToPairConverter(
+    toHavingTaskCollectionConverter,
+    toParticipantConverter,
+  );
+
+  const taskRepository = new TaskRepository(prismaClient, toTaskConverter);
+  const participantRepository = new ParticipantRepository(
+    prisma,
+    toTaskConverter,
+    toParticipantConverter,
+    toHavingTaskCollectionConverter,
+  );
+  const pairRepository = new PairRepository(prisma, toPairConverter);
 
   const service = new DistributeOneParticipantForAnotherPairDomainService(pairRepository);
   const removeUsecase = new RemoveParticipantInPairUsecase(

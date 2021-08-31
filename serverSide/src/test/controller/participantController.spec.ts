@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Converter } from '../../infra/db/repository/shared/converter';
 import { TaskRepository } from '../../infra/db/repository/taskRepository';
 import { prismaClient } from '../../util/prisma/prismaClient';
 import { truncateAllTable } from '../../testUtil/reposiotry/truncateAllTable';
@@ -8,13 +7,26 @@ import { FactoryProps } from '../../usecase/participant/createParticipantUsecase
 import { ParticipantRepository } from '../../infra/db/repository/participantRepository';
 import { dummyParticipant1, dummyParticipant10 } from '../../testUtil/dummy/dummyPerticipant';
 import { EnrolledStatusEnum } from '../../domain/participant/enrolledStatus';
+import { ToTaskConverter } from '../../infra/db/repository/shared/converter/ToTaskConverter';
+import { ToHavingTaskCollectionConverter } from '../../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
+import { ToParticipantConverter } from '../../infra/db/repository/shared/converter/ToParticipantConverter';
 
 // コントローラのテストはhttpステータスの確認のみ。実質ユースケースを実行しているだけなので。
 describe('ParticipantController', () => {
   const url = 'http://localhost:3000/participant';
-  const converter = new Converter();
-  const taskRepository = new TaskRepository(prismaClient, converter);
-  const participantRepository = new ParticipantRepository(prismaClient, converter);
+  const toTaskConverter = new ToTaskConverter();
+  const toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(toTaskConverter);
+  const toParticipantConverter = new ToParticipantConverter(
+    toTaskConverter,
+    toHavingTaskCollectionConverter,
+  );
+  const taskRepository = new TaskRepository(prismaClient, toTaskConverter);
+  const participantRepository = new ParticipantRepository(
+    prismaClient,
+    toTaskConverter,
+    toParticipantConverter,
+    toHavingTaskCollectionConverter,
+  );
 
   beforeAll(async () => {
     await truncateAllTable();

@@ -1,4 +1,3 @@
-import { IConverter } from '../repository/shared/converter';
 import { PrismaClient } from '@prisma/client';
 import { ProgressStatus } from '../../../domain/participant/progressStatus';
 import { Participant } from '../../../domain/participant/participant';
@@ -6,15 +5,28 @@ import {
   AtLeastOneTask,
   IGetParticipantByProgressAndTaskQueryService,
 } from '../../../usecase/queryService/interface/IGetParticipantByProgressAndTaskQueryService';
+import { IFromPrismaToTaskConverter } from '../repository/shared/converter/ToTaskConverter';
+import { IFromPrismaToParticipant } from '../repository/shared/converter/ToParticipantConverter';
+import { IFromPrismaHavingTaskCollectionConverter } from '../repository/shared/converter/ToHavingTaskCollectionConverter';
+import { TaskRepository } from '../repository/taskRepository';
 
 export class GetParticipantByProgressAndTaskQueryService
   implements IGetParticipantByProgressAndTaskQueryService {
   private readonly prismaClient: PrismaClient;
-  private readonly converter: IConverter;
+  private taskRepository: TaskRepository;
+  private readonly toParticipantConverter: IFromPrismaToParticipant;
+  private readonly toHavingTaskCollectionConverter: IFromPrismaHavingTaskCollectionConverter;
 
-  public constructor(prismaClient: PrismaClient, converter: IConverter) {
+  public constructor(
+    prismaClient: PrismaClient,
+    ToTaskConverter: IFromPrismaToTaskConverter,
+    toHavingTaskCollectionConverter: IFromPrismaHavingTaskCollectionConverter,
+    toParticipantConverter: IFromPrismaToParticipant,
+  ) {
     this.prismaClient = prismaClient;
-    this.converter = converter;
+    this.taskRepository = new TaskRepository(prismaClient, ToTaskConverter);
+    this.toHavingTaskCollectionConverter = toHavingTaskCollectionConverter;
+    this.toParticipantConverter = toParticipantConverter;
   }
 
   public async do(
@@ -58,6 +70,6 @@ export class GetParticipantByProgressAndTaskQueryService
     });
 
     const allPrismaTask = await this.prismaClient.task.findMany();
-    return matchedParticipantList.map((one) => this.converter.toParticipant(one, allPrismaTask));
+    return matchedParticipantList.map((one) => this.toParticipantConverter.do(one, allPrismaTask));
   }
 }

@@ -7,12 +7,24 @@ import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/d
 import { ProgressStatusEnum } from '../../../../domain/participant/progressStatus';
 import clone from 'clone';
 import { PrismaClient } from '@prisma/client';
-import { Converter } from '../../../../infra/db/repository/shared/converter';
+import { ToTaskConverter } from '../../../../infra/db/repository/shared/converter/ToTaskConverter';
+import { ToParticipantConverter } from '../../../../infra/db/repository/shared/converter/ToParticipantConverter';
+import { ToHavingTaskCollectionConverter } from '../../../../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
 
 describe('ParticipantRepository', (): void => {
-  const converter = new Converter();
-  const participantRepository = new ParticipantRepository(prismaClient, converter);
-  const taskRepository = new TaskRepository(prismaClient, converter);
+  const toTaskConverter = new ToTaskConverter();
+  const toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(toTaskConverter);
+  const toParticipantConverter = new ToParticipantConverter(
+    toTaskConverter,
+    toHavingTaskCollectionConverter,
+  );
+  const taskRepository = new TaskRepository(prismaClient, toTaskConverter);
+  const participantRepository = new ParticipantRepository(
+    prismaClient,
+    toTaskConverter,
+    toParticipantConverter,
+    toHavingTaskCollectionConverter,
+  );
 
   beforeAll(async () => {
     await truncateAllTable();

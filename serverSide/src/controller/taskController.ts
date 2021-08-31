@@ -3,7 +3,6 @@ import { TaskDTO } from '../usecase/task/DTO/taskDTO';
 import { UpdateTaskUsecase, UpdateTaskUsecaseProps } from '../usecase/task/updateTaskUsecase';
 import { PrismaClient } from '@prisma/client';
 import { prismaClient } from '../util/prisma/prismaClient';
-import { Converter, IConverter } from '../infra/db/repository/shared/converter';
 import { TaskRepository } from '../infra/db/repository/taskRepository';
 import { ParticipantRepository } from '../infra/db/repository/participantRepository';
 import { TaskFactory } from '../domain/task/taskFactory';
@@ -11,6 +10,9 @@ import { CreateTaskUsecase } from '../usecase/task/createTaskUsecase';
 import { FindAllTaskUsecase } from '../usecase/task/findAllTaskUsecase';
 import { FindOneTaskUsecase } from '../usecase/task/findOneTaskUsecase';
 import { DeleteTaskUsecase } from '../usecase/task/deleteTaskUsecase';
+import { ToTaskConverter } from '../infra/db/repository/shared/converter/ToTaskConverter';
+import { ToHavingTaskCollectionConverter } from '../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
+import { ToParticipantConverter } from '../infra/db/repository/shared/converter/ToParticipantConverter';
 
 export interface ITask {
   name: string;
@@ -21,9 +23,22 @@ export interface ITask {
 @Controller('task')
 export class TaskController {
   private prisma: PrismaClient = prismaClient;
-  private converter: IConverter = new Converter();
-  private taskRepository = new TaskRepository(this.prisma, this.converter);
-  private participantRepository = new ParticipantRepository(this.prisma, this.converter);
+
+  private toTaskConverter = new ToTaskConverter();
+  private toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(
+    this.toTaskConverter,
+  );
+  private toParticipantConverter = new ToParticipantConverter(
+    this.toTaskConverter,
+    this.toHavingTaskCollectionConverter,
+  );
+  private participantRepository = new ParticipantRepository(
+    this.prisma,
+    this.toTaskConverter,
+    this.toParticipantConverter,
+    this.toHavingTaskCollectionConverter,
+  );
+  private taskRepository = new TaskRepository(prismaClient, this.toTaskConverter);
   private taskFactory = new TaskFactory(this.taskRepository);
   private createTaskUsecase = new CreateTaskUsecase(this.taskRepository, this.taskFactory);
   private findAllTaskUsecase = new FindAllTaskUsecase(this.taskRepository);
