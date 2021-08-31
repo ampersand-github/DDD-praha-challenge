@@ -9,4 +9,4 @@ jobs:
       - run: npm install -g bats
       - run: bats -v
       - name: docker
-        run: cd ./db && ls -l
+        run: cd ./db && docker-compose up -d
