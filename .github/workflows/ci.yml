@@ -18,10 +18,6 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ./serverSide/package-lock.json
 
-      - name: Install dependencies
-        run: npm install
-        working-directory: ./serverSide
-
       - name: docker
         run: cd ./db && docker-compose up -d
 
