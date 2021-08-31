@@ -8,3 +8,5 @@ jobs:
       - uses: actions/setup-node@v1
       - run: npm install -g bats
       - run: bats -v
+      - name: docker
+        run: cd ${GITHUB_WORKSPACE} && cd ../db
