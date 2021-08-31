@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          working-directory: ./serverSide
 
       - name: Install dependencies
         run: npm install
