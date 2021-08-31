@@ -34,7 +34,7 @@ jobs:
         working-directory: ./serverSide
 
       - name: start
-        run:  npm run start
+        run:  npm run start:debug
         working-directory: ./serverSide
 
       - name: test
