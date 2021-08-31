@@ -9,4 +9,4 @@ jobs:
       - run: npm install -g bats
       - run: bats -v
       - name: docker
-        run: cd ${GITHUB_WORKSPACE} && cd ../db
+        run: ls -l　
