@@ -10,3 +10,6 @@ jobs:
       - run: bats -v
       - name: docker
         run: cd ./db && docker-compose up -d
+      - name: prisma
+        run: npm run db:migration:model
+        working-directory: ./serverSide
