@@ -22,13 +22,6 @@ jobs:
         run: npm install
         working-directory: ./serverSide
 
-      - name: starts
-        run: |
-        npm ci
-        npm run build --if-present
-        npm run deploy
-        working-directory: ./serverSide
-
       - name: docker
         run: cd ./db && docker-compose up -d
 
@@ -38,6 +31,14 @@ jobs:
 
       - name: lint
         run: npm run lint
+        working-directory: ./serverSide
+
+      - name: build
+        run: npm run build
+        working-directory: ./serverSide
+
+      - name: start
+        run: npm run start
         working-directory: ./serverSide
 
       - name: test
