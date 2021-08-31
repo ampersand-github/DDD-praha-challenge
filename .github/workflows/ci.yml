@@ -34,7 +34,7 @@ jobs:
         working-directory: ./serverSide
 
       - name: build
-        run: npm run build
+        run: npm run prebuild && npm run build
         working-directory: ./serverSide
 
       - name: start
