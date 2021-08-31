@@ -33,12 +33,8 @@ jobs:
         run: npm run lint
         working-directory: ./serverSide
 
-      - name: build
-        run: npm run prebuild && npm run build
-        working-directory: ./serverSide
-
       - name: start
-        run: npm run start
+        run: npm run start2
         working-directory: ./serverSide
 
       - name: test
