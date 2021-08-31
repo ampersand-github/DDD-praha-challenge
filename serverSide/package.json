@@ -18,7 +18,7 @@
     "test:debug": "jest --verbose --forceExit --detectOpenHandles --runInBand",
     "test:e2e": "jest --config src/test/jest-e2e.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/test/**/*.ts\"",
-    "lint": "eslint \"{src,apps,libs,test,prisma}/**/*.ts\" --fix",
+    "lint": "eslint \"{src,apps,libs,test,prisma}/**/*.ts\"",
     "db:migration:model": "prisma migrate dev"
   },
   "dependencies": {
