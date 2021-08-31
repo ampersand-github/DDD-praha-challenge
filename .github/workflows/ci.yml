@@ -32,3 +32,7 @@ jobs:
       - name: lint
         run: npm run lint
         working-directory: ./serverSide
+
+      - name: test
+        run:  npm run start && npm run test
+        working-directory: ./serverSide
