@@ -16,10 +16,11 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-          working-directory: ./serverSide
+          cache-dependency-path: ./serverSide/package-lock.lock
 
       - name: Install dependencies
         run: npm install
+        working-directory: ./serverSide
 
       - name: docker
         run: cd ./db && docker-compose up -d
