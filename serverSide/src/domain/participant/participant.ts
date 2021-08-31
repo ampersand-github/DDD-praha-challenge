@@ -13,7 +13,7 @@ export interface ParticipantProps {
 }
 
 export class Participant extends Entity<ParticipantProps> {
-    public get participantName(): string {
+  public get participantName(): string {
     return this.props.personalInfo.participantName;
   }
 
