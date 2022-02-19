@@ -8,8 +8,10 @@ import {
 } from '@prisma/client';
 import { ParticipantHavingTask } from '../../../domain/participant/participantHavingTask';
 import { TaskRepository } from './taskRepository';
-import { IConverter } from './shared/converter';
 import { PrismaClient } from '@prisma/client/scripts/default-index';
+import { IFromPrismaToParticipant } from './shared/converter/ToParticipantConverter';
+import { IFromPrismaToTaskConverter } from './shared/converter/ToTaskConverter';
+import { IFromPrismaHavingTaskCollectionConverter } from './shared/converter/ToHavingTaskCollectionConverter';
 
 // prismaにおける参加者集約の型
 type PrismaParticipantProps = PrismaParticipant & {
@@ -20,12 +22,19 @@ type PrismaParticipantProps = PrismaParticipant & {
 export class ParticipantRepository implements IParticipantRepository {
   private taskRepository: TaskRepository;
   private readonly prismaClient: PrismaClient;
-  private readonly converter: IConverter;
+  private readonly toParticipantConverter: IFromPrismaToParticipant;
+  private readonly toHavingTaskCollectionConverter: IFromPrismaHavingTaskCollectionConverter;
 
-  public constructor(prismaClient: PrismaClient, converter: IConverter) {
+  public constructor(
+    prismaClient: PrismaClient,
+    ToTaskConverter: IFromPrismaToTaskConverter,
+    toParticipantConverter: IFromPrismaToParticipant,
+    toHavingTaskCollectionConverter: IFromPrismaHavingTaskCollectionConverter,
+  ) {
     this.prismaClient = prismaClient;
-    this.taskRepository = new TaskRepository(prismaClient, converter);
-    this.converter = converter;
+    this.taskRepository = new TaskRepository(prismaClient, ToTaskConverter);
+    this.toParticipantConverter = toParticipantConverter;
+    this.toHavingTaskCollectionConverter = toHavingTaskCollectionConverter;
   }
 
   public async create(participant: Participant): Promise<Participant> {
@@ -99,7 +108,7 @@ export class ParticipantRepository implements IParticipantRepository {
     const allPrismaTask = await this.getAllPrismaTask();
     return await Promise.all(
       findManyParticipant.map((one: PrismaParticipantProps) =>
-        this.converter.toParticipant(one, allPrismaTask),
+        this.toParticipantConverter.do(one, allPrismaTask),
       ),
     );
   }
@@ -110,7 +119,7 @@ export class ParticipantRepository implements IParticipantRepository {
       include: { personalInfo: true, participantHavingTask: true },
     });
     const allPrismaTask = await this.getAllPrismaTask();
-    return this.converter.toParticipant(result, allPrismaTask);
+    return this.toParticipantConverter.do(result, allPrismaTask);
   }
 
   public async isExistMailAddress(mailAddress: string): Promise<boolean> {
@@ -215,7 +224,7 @@ export class ParticipantRepository implements IParticipantRepository {
       },
     });
     const allPrismaTask = await this.prismaClient.task.findMany();
-    const participantHavingTaskCollection = await this.converter.toHavingTaskCollection(
+    const participantHavingTaskCollection = await this.toHavingTaskCollectionConverter.do(
       findManyParticipantHavingTask,
       allPrismaTask,
     );

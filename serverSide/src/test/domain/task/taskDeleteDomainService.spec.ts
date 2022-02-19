@@ -5,13 +5,25 @@ import { truncateAllTable } from '../../../testUtil/reposiotry/truncateAllTable'
 import { dummyTask1, dummyTask2, dummyTask3 } from '../../../testUtil/dummy/dummyTask';
 import { dummyParticipant1, dummyParticipant3 } from '../../../testUtil/dummy/dummyPerticipant';
 import { TaskDeleteDomainService } from '../../../domain/task/taskDeleteDomainService';
-import { Converter } from '../../../infra/db/repository/shared/converter';
+import { ToTaskConverter } from '../../../infra/db/repository/shared/converter/ToTaskConverter';
+import { ToHavingTaskCollectionConverter } from '../../../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
+import { ToParticipantConverter } from '../../../infra/db/repository/shared/converter/ToParticipantConverter';
 
 describe('TaskGroupDeleteDomainService', () => {
   const prisma = prismaClient;
-  const converter = new Converter();
-  const participantRepository = new ParticipantRepository(prisma, converter);
-  const taskRepository = new TaskRepository(prisma, converter);
+  const toTaskConverter = new ToTaskConverter();
+  const toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(toTaskConverter);
+  const toParticipantConverter = new ToParticipantConverter(
+    toTaskConverter,
+    toHavingTaskCollectionConverter,
+  );
+  const participantRepository = new ParticipantRepository(
+    prismaClient,
+    toTaskConverter,
+    toParticipantConverter,
+    toHavingTaskCollectionConverter,
+  );
+  const taskRepository = new TaskRepository(prismaClient, toTaskConverter);
   const taskDeleteDomainService = new TaskDeleteDomainService(
     taskRepository,
     participantRepository,

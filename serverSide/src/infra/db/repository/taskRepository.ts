@@ -2,15 +2,15 @@ import { Task } from '../../../domain/task/task';
 import { PrismaClient } from '@prisma/client';
 import { TaskGroup } from '../../../domain/taskGroup/taskGroup';
 import { ITaskRepository } from '../../../domain/task/repositoryInterface/ITaskRepository';
-import { IConverter } from './shared/converter';
+import { IFromPrismaToTaskConverter } from './shared/converter/ToTaskConverter';
 
 export class TaskRepository implements ITaskRepository {
   private readonly prismaClient: PrismaClient;
-  private readonly converter: IConverter;
+  private readonly toTaskConverter: IFromPrismaToTaskConverter;
 
-  public constructor(prismaClient: PrismaClient, converter: IConverter) {
+  public constructor(prismaClient: PrismaClient, ToTaskConverter: IFromPrismaToTaskConverter) {
     this.prismaClient = prismaClient;
-    this.converter = converter;
+    this.toTaskConverter = ToTaskConverter;
   }
 
   public async findAll(): Promise<Task[]> {
@@ -19,8 +19,7 @@ export class TaskRepository implements ITaskRepository {
         taskNo: 'asc',
       },
     });
-
-    return findMany.map((one) => this.converter.toTask(one));
+    return findMany.map((one) => this.toTaskConverter.do(one));
   }
 
   public async findOne(id: string): Promise<Task> {
@@ -29,7 +28,7 @@ export class TaskRepository implements ITaskRepository {
         taskId: id,
       },
     });
-    return this.converter.toTask(taskData);
+    return this.toTaskConverter.do(taskData);
   }
 
   public async findByTaskGroup(taskGroup: TaskGroup): Promise<Task[]> {
@@ -39,7 +38,7 @@ export class TaskRepository implements ITaskRepository {
       },
     });
     return taskData.map((one) => {
-      return this.converter.toTask(one);
+      return this.toTaskConverter.do(one);
     });
   }
 
@@ -53,7 +52,7 @@ export class TaskRepository implements ITaskRepository {
         taskGroupName: task.group,
       },
     });
-    return this.converter.toTask(prismaTask);
+    return this.toTaskConverter.do(prismaTask);
   }
 
   public async delete(task: Task): Promise<number> {
@@ -82,7 +81,7 @@ export class TaskRepository implements ITaskRepository {
         taskGroupName: task.group,
       },
     });
-    return this.converter.toTask(prismaTask);
+    return this.toTaskConverter.do(prismaTask);
   }
 
   public async taskMaxNo(): Promise<number> {

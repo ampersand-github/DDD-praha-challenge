@@ -9,6 +9,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "start": "NODE_ENV=develop nest start",
+    "start2": "nest start",
     "start:dev": "NODE_ENV=develop nest start --watch",
     "start:debug": "NODE_ENV=develop nest start --debug --watch",
     "start:prod": "NODE_ENV=production node dist/src/main",

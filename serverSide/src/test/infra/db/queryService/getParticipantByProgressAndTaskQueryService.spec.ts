@@ -2,7 +2,6 @@ import { TaskRepository } from '../../../../infra/db/repository/taskRepository';
 import { truncateAllTable } from '../../../../testUtil/reposiotry/truncateAllTable';
 import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/dummyTask';
 import { prismaClient } from '../../../../util/prisma/prismaClient';
-import { Converter } from '../../../../infra/db/repository/shared/converter';
 import { ProgressStatus, ProgressStatusEnum } from '../../../../domain/participant/progressStatus';
 import {
   qsDummyParticipant1,
@@ -15,12 +14,31 @@ import {
 } from '../../../../testUtil/dummy/dummyPerticipant';
 import { ParticipantRepository } from '../../../../infra/db/repository/participantRepository';
 import { GetParticipantByProgressAndTaskQueryService } from '../../../../infra/db/queryService/getParticipantByProgressAndTaskQueryService';
+import { ToTaskConverter } from '../../../../infra/db/repository/shared/converter/ToTaskConverter';
+import { ToHavingTaskCollectionConverter } from '../../../../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
+import { ToParticipantConverter } from '../../../../infra/db/repository/shared/converter/ToParticipantConverter';
 
 describe('GetParticipantByProgressAndTaskQueryService', (): void => {
-  const converter = new Converter();
-  const qs = new GetParticipantByProgressAndTaskQueryService(prismaClient, converter);
-  const taskRepository = new TaskRepository(prismaClient, converter);
-  const participantRepository = new ParticipantRepository(prismaClient, converter);
+  const prisma = prismaClient;
+  const toTaskConverter = new ToTaskConverter();
+  const toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(toTaskConverter);
+  const toParticipantConverter = new ToParticipantConverter(
+    toTaskConverter,
+    toHavingTaskCollectionConverter,
+  );
+  const participantRepository = new ParticipantRepository(
+    prismaClient,
+    toTaskConverter,
+    toParticipantConverter,
+    toHavingTaskCollectionConverter,
+  );
+  const taskRepository = new TaskRepository(prismaClient, toTaskConverter);
+  const qs = new GetParticipantByProgressAndTaskQueryService(
+    prisma,
+    toTaskConverter,
+    toHavingTaskCollectionConverter,
+    toParticipantConverter,
+  );
 
   beforeAll(async () => {
     await truncateAllTable();

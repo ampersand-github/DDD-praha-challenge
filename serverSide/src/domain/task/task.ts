@@ -10,7 +10,9 @@ interface TaskProps {
 }
 
 export class Task extends Entity<TaskProps> {
-            public get no() {
+
+        public get no() {
+
     return this.props.no;
   }
   public get name() {

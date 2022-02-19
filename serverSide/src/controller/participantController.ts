@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { prismaClient } from '../util/prisma/prismaClient';
-import { Converter, IConverter } from '../infra/db/repository/shared/converter';
 import { TaskRepository } from '../infra/db/repository/taskRepository';
 import { ParticipantRepository } from '../infra/db/repository/participantRepository';
 import {
@@ -11,7 +10,6 @@ import {
 import { FindAllParticipantUsecase } from '../usecase/participant/findAllUsecase';
 import { DeleteParticipantUsecase } from '../usecase/participant/deleteParticipantUsecase';
 import { ParticipantFactory } from '../domain/participant/domainService/participantFactory';
-import { DisallowDuplicateMailAddressService } from '../domain/participant/domainService/disallowDuplicateMailaddressService';
 import { ToEnrolledStatusUsecase } from '../usecase/participant/toEnrolledStatusUsecase';
 import { ToRecessStatusUsecase } from '../usecase/participant/toRecessStatusUsecase';
 import { ToWithdrawalStatusUsecase } from '../usecase/participant/toWithdrawalStatusUsecase';
@@ -21,16 +19,37 @@ import { RemoveParticipantInPairUsecase } from '../usecase/pair/removeParticipan
 import { ParticipantDTO } from '../usecase/participant/DTO/participantDTO';
 import { PersonalInfoDTO } from '../usecase/participant/DTO/personalInfoDTO';
 import { EnrolledStatusEnum } from '../domain/participant/enrolledStatus';
+import { ToTaskConverter } from '../infra/db/repository/shared/converter/ToTaskConverter';
+import { ToHavingTaskCollectionConverter } from '../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
+import { ToParticipantConverter } from '../infra/db/repository/shared/converter/ToParticipantConverter';
+import { ToPairConverter } from '../infra/db/repository/shared/converter/ToPairConverter';
 
 @Controller('participant')
 export class ParticipantController {
   private prisma: PrismaClient = prismaClient;
-  private converter: IConverter = new Converter();
-  //
-  private participantRepository = new ParticipantRepository(this.prisma, this.converter);
-  private taskRepository = new TaskRepository(this.prisma, this.converter);
-  private pairRepository = new PairRepository(this.prisma, this.converter);
-  //
+
+  private toTaskConverter = new ToTaskConverter();
+  private toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(
+    this.toTaskConverter,
+  );
+  private toParticipantConverter = new ToParticipantConverter(
+    this.toTaskConverter,
+    this.toHavingTaskCollectionConverter,
+  );
+  private toPairConverter = new ToPairConverter(
+    this.toHavingTaskCollectionConverter,
+    this.toParticipantConverter,
+  );
+
+  private participantRepository = new ParticipantRepository(
+    this.prisma,
+    this.toTaskConverter,
+    this.toParticipantConverter,
+    this.toHavingTaskCollectionConverter,
+  );
+  private taskRepository = new TaskRepository(this.prisma, this.toTaskConverter);
+  private pairRepository = new PairRepository(this.prisma, this.toPairConverter);
+
   private distributeOneParticipantForAnotherPairDomainService = new DistributeOneParticipantForAnotherPairDomainService(
     this.pairRepository,
   );
@@ -44,9 +63,7 @@ export class ParticipantController {
     participantRepository: this.participantRepository,
     taskRepository: this.taskRepository,
   });
-  private disallowDuplicateMailAddressService = new DisallowDuplicateMailAddressService(
-    this.participantRepository,
-  );
+
   private createParticipantUsecase = new CreateParticipantUsecase(
     this.participantRepository,
     this.participantFactory,

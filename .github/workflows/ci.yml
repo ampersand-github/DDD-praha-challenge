@@ -1,0 +1,42 @@
+name: learn-github-actions
+on: [push]
+jobs:
+  check-bats-version:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./serverSide/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./serverSide
+
+      - name: docker
+        run: cd ./db && docker-compose up -d
+
+      - name: prisma
+        run: npm run db:migration:model
+        working-directory: ./serverSide
+
+    #  - name: lint
+    #    run: npm run lint
+    #    working-directory: ./serverSide
+
+      - name: start
+        run: npm run start2
+        working-directory: ./serverSide
+
+     # - name: test
+     #   run: npm run test
+     #   working-directory: ./serverSide

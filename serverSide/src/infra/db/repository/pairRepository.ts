@@ -1,16 +1,16 @@
 import { PrismaClient } from '@prisma/client';
 import { IPairRepository } from '../../../domain/pair/repositoryInterface/IPairRepository';
 import { Pair } from '../../../domain/pair/pair';
-import { IConverter } from './shared/converter';
 import { Participant } from '../../../domain/participant/participant';
+import { IFromPrismaToPairConverter } from './shared/converter/ToPairConverter';
 
 export class PairRepository implements IPairRepository {
   private readonly prismaClient: PrismaClient;
-  private readonly converter: IConverter;
+  private readonly toPairConverter: IFromPrismaToPairConverter;
 
-  public constructor(prismaClient: PrismaClient, converter: IConverter) {
+  public constructor(prismaClient: PrismaClient, toPairConverter: IFromPrismaToPairConverter) {
     this.prismaClient = prismaClient;
-    this.converter = converter;
+    this.toPairConverter = toPairConverter;
   }
 
   public async findAll(): Promise<Pair[]> {
@@ -25,7 +25,7 @@ export class PairRepository implements IPairRepository {
       },
     });
     const allPrismaTask = await this.prismaClient.task.findMany();
-    return Promise.all(findManyPair.map((one) => this.converter.toPair(one, allPrismaTask)));
+    return Promise.all(findManyPair.map((one) => this.toPairConverter.do(one, allPrismaTask)));
   }
 
   public async findOne(pairId: string): Promise<Pair> {
@@ -38,7 +38,7 @@ export class PairRepository implements IPairRepository {
       },
     });
     const allPrismaTask = await this.prismaClient.task.findMany();
-    return this.converter.toPair(result, allPrismaTask);
+    return this.toPairConverter.do(result, allPrismaTask);
   }
 
   public async create(pair: Pair): Promise<Pair> {
