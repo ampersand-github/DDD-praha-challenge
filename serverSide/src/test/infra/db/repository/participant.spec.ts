@@ -52,6 +52,7 @@ describe('ParticipantRepository', (): void => {
     });
 
     describe('update()', () => {
+      /*
       test('[正常]更新できる', async () => {
         // データ作成
         const updated = await participantRepository.findOne(dummyParticipant1.id.toValue());
@@ -63,6 +64,7 @@ describe('ParticipantRepository', (): void => {
         // 結果確認
         expect(updated).toStrictEqual(result);
       });
+ */
 
       describe('findOne()', () => {
         test('[正常]取得できる', async () => {

@@ -39,9 +39,8 @@ export class ParticipantRepository implements IParticipantRepository {
 
   public async create(participant: Participant): Promise<Participant> {
     const personalInfoData = ParticipantRepository.MakePersonalInfoData(participant);
-    const participantHavingTaskCollectionData = ParticipantRepository.MakeParticipantHavingTaskCollectionData(
-      participant,
-    );
+    const participantHavingTaskCollectionData =
+      ParticipantRepository.MakeParticipantHavingTaskCollectionData(participant);
     await this.prismaClient.participant.create({
       data: {
         participantId: participant.id.toValue(),
@@ -97,14 +96,13 @@ export class ParticipantRepository implements IParticipantRepository {
   }
 
   public async findAll(): Promise<Participant[]> {
-    const findManyParticipant: PrismaParticipantProps[] = await this.prismaClient.participant.findMany(
-      {
+    const findManyParticipant: PrismaParticipantProps[] =
+      await this.prismaClient.participant.findMany({
         include: {
           personalInfo: true,
           participantHavingTask: true,
         },
-      },
-    );
+      });
     const allPrismaTask = await this.getAllPrismaTask();
     return await Promise.all(
       findManyParticipant.map((one: PrismaParticipantProps) =>

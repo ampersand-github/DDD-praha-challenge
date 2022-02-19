@@ -2,17 +2,14 @@ import { PrismaClient } from '@prisma/client';
 
 export const truncateAllTable = async () => {
   const prisma = new PrismaClient();
-  const allTable = await prisma.$queryRaw`SELECT tablename
-                              FROM pg_tables
-                              WHERE schemaname = 'public'`;
+ const tablenames = await prisma.$queryRaw<
+    Array<{ tablename: string }>
+  >`SELECT tablename FROM pg_tables WHERE schemaname='public'`;
 
-  // tablenameはタイポじゃないよ
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  for (const { tablename } of await allTable) {
-    const tableName = tablename;
-    if (tableName !== '_prisma_migrations') {
+  for (const { tablename } of tablenames) {
+    if (tablename !== '_prisma_migrations') {
       try {
-        await prisma.$queryRaw(`TRUNCATE TABLE "public"."${tableName}" CASCADE;`);
+        await prisma.$executeRawUnsafe(`TRUNCATE TABLE "public"."${tablename}" CASCADE;`);
       } catch (error) {
         console.log({ error });
       }

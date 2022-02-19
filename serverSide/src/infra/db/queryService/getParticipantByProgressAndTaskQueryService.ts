@@ -47,13 +47,23 @@ export class GetParticipantByProgressAndTaskQueryService
     // 上記条件に合致するparticipantIdを取得する
     const matchedParticipantIdList = await this.prismaClient.participantHavingTask.groupBy({
       by: ['participantId'],
-      having: { participantId: { count: { equals: taskIdList.length } } },
+      having: { participantId: { _count: { equals: taskIdList.length } } },
       where: {
         taskProgress: progressStatus.progressStatus,
         taskId: { in: taskIdList },
       },
     });
 
+    /*
+    ({
+      by:
+      having: { participantId: { count: { equals: taskIdList.length } } },
+      where: {
+        taskProgress: progressStatus.progressStatus,
+        taskId: { in: taskIdList },
+      },
+    });
+     */
     const matchedParticipantList = await this.prismaClient.participant.findMany({
       where: {
         participantId: {
