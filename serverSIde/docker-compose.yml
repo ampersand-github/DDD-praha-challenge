@@ -1,0 +1,39 @@
+# https://dev.classmethod.jp/articles/docker-compose-yml-dir/
+# なぜルート直下に置くのか
+
+version: '3.8'
+
+# docker-composeではサービスという単位でコンテナを管理
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:12
+    ports:
+      - "5403:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: prisma2020
+      POSTGRES_DB: prisma
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      TZ: "Asia/Tokyo"
+  backend-server:
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    container_name: backend-server
+    tty: true
+    ports:
+      - '3000:3000'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/src/app
+
+volumes:
+  postgres:
+    driver: local
