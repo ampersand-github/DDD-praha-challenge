@@ -5,9 +5,11 @@ RUN npm i -g prisma
 
 WORKDIR /backend-server
 
+# contextからの相対パス
 COPY package*.json ./
 RUN npm install
 
+# contextからの相対パス
 COPY prisma ./prisma
 CMD [ "npm", "run", "prisma","migrate" ,"dev" ]
 
