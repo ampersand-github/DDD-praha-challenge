@@ -1,19 +1,10 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-
-// dockerから繋ぐ場合は以下
 datasource db {
-  provider = "postgres"
-  url      = "postgresql://root:prisma2020@postgres:5432/prisma"
-}
-
-// ローカルからつなぐ場合は以下
-// datasource db {
-   //  provider = "postgresql"
-   // url ="postgresql://root:prisma2020@localhost:5403/prisma"
-   //}
-//
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+   }
 
 generator client {
   provider = "prisma-client-js"
@@ -22,7 +13,7 @@ generator client {
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // -- 参加者集約
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - -   - - - - - - - - - - - -
 model PersonalInfo {
   name String
   mailAddress String @unique
@@ -52,7 +43,6 @@ model Participant {
   updatedAt DateTime @updatedAt
   pair Pair? @relation(fields: [pairName], references: [pairName])
   pairName String?
-
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

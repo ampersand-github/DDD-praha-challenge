@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
-import { IPairRepository } from '../../../domain/pair/repositoryInterface/IPairRepository';
-import { Pair } from '../../../domain/pair/pair';
-import { Participant } from '../../../domain/participant/participant';
+import { IPairRepository } from "@/domain/pair/repositoryInterface/IPairRepository";
+import { Pair } from "@/domain/pair/pair";
+import { Participant } from "@/domain/participant/participant";
 import { IFromPrismaToPairConverter } from './shared/converter/ToPairConverter';
 
 export class PairRepository implements IPairRepository {
