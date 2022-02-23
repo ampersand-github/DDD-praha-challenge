@@ -24,22 +24,23 @@
     "db:reset:withoutData": "echo y | prisma migrate reset --skip-seed"
   },
   "dependencies": {
+    "@nestjs/cli": "^8.2.1",
+    "@prisma/client": "^3.9.2",
     "@nestjs/common": "^8.3.1",
     "@nestjs/config": "^1.2.0",
     "@nestjs/core": "^8.3.1",
     "@nestjs/platform-express": "^8.3.1",
     "@types/faker": "^6.6.8",
     "@types/lodash.isequal": "^4.5.5",
+    "npm": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.5.4",
     "shallow-equal-object": "^1.1.1"
   },
   "devDependencies": {
-    "@nestjs/cli": "^8.2.1",
     "@nestjs/schematics": "^8.0.6",
     "@nestjs/testing": "^8.3.1",
-    "@prisma/client": "^3.9.2",
     "@types/clone": "^2.1.1",
     "@types/deep-equal": "^1.0.1",
     "@types/express": "^4.17.11",

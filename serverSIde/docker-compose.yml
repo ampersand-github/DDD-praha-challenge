@@ -28,11 +28,11 @@ services:
     tty: true
     ports:
       - '3000:3000'
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: .
     volumes:
-      - ./:/usr/src/app
+      - type: bind
+        source: .
+        target: /backend-server
 
 volumes:
   postgres:

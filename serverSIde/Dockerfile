@@ -1,16 +1,15 @@
-# lts は long term supportの略
-# ltsでかつ軽量なものを選んだ
-# FROM node:lts-stretch-slim
-FROM node:lts
-RUN npm i -g @nestjs/cli
+FROM node:16.14
 
-WORKDIR /usr/src/app
+RUN npm i -g @nestjs/cli
+RUN npm i -g prisma
+
+WORKDIR /backend-server
 
 COPY package*.json ./
-COPY tsconfig*.json ./
-COPY env ./
 RUN npm install
-COPY prisma ./prisma
 
-CMD [ "npm", "run", "db:migration:model" ]
-CMD [ "npm", "run", "start" ]
+COPY prisma ./prisma
+CMD [ "npm", "run", "prisma","migrate" ,"dev" ]
+
+CMD [ "npm", "run", "start:debug" ]
+

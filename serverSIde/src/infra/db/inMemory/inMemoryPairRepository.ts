@@ -1,6 +1,6 @@
-import { Pair } from '../../../domain/pair/pair';
-import { IPairRepository } from '../../../domain/pair/repositoryInterface/IPairRepository';
-import { Participant } from '../../../domain/participant/participant';
+import { Pair } from "@/domain/pair/pair";
+import { IPairRepository } from "@/domain/pair/repositoryInterface/IPairRepository";
+import { Participant } from "@/domain/participant/participant";
 
 export class InMemoryPairRepository implements IPairRepository {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
