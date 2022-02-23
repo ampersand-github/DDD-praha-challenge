@@ -20,7 +20,7 @@
     "test:e2e": "jest --config src/test/jest-e2e.json",
     "format": "prettier --write \"src/**/*.ts\" \"src/test/**/*.ts\" \"prisma/**/*.ts\" ",
     "lint": "eslint \"{src,apps,libs,test,prisma}/**/*.ts\"",
-    "db:migration:model": "prisma migrate dev --name init",
+    "db:migration:model": "prisma migrate dev",
     "db:reset:withoutData": "echo y | prisma migrate reset --skip-seed"
   },
   "dependencies": {

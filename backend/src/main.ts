@@ -13,8 +13,5 @@ async function bootstrap() {
  */
   const configService = app.get(ConfigService);
   await app.listen(configService.get('PORT'));
-
-  console.log(configService.get("POSTGRES_USER"))
-  console.log(configService.get("PORT"))
 }
 bootstrap().then();

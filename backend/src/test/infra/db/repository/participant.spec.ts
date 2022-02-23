@@ -4,6 +4,7 @@ import { prismaClient } from '../../../../util/prisma/prismaClient';
 import { ParticipantRepository } from '../../../../infra/db/repository/participantRepository';
 import { dummyParticipant1, dummyParticipant3 } from '../../../../testUtil/dummy/dummyPerticipant';
 import { dummyTask1, dummyTask2, dummyTask3 } from '../../../../testUtil/dummy/dummyTask';
+import { ProgressStatusEnum } from '../../../../domain/participant/progressStatus';
 import clone from 'clone';
 import { PrismaClient } from '@prisma/client';
 import { ToTaskConverter } from '../../../../infra/db/repository/shared/converter/ToTaskConverter';

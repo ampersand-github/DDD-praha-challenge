@@ -14,9 +14,9 @@ services:
       - postgres:/var/lib/postgresql/data
     restart: always
     environment:
-      POSTGRES_USER: $POSTGRES_USER
-      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: prisma2020
+      POSTGRES_DB: prisma
       POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
       TZ: "Asia/Tokyo"
   backend-server:
@@ -28,10 +28,7 @@ services:
     tty: true
     ports:
       - '3000:3000'
-    build:
-      # https://qiita.com/sam8helloworld/items/e7fffa9afc82aea68a7a
-        context: . # 基準
-        dockerfile: ../.docker/postgres/Dockerfile # contextからの相対パス
+    build: .
     volumes:
       - type: bind
         source: .
