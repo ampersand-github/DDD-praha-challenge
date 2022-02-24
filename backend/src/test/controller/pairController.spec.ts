@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { TaskRepository } from '../../infra/db/repository/taskRepository';
-import { prismaClient } from '../../util/prisma/prismaClient';
-import { truncateAllTable } from '../../testUtil/reposiotry/truncateAllTable';
-import { dummyTask1, dummyTask2, dummyTask3 } from '../../testUtil/dummy/dummyTask';
+import { TaskRepository } from "@/infra/db/repository/taskRepository";
+import { prismaClient } from "@/util/prisma/prismaClient";
+import { truncateAllTable } from "@/testUtil/reposiotry/truncateAllTable";
+import { dummyTask1, dummyTask2, dummyTask3 } from "@/testUtil/dummy/dummyTask";
 import {
   dummyParticipant3,
   dummyParticipant4,
@@ -11,19 +11,21 @@ import {
   dummyParticipant7,
   dummyParticipant8,
   dummyParticipant9,
-} from '../../testUtil/dummy/dummyPerticipant';
-import { dummyPair2, dummyPair4 } from '../../testUtil/dummy/dummyPair';
-import { ParticipantRepository } from '../../infra/db/repository/participantRepository';
-import { PairRepository } from '../../infra/db/repository/pairRepository';
-import { CreatePairUsecaseProps } from '../../usecase/pair/createPairUsecase';
-import { ToTaskConverter } from '../../infra/db/repository/shared/converter/ToTaskConverter';
-import { ToHavingTaskCollectionConverter } from '../../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
-import { ToParticipantConverter } from '../../infra/db/repository/shared/converter/ToParticipantConverter';
-import { ToPairConverter } from '../../infra/db/repository/shared/converter/ToPairConverter';
+} from "@/testUtil/dummy/dummyPerticipant";
+import { dummyPair2, dummyPair4 } from "@/testUtil/dummy/dummyPair";
+import { ParticipantRepository } from "@/infra/db/repository/participantRepository";
+import { PairRepository } from "@/infra/db/repository/pairRepository";
+import { CreatePairUsecaseProps } from "@/usecase/pair/createPairUsecase";
+import { ToTaskConverter } from "@/infra/db/repository/shared/converter/ToTaskConverter";
+import { ToHavingTaskCollectionConverter } from "@/infra/db/repository/shared/converter/ToHavingTaskCollectionConverter";
+import { ToParticipantConverter } from "@/infra/db/repository/shared/converter/ToParticipantConverter";
+import { ToPairConverter } from "@/infra/db/repository/shared/converter/ToPairConverter";
+require('dotenv').config();
 
 // コントローラのテストはhttpステータスの確認のみ。実質ユースケースを実行しているだけなので。
 describe('PairController', () => {
-  const url = 'http://localhost:3000/pair';
+  const port = process.env.PORT
+  const url = `http://localhost:${port}/pair`;
   const toTaskConverter = new ToTaskConverter();
   const toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(toTaskConverter);
   const toParticipantConverter = new ToParticipantConverter(

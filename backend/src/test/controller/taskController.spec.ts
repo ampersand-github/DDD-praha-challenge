@@ -1,15 +1,17 @@
 import axios from 'axios';
-import { ITask } from '../../controller/taskController';
-import { TaskRepository } from '../../infra/db/repository/taskRepository';
-import { prismaClient } from '../../util/prisma/prismaClient';
-import { truncateAllTable } from '../../testUtil/reposiotry/truncateAllTable';
-import { dummyTask1 } from '../../testUtil/dummy/dummyTask';
-import { UpdateTaskUsecaseProps } from '../../usecase/task/updateTaskUsecase';
-import { ToTaskConverter } from '../../infra/db/repository/shared/converter/ToTaskConverter';
+import { ITask } from "@/controller/taskController";
+import { TaskRepository } from "@/infra/db/repository/taskRepository";
+import { prismaClient } from "@/util/prisma/prismaClient";
+import { truncateAllTable } from "@/testUtil/reposiotry/truncateAllTable";
+import { dummyTask1 } from "@/testUtil/dummy/dummyTask";
+import { UpdateTaskUsecaseProps } from "@/usecase/task/updateTaskUsecase";
+import { ToTaskConverter } from "@/infra/db/repository/shared/converter/ToTaskConverter";
+require('dotenv').config();
 
 // コントローラのテストはhttpステータスの確認のみ。実質ユースケースを実行しているだけなので。
 describe('TaskController', () => {
-  const url = 'http://localhost:3000/task';
+  const port = process.env.PORT
+  const url = `http://localhost:${port}/task`;
   const toTaskConverter = new ToTaskConverter();
   const repo = new TaskRepository(prismaClient, toTaskConverter);
 

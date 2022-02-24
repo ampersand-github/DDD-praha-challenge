@@ -1,19 +1,21 @@
 import axios from 'axios';
-import { TaskRepository } from '../../infra/db/repository/taskRepository';
-import { prismaClient } from '../../util/prisma/prismaClient';
-import { truncateAllTable } from '../../testUtil/reposiotry/truncateAllTable';
-import { dummyTask1, dummyTask2, dummyTask3 } from '../../testUtil/dummy/dummyTask';
-import { FactoryProps } from '../../usecase/participant/createParticipantUsecase';
-import { ParticipantRepository } from '../../infra/db/repository/participantRepository';
-import { dummyParticipant1, dummyParticipant10 } from '../../testUtil/dummy/dummyPerticipant';
-import { EnrolledStatusEnum } from '../../domain/participant/enrolledStatus';
-import { ToTaskConverter } from '../../infra/db/repository/shared/converter/ToTaskConverter';
-import { ToHavingTaskCollectionConverter } from '../../infra/db/repository/shared/converter/ToHavingTaskCollectionConverter';
-import { ToParticipantConverter } from '../../infra/db/repository/shared/converter/ToParticipantConverter';
+import { TaskRepository } from "@/infra/db/repository/taskRepository";
+import { prismaClient } from "@/util/prisma/prismaClient";
+import { truncateAllTable } from "@/testUtil/reposiotry/truncateAllTable";
+import { dummyTask1, dummyTask2, dummyTask3 } from "@/testUtil/dummy/dummyTask";
+import { FactoryProps } from "@/usecase/participant/createParticipantUsecase";
+import { ParticipantRepository } from "@/infra/db/repository/participantRepository";
+import { dummyParticipant1, dummyParticipant10 } from "@/testUtil/dummy/dummyPerticipant";
+import { EnrolledStatusEnum } from "@/domain/participant/enrolledStatus";
+import { ToTaskConverter } from "@/infra/db/repository/shared/converter/ToTaskConverter";
+import { ToHavingTaskCollectionConverter } from "@/infra/db/repository/shared/converter/ToHavingTaskCollectionConverter";
+import { ToParticipantConverter } from "@/infra/db/repository/shared/converter/ToParticipantConverter";
+require('dotenv').config();
 
 // コントローラのテストはhttpステータスの確認のみ。実質ユースケースを実行しているだけなので。
 describe('ParticipantController', () => {
-  const url = 'http://localhost:3000/participant';
+  const port = process.env.PORT
+  const url = `http://localhost:${port}/participant`;
   const toTaskConverter = new ToTaskConverter();
   const toHavingTaskCollectionConverter = new ToHavingTaskCollectionConverter(toTaskConverter);
   const toParticipantConverter = new ToParticipantConverter(
