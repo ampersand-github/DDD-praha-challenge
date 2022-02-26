@@ -5,7 +5,7 @@
 // dockerから繋ぐ場合は以下
 datasource db {
   provider = "postgres"
-  url      = "postgresql://root:prisma2020@postgres:5432/prisma"
+  url      = env("DB_DOCKER")
 }
 
 // ローカルからつなぐ場合は以下

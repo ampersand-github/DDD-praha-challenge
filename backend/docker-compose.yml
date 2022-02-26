@@ -1,7 +1,7 @@
 # https://dev.classmethod.jp/articles/docker-compose-yml-dir/
 # なぜルート直下に置くのか
 
-version: '3.8'
+version: '3.7'
 
 # docker-composeではサービスという単位でコンテナを管理
 services:
@@ -27,7 +27,7 @@ services:
     container_name: backend-server
     tty: true
     ports:
-      - ${PORT}:3000
+      - ${PORT}:${PORT}
     build: .
     volumes:
       - type: bind
